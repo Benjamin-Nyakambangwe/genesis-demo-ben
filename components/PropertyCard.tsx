@@ -31,73 +31,75 @@ export default function CardWithForm({
   property,
 }: CardWithFormProps) {
   return (
-    <Link href={`/properties/${property.id}`}>
-      <Card
-        className={`overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300`}
-        style={{ width: `${widthVar}px` }}
-      >
-        <div className="relative h-48">
-          <Image
-            src={property.images[0].filePath}
-            alt="hero"
-            layout="fill"
-            objectFit="cover"
-          />
+    <Card
+      className={`overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300`}
+      style={{ width: `${widthVar}px` }}
+    >
+      <div className="relative h-48">
+        <Image
+          src={property.images[0].filePath}
+          alt={property.title}
+          fill
+          className="object-cover"
+        />
+      </div>
+      <CardContent className="pt-4">
+        <div className="mb-4">
+          <h5 className="text-sm text-gray-500 uppercase tracking-wide">
+            {property.type}
+          </h5>
+          <Link href={`/properties/${property.id}`}>
+            <h4 className="text-xl font-bold mt-1 line-clamp-2">
+              {property.title}
+            </h4>
+          </Link>
+          <h5 className="text-sm text-gray-600 mt-1">{property.address}</h5>
         </div>
-        <CardContent className="pt-4">
-          <div className="mb-4">
-            <h5 className="text-sm text-gray-500 uppercase tracking-wide">
-              {property.type}
-            </h5>
-            <h4 className="text-xl font-bold mt-1">{property.title}</h4>
-            <h5 className="text-sm text-gray-600 mt-1">{property.address}</h5>
-          </div>
 
-          <div className="flex justify-between text-sm">
-            <div className="flex items-center">
-              <Bath className="h-4 w-4 mr-1 hidden md:flex" />
-              <span>{property.bathrooms} Bath</span>
-            </div>
-            <div className="flex items-center">
-              <Bed className="h-4 w-4 mr-1 hidden md:flex" />
-              <span>{property.bedrooms} Beds</span>
-            </div>
-            <div className="flex items-center">
-              <Square className="h-4 w-4 mr-1 hidden md:flex" />
-              <span>{property.propertySize}</span>
-            </div>
+        <div className="flex justify-between text-sm">
+          <div className="flex items-center">
+            <Bath className="h-4 w-4 mr-1 hidden md:flex" />
+            <span>{property.bathrooms} Bath</span>
           </div>
-        </CardContent>
-        <Separator className="my-1.5" />
-        <CardFooter className="flex justify-between">
-          <div className="flex space-x-2 text-red-600">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-red-600"
-            >
-              <MessageCircle className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-red-600"
-            >
-              <Phone className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-8 w-8 border-red-600"
-            >
-              <AtSign className="h-4 w-4" />
-            </Button>
+          <div className="flex items-center">
+            <Bed className="h-4 w-4 mr-1 hidden md:flex" />
+            <span>{property.bedrooms} Beds</span>
           </div>
-          <Button variant="outline" className="h-8 border-red-600 text-red-600">
-            Details
+          <div className="flex items-center">
+            <Square className="h-4 w-4 mr-1 hidden md:flex" />
+            <span>{property.propertySize}</span>
+          </div>
+        </div>
+      </CardContent>
+      <Separator className="my-1.5" />
+      <CardFooter className="flex justify-between">
+        <div className="flex space-x-2 text-red-600">
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 border-red-600"
+          >
+            <MessageCircle className="h-4 w-4" />
           </Button>
-        </CardFooter>
-      </Card>
-    </Link>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 border-red-600"
+          >
+            <Phone className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8 border-red-600"
+          >
+            <AtSign className="h-4 w-4" />
+          </Button>
+        </div>
+        <Button variant="outline" className="h-8 border-red-600 text-red-600">
+          Details
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }

@@ -43,9 +43,9 @@ export default function CardWithForm({ property }: CardWithFormProps) {
         <div className="relative w-2/5">
           <Image
             src={property.images[0].filePath}
-            alt="hero"
-            layout="fill"
-            objectFit="cover"
+            alt={property.title}
+            fill
+            className="object-cover"
           />
         </div>
         <div className="w-3/5 flex flex-col">
