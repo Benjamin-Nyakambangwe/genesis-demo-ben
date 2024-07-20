@@ -1,3 +1,4 @@
+import React from "react";
 import HeroSwitch from "./HeroSwitch";
 import Image from "next/image";
 import { Input } from "./ui/input";
@@ -13,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
 
-const HeroSection = () => {
+const HeroSection: React.FC = () => {
   return (
     <div className="relative h-[80vh]">
       {/* Background Image */}
@@ -39,7 +40,7 @@ const HeroSection = () => {
           {/* Changed from w-full max-w-md */}
           <form className="bg-white rounded-md p-4 md:p-6 lg:p-8">
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-2">
-              <Select className="w-full sm:w-[30%]">
+              <Select>
                 <SelectTrigger id="propertyType">
                   <SelectValue placeholder="Property Types" />
                 </SelectTrigger>

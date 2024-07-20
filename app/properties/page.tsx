@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import PropertiesFilter from "@/components/PropertiesFilter";
 import PropertiesHeader from "@/components/PropertiesHeader";
 import PropertiesList from "@/components/PropertiesList";
+import { Property } from "@/types"; // Adjust the path according to your project structure
 
 export const metadata: Metadata = {
   title: "Available Properties | FSBO Africa",
@@ -36,9 +37,13 @@ export const metadata: Metadata = {
   },
 };
 
-async function getPropertiesForSale() {
+interface PropertiesResponse {
+  data: Property[];
+}
+
+async function getPropertiesForSale(): Promise<PropertiesResponse> {
   const res = await fetch(
-    " https://fsboafrica.com/api/properties/for-sale?search=for-sale"
+    "https://fsboafrica.com/api/properties/for-sale?search=for-sale"
   );
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -47,9 +52,9 @@ async function getPropertiesForSale() {
   return res.json();
 }
 
-async function getPropertiesToRent() {
+async function getPropertiesToRent(): Promise<PropertiesResponse> {
   const res = await fetch(
-    " https://fsboafrica.com/api/properties/to-rent?search=to-rent"
+    "https://fsboafrica.com/api/properties/to-rent?search=to-rent"
   );
   if (!res.ok) {
     throw new Error("Failed to fetch data");

@@ -6,22 +6,27 @@ import { Card, CardContent } from "@/components/ui/card";
 import { List, LayoutGrid } from "lucide-react";
 import { useBearStore } from "@/store/listings";
 
-const PropertiesHeader = () => {
-  const updateIsGrid = useBearStore((state) => state.updateIsGrid);
-  const isGrid = useBearStore((state) => state.isGrid);
-  const [localIsGrid, setLocalIsGrid] = useState(isGrid);
+interface BearStore {
+  isGrid: boolean;
+  updateIsGrid: () => void;
+}
+
+const PropertiesHeader: React.FC = () => {
+  const updateIsGrid = useBearStore((state: BearStore) => state.updateIsGrid);
+  const isGrid = useBearStore((state: BearStore) => state.isGrid);
+  const [localIsGrid, setLocalIsGrid] = useState<boolean>(isGrid);
 
   useEffect(() => {
     setLocalIsGrid(isGrid);
   }, [isGrid]);
 
-  const switchToGrid = () => {
+  const switchToGrid = (): void => {
     if (!localIsGrid) {
       updateIsGrid();
     }
   };
 
-  const switchToList = () => {
+  const switchToList = (): void => {
     if (localIsGrid) {
       updateIsGrid();
     }

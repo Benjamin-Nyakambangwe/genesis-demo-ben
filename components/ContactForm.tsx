@@ -16,8 +16,20 @@ import { toast } from "@/components/ui/use-toast";
 import Image from "next/image";
 import { Phone, MessageCircle } from "lucide-react";
 
-export default function ContactForm({ listingId }) {
-  const [formData, setFormData] = useState({
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  message: string;
+}
+
+interface ContactFormProps {
+  listingId: string;
+}
+
+export default function ContactForm({ listingId }: ContactFormProps) {
+  const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     email: "",
@@ -25,9 +37,11 @@ export default function ContactForm({ listingId }) {
     message: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -35,7 +49,7 @@ export default function ContactForm({ listingId }) {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     console.log(formData);
@@ -54,8 +68,8 @@ export default function ContactForm({ listingId }) {
     // Create a new object that includes the form data and the hardcoded values
     const submissionData = {
       ...formData,
-      listingId: listingId, // Add the hardcoded listing ID
-      ownedBy: "benjaminnyakambangwe@gmail.com", // Add the hardcoded owned by data
+      listingId: listingId,
+      ownedBy: "benjaminnyakambangwe@gmail.com",
     };
 
     try {
@@ -92,7 +106,8 @@ export default function ContactForm({ listingId }) {
       toast({
         title: "Error",
         description:
-          error.message || "Failed to send enquiry. Please try again later.",
+          (error as Error).message ||
+          "Failed to send enquiry. Please try again later.",
         variant: "destructive",
       });
     } finally {
@@ -107,8 +122,8 @@ export default function ContactForm({ listingId }) {
           <Image
             src="/assets/form-logo.png"
             alt="hero"
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{ objectFit: "cover" }}
           />
         </div>
         <CardTitle className="text-center p-4">Housing Investment</CardTitle>

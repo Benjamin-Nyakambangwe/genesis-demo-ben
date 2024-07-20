@@ -3,12 +3,17 @@
 import React from "react";
 import PropertyCard from "./PropertyCard";
 import Slider from "react-slick";
+import { Property } from "@/types"; // Adjust the path according to your project structure
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const PropertySlider = ({ data }) => {
-  const settings = {
+interface PropertySliderProps {
+  data: Property[];
+}
+
+const PropertySlider: React.FC<PropertySliderProps> = ({ data }) => {
+  const settings: SliderSettings = {
     dots: true,
     infinite: true,
     speed: 500,
@@ -35,8 +40,8 @@ const PropertySlider = ({ data }) => {
   return (
     <div className="w-full">
       <Slider {...settings}>
-        {data?.map((property, index) => (
-          <div key={property.id || index} className="px-2">
+        {data.map((property) => (
+          <div key={property.id} className="px-2">
             <PropertyCard property={property} />
           </div>
         ))}
@@ -46,3 +51,18 @@ const PropertySlider = ({ data }) => {
 };
 
 export default PropertySlider;
+
+interface SliderSettings {
+  dots: boolean;
+  infinite: boolean;
+  speed: number;
+  slidesToShow: number;
+  slidesToScroll: number;
+  responsive: {
+    breakpoint: number;
+    settings: {
+      slidesToShow: number;
+      slidesToScroll: number;
+    };
+  }[];
+}

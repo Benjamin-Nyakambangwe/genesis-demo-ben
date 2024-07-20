@@ -1,6 +1,16 @@
 import { create } from "zustand";
 
-export const useBearStore = create((set) => ({
+interface BearState {
+  bears: number;
+  isSaleListing: boolean;
+  isGrid: boolean;
+  updateIsSaleListing: () => void;
+  updateIsGrid: () => void;
+  increasePopulation: () => void;
+  removeAllBears: () => void;
+}
+
+export const useBearStore = create<BearState>((set) => ({
   bears: 0,
   isSaleListing: true,
   isGrid: true,

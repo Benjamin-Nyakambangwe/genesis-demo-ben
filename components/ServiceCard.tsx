@@ -1,18 +1,18 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
-import { Separator } from "./ui/separator";
-import { ChevronRight, Bath, Bed, Square } from "lucide-react";
 
-export default function ServiceCard({ data }) {
+interface ServiceCardProps {
+  data: {
+    img: string;
+    title: string;
+    description: string;
+    action: string;
+  };
+}
+
+export default function ServiceCard({ data }: ServiceCardProps) {
   return (
     <Card className="w-[280px] md:w-[350px] overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 mb-2">
       <div className="relative h-48 flex items-center justify-center">
@@ -26,12 +26,10 @@ export default function ServiceCard({ data }) {
       </div>
       <CardContent className="pt-4">
         <div className="mb-4">
-          <h5 className="text-center  text-xl font-bold mt-1">{data.title}</h5>
-
-          <h4 className="text-sm text-gray-600 mt-1 ">{data.description}</h4>
+          <h5 className="text-center text-xl font-bold mt-1">{data.title}</h5>
+          <h4 className="text-sm text-gray-600 mt-1">{data.description}</h4>
         </div>
       </CardContent>
-
       <CardFooter className="flex justify-between">
         <Button
           variant="outline"

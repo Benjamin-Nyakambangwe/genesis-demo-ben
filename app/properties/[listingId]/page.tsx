@@ -1,18 +1,33 @@
 import { Metadata } from "next";
 import { Facebook, Twitter, Instagram, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import ContactForm from "@/components/ContactForm";
 import { notFound } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import Script from "next/script";
+import ImageShowcase from "@/components/ImageShowcase";
 
-async function getProperty(listingId) {
+interface Property {
+  data: {
+    id: string;
+    title: string;
+    description: string;
+    address: string;
+    price: number;
+    images: { filePath: string }[];
+    propertySize: string;
+    type: string;
+    yearBuilt: string;
+    status: string;
+  };
+}
+
+async function getProperty(listingId: string): Promise<Property> {
   const res = await fetch(
     `https://fsboafrica.com/api/properties/details/${listingId}`,
     {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      next: { revalidate: 3600 },
     }
   );
 
@@ -23,7 +38,11 @@ async function getProperty(listingId) {
   return res.json();
 }
 
-export async function generateMetadata({ params }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { listingId: string };
+}): Promise<Metadata> {
   const property = await getProperty(params.listingId);
 
   return {
@@ -66,7 +85,7 @@ export async function generateStaticParams() {
   }));
 }
 
-const PropertyPage = async ({ params }) => {
+const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
   const property = await getProperty(params.listingId);
 
   const jsonLd = {
@@ -98,12 +117,12 @@ const PropertyPage = async ({ params }) => {
       <div className="container mx-auto px-4 py-8 mt-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div className="mb-4 md:mb-0">
-            <h1 className="text-3xl font-bold mb-2">{property?.data.title}</h1>
-            <h5 className="text-xl text-gray-600">{property?.data.address}</h5>
+            <h1 className="text-3xl font-bold mb-2">{property.data.title}</h1>
+            <h5 className="text-xl text-gray-600">{property.data.address}</h5>
           </div>
           <div className="flex flex-col md:flex-row items-start md:items-center">
             <h2 className="text-2xl font-semibold  mb-4 md:mb-0 md:mr-8">
-              $ {property?.data.price}
+              $ {property.data.price}
             </h2>
             <div className="flex space-x-2">
               <Button
@@ -141,13 +160,7 @@ const PropertyPage = async ({ params }) => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <div className="mb-8">
-              <Image
-                src={property?.data.images[0].filePath}
-                width={1000}
-                height={600}
-                alt="Property Image"
-                className="rounded-lg shadow-md"
-              />
+              <ImageShowcase images={property.data.images} />
             </div>
             <Card className="shadow-lg">
               <CardContent className="prose max-w-none p-6">
@@ -155,7 +168,7 @@ const PropertyPage = async ({ params }) => {
                   Property Description
                 </h3>
 
-                <p className="mb-6">{property?.data.description}</p>
+                <p className="mb-6">{property.data.description}</p>
 
                 <Separator />
 
@@ -165,28 +178,27 @@ const PropertyPage = async ({ params }) => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <p>
-                      <strong>Property ID:</strong> {property?.data.id}
+                      <strong>Property ID:</strong> {property.data.id}
                     </p>
                     <p>
                       <strong>Property Size:</strong>{" "}
-                      {property?.data.propertySize}
+                      {property.data.propertySize}
                     </p>
                   </div>
                   <div>
                     <p>
-                      <strong>Property Type:</strong> {property?.data.type}
+                      <strong>Property Type:</strong> {property.data.type}
                     </p>
                     <p>
-                      <strong>Year Built:</strong> {property?.data.yearBuilt}
+                      <strong>Year Built:</strong> {property.data.yearBuilt}
                     </p>
                   </div>
                   <div>
                     <p>
-                      <strong>Property Status:</strong> {property?.data.status}
+                      <strong>Property Status:</strong> {property.data.status}
                     </p>
                     <p>
-                      <strong>Property Price:</strong> USD{" "}
-                      {property?.data.price}
+                      <strong>Property Price:</strong> USD {property.data.price}
                     </p>
                   </div>
                 </div>
@@ -196,7 +208,7 @@ const PropertyPage = async ({ params }) => {
           <div className="lg:col-span-1">
             <Card className="shadow-lg">
               <CardContent className="p-6">
-                <ContactForm listingId={property?.data.id} />
+                <ContactForm listingId={property.data.id} />
               </CardContent>
             </Card>
           </div>

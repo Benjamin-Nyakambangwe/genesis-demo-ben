@@ -14,16 +14,35 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-export default function CardWithForm({ widthVar, property }) {
+interface PropertyImage {
+  filePath: string;
+}
+
+interface Property {
+  id: string | number;
+  images: PropertyImage[];
+  type: string;
+  title: string;
+  address: string;
+  bathrooms: number;
+  bedrooms: number;
+  propertySize: string;
+  description: string;
+}
+
+interface CardWithFormProps {
+  property: Property;
+}
+
+export default function CardWithForm({ property }: CardWithFormProps) {
   return (
     <Link href={`/properties/${property.id}`}>
       <Card
         className={`w-full overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex mb-5`}
-        // style={{ width: `${widthVar}px` }}
       >
         <div className="relative w-2/5">
           <Image
-            src={property?.images[0].filePath}
+            src={property.images[0].filePath}
             alt="hero"
             layout="fill"
             objectFit="cover"
@@ -33,30 +52,28 @@ export default function CardWithForm({ widthVar, property }) {
           <CardContent className="pt-4 flex-grow">
             <div className="mb-4">
               <h5 className="text-sm text-gray-500 uppercase tracking-wide">
-                {property?.type}
+                {property.type}
               </h5>
-              <h4 className="text-xl font-bold mt-1">{property?.title}</h4>
-              <h5 className="text-sm text-gray-600 mt-1">
-                {property?.address}
-              </h5>
+              <h4 className="text-xl font-bold mt-1">{property.title}</h4>
+              <h5 className="text-sm text-gray-600 mt-1">{property.address}</h5>
             </div>
 
             <div className="flex justify-between text-sm">
               <div className="flex items-center">
                 <Bath className="h-4 w-4 mr-1" />
-                <span>{property?.bathrooms} Bath</span>
+                <span>{property.bathrooms} Bath</span>
               </div>
               <div className="flex items-center">
                 <Bed className="h-4 w-4 mr-1" />
-                <span>{property?.bedrooms} Beds</span>
+                <span>{property.bedrooms} Beds</span>
               </div>
               <div className="flex items-center">
                 <Square className="h-4 w-4 mr-1" />
-                <span>{property?.propertySize}</span>
+                <span>{property.propertySize}</span>
               </div>
             </div>
             <h5 className="text-sm text-gray-600 mt-2">
-              {property?.description}
+              {property.description}
             </h5>
           </CardContent>
           <Separator className="my-1.5" />
