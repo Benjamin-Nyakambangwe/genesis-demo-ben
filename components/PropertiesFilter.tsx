@@ -22,16 +22,12 @@ import HeroSwitch from "./HeroSwitch";
 
 export default function PropertiesFilter() {
   return (
-    <Card className="w-full md:w-[350px] mb-3">
-      <CardHeader>
-        {/* <CardTitle>Create project</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription> */}
-      </CardHeader>
+    <Card className="w-full md:w-[350px]">
+      <CardHeader></CardHeader>
       <CardContent>
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              {/* <Label htmlFor="framework">Framework</Label> */}
               <Select>
                 <SelectTrigger id="framework">
                   <SelectValue placeholder="Property Types" />

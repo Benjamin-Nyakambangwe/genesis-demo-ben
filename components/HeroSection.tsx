@@ -17,7 +17,6 @@ import { Search } from "lucide-react";
 const HeroSection: React.FC = () => {
   return (
     <div className="relative h-[80vh]">
-      {/* Background Image */}
       <Image
         src="/assets/hero.jpg"
         alt="Hero background"
@@ -27,17 +26,13 @@ const HeroSection: React.FC = () => {
         priority
       />
 
-      {/* Overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-50"></div>
 
-      {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
-        {/* Search Bar */}
         <div className="w-[60%] max-w-none">
           <div className="mb-3">
             <HeroSwitch />
           </div>
-          {/* Changed from w-full max-w-md */}
           <form className="bg-white rounded-md p-4 md:p-6 lg:p-8">
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-2">
               <Select>

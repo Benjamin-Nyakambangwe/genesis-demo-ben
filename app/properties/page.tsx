@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import PropertiesFilter from "@/components/PropertiesFilter";
 import PropertiesHeader from "@/components/PropertiesHeader";
 import PropertiesList from "@/components/PropertiesList";
-import { Property } from "@/types"; // Adjust the path according to your project structure
+import { Property } from "@/types";
 
 export const metadata: Metadata = {
   title: "Available Properties | FSBO Africa",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: "FSBO Africa",
     images: [
       {
-        url: "https://fsboafrica.com/og-image.jpg", // Replace with your actual OG image
+        url: "https://fsboafrica.com/og-image.jpg",
         width: 1200,
         height: 630,
       },
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: "Available Properties | FSBO Africa",
     description:
       "Browse our list of available properties for sale and rent across Africa.",
-    images: ["https://fsboafrica.com/twitter-image.jpg"], // Replace with your actual Twitter image
+    images: ["https://fsboafrica.com/twitter-image.jpg"],
   },
   robots: {
     index: true,

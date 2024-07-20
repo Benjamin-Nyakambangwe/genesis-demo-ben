@@ -2,7 +2,7 @@
 import PropertyCard from "./PropertyCard";
 import PropertyCardWide from "./PropertyCardWide";
 import { useBearStore } from "@/store/listings";
-import { Property } from "@/types"; // Adjust the path according to your project structure
+import { Property } from "@/types";
 
 interface PropertiesListProps {
   propertiesToRent: Property[];

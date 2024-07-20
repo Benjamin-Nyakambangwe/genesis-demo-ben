@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: "FSBO Africa",
     images: [
       {
-        url: "https://fsboafrica.com/og-image.jpg", // Replace with your actual OG image
+        url: "https://fsboafrica.com/og-image.jpg",
         width: 1200,
         height: 630,
       },
@@ -31,14 +31,14 @@ export const metadata: Metadata = {
     title: "FSBO Africa | Find Your Dream Property",
     description:
       "Discover the best properties for sale and rent across Africa. FSBO Africa connects you with the latest real estate opportunities.",
-    images: ["https://fsboafrica.com/twitter-image.jpg"], // Replace with your actual Twitter image
+    images: ["https://fsboafrica.com/twitter-image.jpg"],
   },
   robots: {
     index: true,
     follow: true,
   },
   viewport: "width=device-width, initial-scale=1",
-  themeColor: "#ffffff", // Replace with your brand color
+  themeColor: "#ffffff",
 };
 
 async function getLatestProperties() {

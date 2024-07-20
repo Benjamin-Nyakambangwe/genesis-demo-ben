@@ -1,4 +1,3 @@
-import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CircleUserRound } from "lucide-react";
 

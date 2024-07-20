@@ -3,7 +3,7 @@
 import React from "react";
 import PropertyCard from "./PropertyCard";
 import Slider from "react-slick";
-import { Property } from "@/types"; // Adjust the path according to your project structure
+import { Property } from "@/types";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

@@ -65,7 +65,6 @@ export default function ContactForm({ listingId }: ContactFormProps) {
       return;
     }
 
-    // Create a new object that includes the form data and the hardcoded values
     const submissionData = {
       ...formData,
       listingId: listingId,

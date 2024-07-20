@@ -38,12 +38,6 @@ const PropertiesHeader: React.FC = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
           <div className="flex items-center space-x-4 w-full sm:w-auto">
             <span className="text-sm font-medium">Sort By:</span>
-            {/* <select className="text-sm border rounded-md p-1">
-              <option>Default</option>
-              <option>Price: Low to High</option>
-              <option>Price: High to Low</option>
-              <option>Newest</option>
-            </select> */}
           </div>
 
           <div className="text-sm font-medium w-full sm:w-auto text-center sm:text-left">

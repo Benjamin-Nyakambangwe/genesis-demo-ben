@@ -3,12 +3,13 @@
 import { useBearStore } from "@/store/listings";
 import { useEffect, useState } from "react";
 
-const HeroSwitch = () => {
+const HeroSwitch: React.FC = () => {
   const updateIsSaleListing = useBearStore(
     (state) => state.updateIsSaleListing
   );
   const isSaleListing = useBearStore((state) => state.isSaleListing);
-  const [localIsSaleListing, setLocalIsSaleListing] = useState(isSaleListing);
+  const [localIsSaleListing, setLocalIsSaleListing] =
+    useState<boolean>(isSaleListing);
 
   useEffect(() => {
     setLocalIsSaleListing(isSaleListing);
