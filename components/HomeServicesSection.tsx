@@ -3,14 +3,14 @@ import ServiceCard from "./ServiceCard";
 const HomeServicesSection = () => {
   const servicesData = [
     {
-      title: "Buy a Property",
+      title: "List a Property",
       description:
         "Find your place with an immersive photo experience and the most listings, including things you wont find anywhere else",
       action: "Browse Properties For Sale",
       img: "/assets/buy_property_icon.png",
     },
     {
-      title: "Sell a Property",
+      title: "Rent a Property",
       description:
         "Find your place with an immersive photo experience and the most listings, including things you wont find anywhere else",
       action: "See Your Options",

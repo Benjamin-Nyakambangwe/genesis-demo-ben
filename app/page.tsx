@@ -59,7 +59,7 @@ const HomePage = async () => {
       {/* Properties For Sale Section */}
       <div className="container mx-auto">
         <h3 className="text-[22px] md:text-[32px] font-bold m-8">
-          Properties For Sale
+          Full Houses
         </h3>
         <PropertySlider data={data.data.latestPropertiesForSale} />
       </div>
@@ -67,7 +67,15 @@ const HomePage = async () => {
       <div className="bg-white mt-24 pb-16">
         <div className="container mx-auto ">
           <h3 className="text-[22px] md:text-[32px] font-bold m-8">
-            Properties For Rent
+            Dedicated Rooms
+          </h3>
+          <PropertySlider data={data.data.latestPropertiesToRent} />
+        </div>
+      </div>
+      <div className="bg-white mt-24 pb-16">
+        <div className="container mx-auto ">
+          <h3 className="text-[22px] md:text-[32px] font-bold m-8">
+            Cluster Homes
           </h3>
           <PropertySlider data={data.data.latestPropertiesToRent} />
         </div>
