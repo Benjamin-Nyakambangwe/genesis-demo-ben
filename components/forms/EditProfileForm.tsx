@@ -1,0 +1,94 @@
+"use client";
+
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Textarea } from "@/components/ui/textarea";
+import { submitEditProfileForm } from "@/lib/submitEditProfileFormAction";
+
+export default function EditTenantProfileForm({
+  className,
+  data,
+}: React.ComponentProps<"form">) {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const result = await submitEditProfileForm(formData);
+    if (result.success) {
+      alert(result.message);
+    } else {
+      alert(result.message);
+    }
+  };
+
+  return (
+    <form
+      className={cn("grid items-center gap-4 w-[90%] ml-4", className)}
+      onSubmit={handleSubmit}
+    >
+      <div className="grid gap-2">
+        <Label htmlFor="date_of_birth">Date of Birth</Label>
+        <Input
+          id="date_of_birth"
+          name="date_of_birth"
+          type="date"
+          value={data.date_of_birth}
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <Label htmlFor="phone">Phone Number</Label>
+        <Input id="phone" name="phone" type="tel" defaultValue={data.phone} />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="alternate_phone">Alternate Phone Number</Label>
+        <Input
+          id="alternate_phone"
+          name="alternate_phone"
+          type="tel"
+          defaultValue={data.alternate_phone}
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="emergency_contact_name">Emergency Contact Name</Label>
+        <Input
+          id="emergency_contact_name"
+          name="emergency_contact_name"
+          type="text"
+          defaultValue={data.emergency_contact_name}
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="emergency_contact_phone">Emergency Contact Phone</Label>
+        <Input
+          id="emergency_contact_phone"
+          name="emergency_contact_phone"
+          type="tel"
+          defaultValue={data.emergency_contact_phone}
+        />
+      </div>
+
+      {/* <div className="grid gap-2">
+        <Label htmlFor="num_of_vehicles">Number of Vehicles</Label>
+        <Input id="num_of_vehicles" name="num_of_vehicles" type="number" />
+      </div>
+      <div className="flex items-center space-x-2">
+        <Checkbox id="criminal_record" name="criminal_record" />
+        <Label htmlFor="criminal_record">Criminal Record</Label>
+      </div> */}
+
+      <div className="grid gap-2">
+        <Label htmlFor="additional_notes">Additional Notes</Label>
+        <Textarea
+          id="additional_notes"
+          name="additional_notes"
+          defaultValue={data.additional_notes}
+        />
+      </div>
+      <Button type="submit">Submit</Button>
+    </form>
+  );
+}

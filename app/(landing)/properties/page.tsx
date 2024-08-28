@@ -41,20 +41,17 @@ interface PropertiesResponse {
   data: Property[];
 }
 
-async function getPropertiesForSale(): Promise<PropertiesResponse> {
-  const res = await fetch(
-    "https://fsboafrica.com/api/properties/for-sale?search=for-sale"
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
+async function getFullHousesList() {
+  const myHeaders = new Headers();
 
-  return res.json();
-}
-
-async function getPropertiesToRent(): Promise<PropertiesResponse> {
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
   const res = await fetch(
-    "https://fsboafrica.com/api/properties/to-rent?search=to-rent"
+    "http://127.0.0.1:8000/api/properties",
+    requestOptions
   );
   if (!res.ok) {
     throw new Error("Failed to fetch data");
@@ -64,10 +61,12 @@ async function getPropertiesToRent(): Promise<PropertiesResponse> {
 }
 
 const PropertiesPage = async () => {
-  const propertiesForSale = await getPropertiesForSale();
-  const propertiesToRent = await getPropertiesToRent();
+  const fullHouses = await getFullHousesList();
+  const rooms = await getFullHousesList();
+  const cottages = await getFullHousesList();
+  const clusters = await getFullHousesList();
 
-  console.log("properties for rent list", propertiesToRent);
+  // console.log("properties for rent list", propertiesToRent);
 
   return (
     <div className="bg-gray-100 mt-16 pt-8">
@@ -78,8 +77,10 @@ const PropertiesPage = async () => {
         <div className="w-full md:w-[70%]">
           <PropertiesHeader />
           <PropertiesList
-            propertiesForSale={propertiesForSale.data}
-            propertiesToRent={propertiesToRent.data}
+            fullHouses={fullHouses}
+            rooms={rooms}
+            cottages={cottages}
+            clusters={clusters}
           />
         </div>
       </div>

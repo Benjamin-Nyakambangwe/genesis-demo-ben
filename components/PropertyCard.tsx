@@ -3,7 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import { Separator } from "./ui/separator";
-import { Bath, Bed, Square, Phone, AtSign, MessageCircle } from "lucide-react";
+import {
+  Bath,
+  Bed,
+  Square,
+  Phone,
+  AtSign,
+  MessageCircle,
+  Dog,
+  Vegan,
+  Droplets,
+} from "lucide-react";
 import Link from "next/link";
 
 interface PropertyImage {
@@ -37,7 +47,8 @@ export default function CardWithForm({
     >
       <div className="relative h-48">
         <Image
-          src={property.images[0].filePath}
+          // src={property.images[0].filePath}
+          src="/img/prop.webp"
           alt={property.title}
           fill
           className="object-cover"
@@ -67,7 +78,25 @@ export default function CardWithForm({
           </div>
           <div className="flex items-center">
             <Square className="h-4 w-4 mr-1 hidden md:flex" />
-            <span>{property.propertySize}</span>
+            <span>{property.area}</span>
+          </div>
+        </div>
+
+        <div className="flex justify-between text-sm mt-2">
+          <div className="flex items-center ml-1">
+            <Dog className="h-4 w-4 mr-1 hidden md:flex" />
+            {/* <Bath className="h-4 w-4 mr-1 hidden md:flex" /> */}
+            <span>Pets</span>
+          </div>
+          <div className="flex items-center ml-1">
+            <Droplets className="h-4 w-4 mr-1 hidden md:flex" />
+            {/* <Bed className="h-4 w-4 mr-1 hidden md:flex" /> */}
+            <span>Pool</span>
+          </div>
+          <div className="flex items-center ml-1">
+            <Vegan className="h-4 w-4 mr-1 hidden md:flex" />
+            {/* <Square className="h-4 w-4 mr-1 hidden md:flex" /> */}
+            <span>Garden</span>
           </div>
         </div>
       </CardContent>

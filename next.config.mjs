@@ -2,8 +2,22 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["fsboafrica.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "fsboafrica.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "github.com",
+        pathname: "**",
+      },
+    ],
   },
+  // {
+  //   domains: ["fsboafrica.com, github.com"],
+  // },
 };
 
 export default nextConfig;

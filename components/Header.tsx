@@ -1,18 +1,20 @@
 "use client";
-
-import React, { useState } from "react";
+import { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import AuthButton from "./AuthButton";
+import { Button } from "./ui/button";
+import LogoutButton from "./LogoutButton";
 
-const Header: React.FC = () => {
-  const [forSaleDropdownOpen, setForSaleDropdownOpen] = useState(false);
-  const [toRentDropdownOpen, setToRentDropdownOpen] = useState(false);
+const Header: React.FC = ({ token }) => {
+  // const [forSaleDropdownOpen, setForSaleDropdownOpen] = useState(false);
+  // const [toRentDropdownOpen, setToRentDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const toggleForSaleDropdown = () =>
-    setForSaleDropdownOpen(!forSaleDropdownOpen);
-  const toggleToRentDropdown = () => setToRentDropdownOpen(!toRentDropdownOpen);
+  // const toggleForSaleDropdown = () =>
+  //   setForSaleDropdownOpen(!forSaleDropdownOpen);
+  // const toggleToRentDropdown = () => setToRentDropdownOpen(!toRentDropdownOpen);
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
 
   return (
@@ -25,7 +27,17 @@ const Header: React.FC = () => {
           <Image src="/img/RO-JA.svg" width={120} height={45} alt="logo" />
         </Link>
         <div className="flex md:order-2">
-          <AuthButton />
+          {token ? (
+            <AuthButton />
+          ) : (
+            <div className="flex justify-between">
+              <Link href="profile">
+                <Button>Visit Profile</Button>
+              </Link>
+              <LogoutButton />
+            </div>
+          )}
+
           <button
             onClick={toggleMobileMenu}
             type="button"
@@ -58,112 +70,6 @@ const Header: React.FC = () => {
           id="navbar-sticky"
         >
           <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            {/* <li className="relative">
-              <button
-                onClick={toggleForSaleDropdown}
-                className="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-              >
-                For Sale
-                <svg
-                  className="w-2.5 h-2.5 ml-2.5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 4 4 4-4"
-                  />
-                </svg>
-              </button>
-              {forSaleDropdownOpen && (
-                <div className="absolute left-0 mt-2 z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
-                    <li>
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Houses
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Apartments
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Land
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </li>
-            <li className="relative">
-              <button
-                onClick={toggleToRentDropdown}
-                className="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-              >
-                To Rent
-                <svg
-                  className="w-2.5 h-2.5 ml-2.5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 4 4 4-4"
-                  />
-                </svg>
-              </button>
-              {toRentDropdownOpen && (
-                <div className="absolute left-0 mt-2 z-10 font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                  <ul className="py-2 text-sm text-gray-700 dark:text-gray-400">
-                    <li>
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Houses
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Apartments
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="#"
-                        className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                      >
-                        Rooms
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              )}
-            </li> */}
             <li>
               <Link
                 href="/properties"

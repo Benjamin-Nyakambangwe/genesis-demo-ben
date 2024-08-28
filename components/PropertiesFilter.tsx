@@ -1,13 +1,13 @@
-import * as React from "react";
+"use client";
 
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,39 +19,181 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import HeroSwitch from "./HeroSwitch";
+import { useFilterState } from "@/store/filter";
 
 export default function PropertiesFilter() {
+  const [propertyType, setPropertyType] = useState("");
+  const [location, setLocation] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [minBeds, setMinBeds] = useState("");
+  const [maxBeds, setMaxBeds] = useState("");
+  const [minBaths, setMinBaths] = useState("");
+  const [maxBaths, setMaxBaths] = useState("");
+  const [acceptsPets, setAcceptsPets] = useState(false);
+  const [acceptsSmokers, setAcceptsSmokers] = useState(false);
+  const [hasPool, setHasPool] = useState(false);
+  const [hasGarden, setHasGarden] = useState(false);
+
+  const {
+    updatePropertyType,
+    updateLocation,
+    updateMinPrice,
+    updateMaxPrice,
+    updateMinBedrooms,
+    updateMaxBedrooms,
+    updateMinBathrooms,
+    updateMaxBathrooms,
+    updateAcceptsPets,
+    updateAcceptsSmokers,
+    updateHasPool,
+    updateHasGarden,
+  } = useFilterState();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    updatePropertyType(propertyType);
+    updateLocation(location);
+    updateMinPrice(Number(minPrice));
+    updateMaxPrice(Number(maxPrice));
+    updateMinBedrooms(Number(minBeds));
+    updateMaxBedrooms(Number(maxBeds));
+    updateMinBathrooms(Number(minBaths));
+    updateMaxBathrooms(Number(maxBaths));
+    updateAcceptsPets(acceptsPets);
+    updateAcceptsSmokers(acceptsSmokers);
+    updateHasGarden(hasGarden);
+    updateHasPool(hasPool);
+
+    // You might want to add updates for pool and garden if they're in your Zustand store
+    console.log("Search triggered with current state:", {
+      propertyType,
+      location,
+      minPrice,
+      maxPrice,
+      minBeds,
+      maxBeds,
+      minBaths,
+      maxBaths,
+      acceptsPets,
+      acceptsSmokers,
+      hasPool,
+      hasGarden,
+    });
+  };
+
   return (
     <Card className="w-full md:w-[350px]">
       <CardHeader></CardHeader>
       <CardContent>
-        <form>
+        <form onSubmit={handleSearch}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Select>
-                <SelectTrigger id="framework">
+              <Select value={propertyType} onValueChange={setPropertyType}>
+                <SelectTrigger id="property-type">
                   <SelectValue placeholder="Property Types" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="next">House</SelectItem>
-                  <SelectItem value="sveltekit">Villa</SelectItem>
-                  <SelectItem value="astro">Cottage</SelectItem>
-                  <SelectItem value="nuxt">Condo</SelectItem>
-                  <SelectItem value="nuxt">Commercial</SelectItem>
-                  <SelectItem value="nuxt">Resort</SelectItem>
+                  <SelectItem value="house">House</SelectItem>
+                  <SelectItem value="villa">Villa</SelectItem>
+                  <SelectItem value="cottage">Cottage</SelectItem>
+                  <SelectItem value="condo">Condo</SelectItem>
+                  <SelectItem value="commercial">Commercial</SelectItem>
+                  <SelectItem value="resort">Resort</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="flex flex-col space-y-1.5">
-              <Input id="name" placeholder="Suburb, City, Province, Country" />
+              <Select value={location} onValueChange={setLocation}>
+                <SelectTrigger id="location">
+                  <SelectValue placeholder="Location" />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  <SelectItem value="new-york">New York</SelectItem>
+                  <SelectItem value="los-angeles">Los Angeles</SelectItem>
+                  <SelectItem value="chicago">Chicago</SelectItem>
+                  <SelectItem value="houston">Houston</SelectItem>
+                  <SelectItem value="phoenix">Phoenix</SelectItem>
+                  <SelectItem value="philadelphia">Philadelphia</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">
-              <Input id="name" placeholder="Min. Price" />
-              <Input id="name" placeholder="Max. Price" />
-              <Input id="name" placeholder="Min. Beds" />
-              <Input id="name" placeholder="Max. Beds" />
+              <Input
+                id="min-price"
+                placeholder="Min. Price"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+              />
+              <Input
+                id="max-price"
+                placeholder="Max. Price"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+              />
+              <Input
+                id="min-beds"
+                placeholder="Min. Beds"
+                value={minBeds}
+                onChange={(e) => setMinBeds(e.target.value)}
+              />
+              <Input
+                id="max-beds"
+                placeholder="Max. Beds"
+                value={maxBeds}
+                onChange={(e) => setMaxBeds(e.target.value)}
+              />
+              <Input
+                id="min-baths"
+                placeholder="Min. Baths"
+                value={minBaths}
+                onChange={(e) => setMinBaths(e.target.value)}
+              />
+              <Input
+                id="max-baths"
+                placeholder="Max. Baths"
+                value={maxBaths}
+                onChange={(e) => setMaxBaths(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="accepts_pets"
+                  checked={acceptsPets}
+                  onCheckedChange={setAcceptsPets}
+                />
+                <Label htmlFor="accepts_pets">Accepts Pets</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="accepts_smokers"
+                  checked={acceptsSmokers}
+                  onCheckedChange={setAcceptsSmokers}
+                />
+                <Label htmlFor="accepts_smokers">Accepts Smokers</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="pool"
+                  checked={hasPool}
+                  onCheckedChange={setHasPool}
+                />
+                <Label htmlFor="pool">Pool</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="garden"
+                  checked={hasGarden}
+                  onCheckedChange={setHasGarden}
+                />
+                <Label htmlFor="garden">Garden</Label>
+              </div>
             </div>
           </div>
+          <Button className="w-full mt-4" type="submit">
+            Search
+          </Button>
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">

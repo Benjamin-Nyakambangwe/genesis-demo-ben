@@ -9,7 +9,7 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-interface PropertySliderProps {
+interface ProfilePropertySliderProps {
   data: Property[];
 }
 
@@ -39,7 +39,9 @@ const CustomNextArrow: React.FC<any> = (props) => {
   );
 };
 
-const PropertySlider: React.FC<PropertySliderProps> = ({ data }) => {
+const ProfilePropertySlider: React.FC<ProfilePropertySliderProps> = ({
+  data,
+}) => {
   const settings: Settings = {
     dots: true,
     infinite: true,
@@ -70,7 +72,7 @@ const PropertySlider: React.FC<PropertySliderProps> = ({ data }) => {
   return (
     <div className="w-full text-red-600">
       <Slider {...settings}>
-        {data?.map((property) => (
+        {data.map((property) => (
           <div key={property.id} className="px-2">
             <PropertyCard property={property} />
           </div>
@@ -80,4 +82,4 @@ const PropertySlider: React.FC<PropertySliderProps> = ({ data }) => {
   );
 };
 
-export default PropertySlider;
+export default ProfilePropertySlider;
