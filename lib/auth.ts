@@ -14,7 +14,7 @@ export async function decrypt(input: string): Promise<any> {
 }
 
 export async function login(formData: FormData) {
-  console.log("LOGIN");
+  // console.log("LOGIN");
 
   const options = {
     method: "POST",
@@ -36,7 +36,7 @@ export async function login(formData: FormData) {
     }
 
     const data = await res.json();
-    console.log("DATA", data);
+    // console.log("DATA", data);
 
     // Decrypt the access token
     const decodedToken = await decrypt(data.access);
@@ -70,7 +70,6 @@ export async function login(formData: FormData) {
         httpOnly: true,
       }
     );
-
     return { success: true, userType: decodedToken.user_type };
   } catch (error) {
     console.error("Login error:", error);
@@ -108,6 +107,10 @@ export async function register(formData: FormData) {
 export async function logout() {
   // Destroy the session
   cookies().set("session", "", { expires: new Date(0) });
+  cookies().set("access", "", { expires: new Date(0) });
+  cookies().set("refresh", "", { expires: new Date(0) });
+  cookies().set("user_details", "", { expires: new Date(0) });
+  return { success: true };
 }
 
 export async function getSession() {

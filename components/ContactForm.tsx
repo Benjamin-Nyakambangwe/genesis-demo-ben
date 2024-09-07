@@ -117,66 +117,33 @@ export default function ContactForm({ listingId }: ContactFormProps) {
   return (
     <Card className="w-full md:w-[350px]">
       <CardHeader>
-        <div className="relative h-48">
+        {/* <div className="relative h-48">
           <Image
             src="/assets/form-logo.png"
             alt="hero"
             fill
             style={{ objectFit: "cover" }}
           />
-        </div>
+        </div> */}
         <CardTitle className="text-center p-4">Housing Investment</CardTitle>
         <Button
           variant="outline"
           className="w-full mb-2 text-red-600 border-red-600"
         >
-          <MessageCircle className="h-3 w-3 mr-2 text-red-600" /> Whatsapp Agent
+          <Phone className="h-3 w-3 mr-2 text-red-600" /> Reveal Owner's Contact
         </Button>
-        <Button
+        {/* <Button
           variant="outline"
           className="w-full  text-red-600 border-red-600"
         >
           <Phone className="h-3 w-3 mr-2 text-red-600" />
           Call Agent
-        </Button>
+        </Button> */}
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Input
-                id="firstName"
-                name="firstName"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-              />
-              <Input
-                id="lastName"
-                name="lastName"
-                placeholder="last Name"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-              />
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Your Email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <Input
-                id="phoneNumber"
-                name="phoneNumber"
-                type="tel"
-                placeholder="Phone Number"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-              />
               <Textarea
                 id="message"
                 name="message"

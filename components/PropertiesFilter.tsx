@@ -21,7 +21,7 @@ import {
 import HeroSwitch from "./HeroSwitch";
 import { useFilterState } from "@/store/filter";
 
-export default function PropertiesFilter() {
+export default function PropertiesFilter({ houseLocations, houseTypes }) {
   const [propertyType, setPropertyType] = useState("");
   const [location, setLocation] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -90,31 +90,35 @@ export default function PropertiesFilter() {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Select value={propertyType} onValueChange={setPropertyType}>
-                <SelectTrigger id="property-type">
+                <SelectTrigger
+                  id="property-type"
+                  className="focus:ring-2 focus:ring-red-600 focus-visible:ring-2 focus-visible:ring-red-600 focus:outline-none border-input"
+                >
                   <SelectValue placeholder="Property Types" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="house">House</SelectItem>
-                  <SelectItem value="villa">Villa</SelectItem>
-                  <SelectItem value="cottage">Cottage</SelectItem>
-                  <SelectItem value="condo">Condo</SelectItem>
-                  <SelectItem value="commercial">Commercial</SelectItem>
-                  <SelectItem value="resort">Resort</SelectItem>
+                  {houseTypes?.map((type) => (
+                    <SelectItem key={type.id} value={type.name}>
+                      {type.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Select value={location} onValueChange={setLocation}>
-                <SelectTrigger id="location">
+                <SelectTrigger
+                  id="location"
+                  className="focus:ring-2 focus:ring-red-600 focus-visible:ring-2 focus-visible:ring-red-600 focus:outline-none border-input"
+                >
                   <SelectValue placeholder="Location" />
                 </SelectTrigger>
                 <SelectContent position="popper">
-                  <SelectItem value="new-york">New York</SelectItem>
-                  <SelectItem value="los-angeles">Los Angeles</SelectItem>
-                  <SelectItem value="chicago">Chicago</SelectItem>
-                  <SelectItem value="houston">Houston</SelectItem>
-                  <SelectItem value="phoenix">Phoenix</SelectItem>
-                  <SelectItem value="philadelphia">Philadelphia</SelectItem>
+                  {houseLocations?.map((location) => (
+                    <SelectItem key={location.id} value={location.name}>
+                      {location.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -124,36 +128,42 @@ export default function PropertiesFilter() {
                 placeholder="Min. Price"
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
+                className="focus-visible:ring-red-600 focus:border-0"
               />
               <Input
                 id="max-price"
                 placeholder="Max. Price"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
+                className="focus-visible:ring-red-600 focus:border-0"
               />
               <Input
                 id="min-beds"
                 placeholder="Min. Beds"
                 value={minBeds}
                 onChange={(e) => setMinBeds(e.target.value)}
+                className="focus-visible:ring-red-600 focus:border-0"
               />
               <Input
                 id="max-beds"
                 placeholder="Max. Beds"
                 value={maxBeds}
                 onChange={(e) => setMaxBeds(e.target.value)}
+                className="focus-visible:ring-red-600 focus:border-0"
               />
               <Input
                 id="min-baths"
                 placeholder="Min. Baths"
                 value={minBaths}
                 onChange={(e) => setMinBaths(e.target.value)}
+                className="focus-visible:ring-red-600 focus:border-0"
               />
               <Input
                 id="max-baths"
                 placeholder="Max. Baths"
                 value={maxBaths}
                 onChange={(e) => setMaxBaths(e.target.value)}
+                className="focus-visible:ring-red-600 focus:border-0"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">
@@ -162,6 +172,7 @@ export default function PropertiesFilter() {
                   id="accepts_pets"
                   checked={acceptsPets}
                   onCheckedChange={setAcceptsPets}
+                  className="data-[state=checked]:bg-red-600 border-red-600 border-2"
                 />
                 <Label htmlFor="accepts_pets">Accepts Pets</Label>
               </div>
@@ -170,6 +181,7 @@ export default function PropertiesFilter() {
                   id="accepts_smokers"
                   checked={acceptsSmokers}
                   onCheckedChange={setAcceptsSmokers}
+                  className="data-[state=checked]:bg-red-600 border-red-600 border-2"
                 />
                 <Label htmlFor="accepts_smokers">Accepts Smokers</Label>
               </div>
@@ -178,6 +190,7 @@ export default function PropertiesFilter() {
                   id="pool"
                   checked={hasPool}
                   onCheckedChange={setHasPool}
+                  className="data-[state=checked]:bg-red-600 border-red-600 border-2"
                 />
                 <Label htmlFor="pool">Pool</Label>
               </div>
@@ -186,18 +199,19 @@ export default function PropertiesFilter() {
                   id="garden"
                   checked={hasGarden}
                   onCheckedChange={setHasGarden}
+                  className="data-[state=checked]:bg-red-600 border-red-600 border-2"
                 />
                 <Label htmlFor="garden">Garden</Label>
               </div>
             </div>
           </div>
-          <Button className="w-full mt-4" type="submit">
+          <Button className="w-full mt-4 bg-red-600" type="submit">
             Search
           </Button>
         </form>
       </CardContent>
       <CardFooter className="flex justify-between">
-        <HeroSwitch />
+        {/* <HeroSwitch /> */}
       </CardFooter>
     </Card>
   );

@@ -11,7 +11,7 @@ interface BearStore {
   updateIsGrid: () => void;
 }
 
-const PropertiesHeader: React.FC = () => {
+const PropertiesHeader: React.FC = ({ numOfHouses }) => {
   const updateIsGrid = useBearStore((state: BearStore) => state.updateIsGrid);
   const isGrid = useBearStore((state: BearStore) => state.isGrid);
   const [localIsGrid, setLocalIsGrid] = useState<boolean>(isGrid);
@@ -36,12 +36,12 @@ const PropertiesHeader: React.FC = () => {
     <Card className="w-full mb-6">
       <CardContent className="p-4 sm:p-5">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-          <div className="flex items-center space-x-4 w-full sm:w-auto">
+          {/* <div className="flex items-center space-x-4 w-full sm:w-auto">
             <span className="text-sm font-medium">Sort By:</span>
-          </div>
+          </div> */}
 
-          <div className="text-sm font-medium w-full sm:w-auto text-center sm:text-left">
-            10 Search Results
+          <div className="text-sm font-medium w-full sm:w-auto text-center sm:text-left text-red-600">
+            <span className="font-bold">{numOfHouses}</span> Search Results
           </div>
 
           <div className="flex justify-center sm:justify-end w-full sm:w-auto">

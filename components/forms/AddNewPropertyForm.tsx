@@ -13,7 +13,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -22,24 +21,35 @@ export default function AddNewPropertyForm({
   className,
   houseTypes,
   houseLocations,
-}: React.ComponentProps<"form">) {
+}: React.ComponentProps<"form"> & {
+  houseTypes: { id: string; name: string }[];
+  houseLocations: { id: string; name: string }[];
+}) {
   const [images, setImages] = React.useState<File[]>([]);
+  const [previewUrls, setPreviewUrls] = React.useState<string[]>([]);
+  const [selectedType, setSelectedType] = React.useState<string>("test");
+  const [selectedLocation, setSelectedLocation] =
+    React.useState<string>("test");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
-    // Append each image file to formData
-    images.forEach((image, index) => {
-      formData.append(`image_${index}`, image);
-    });
+    // Remove any existing image_files entries
+    formData.delete("image_files");
 
-    console.log("Images", images);
-    console.log("Formdata", formData);
+    // Append each image file to formData with the correct field name
+    images.forEach((image) => {
+      formData.append("image_files", image);
+    });
 
     const result = await submitNewPropertyForm(formData);
     if (result.success) {
       alert(result.message);
+      // Reset form and images
+      event.currentTarget.reset();
+      setImages([]);
+      setPreviewUrls([]);
     } else {
       alert(result.message);
     }
@@ -47,79 +57,160 @@ export default function AddNewPropertyForm({
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setImages(Array.from(event.target.files));
+      const fileList = Array.from(event.target.files);
+      setImages(fileList);
+
+      // Create preview URLs
+      const urls = fileList.map((file) => URL.createObjectURL(file));
+      setPreviewUrls(urls);
     }
   };
 
+  React.useEffect(() => {
+    // Cleanup preview URLs when component unmounts
+    return () => {
+      previewUrls.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [previewUrls]);
+
   return (
     <form
-      className={cn("grid items-start ml-3 gap-4 w-[95%]", className)}
+      className={cn("grid items-start ml-2 gap-4 w-[95%]", className)}
       onSubmit={handleSubmit}
     >
       <div className="grid gap-2">
         <Label htmlFor="title">Title</Label>
-        <Input id="title" name="title" type="text" required />
+        <Input
+          id="title"
+          name="title"
+          type="text"
+          required
+          className="focus-visible:ring-red-600 focus:border-0"
+        />
       </div>
       <div className="grid gap-2">
         <Label htmlFor="description">Description</Label>
-        <Textarea id="description" name="description" required />
+        <Textarea
+          id="description"
+          name="description"
+          required
+          className="focus-visible:ring-red-600 focus:border-0"
+        />
       </div>
       <div className="flex justify-between">
-        <div className="grid gap-2">
+        <div className="m-1">
           <Label htmlFor="address">Address</Label>
-          <Input id="address" name="address" type="text" required />
+          <Input
+            id="address"
+            name="address"
+            type="text"
+            required
+            className="focus-visible:ring-red-600 focus:border-0"
+          />
         </div>
-        <div className="grid gap-2">
+        <div className="m-1">
           <Label htmlFor="price">Price</Label>
-          <Input id="price" name="price" type="number" step="0.01" required />
+          <Input
+            id="price"
+            name="price"
+            type="number"
+            step="0.01"
+            required
+            className="focus-visible:ring-red-600 focus:border-0"
+          />
         </div>
       </div>
       <div className="flex justify-between">
-        <div className="grid gap-2">
+        <div className="m-1">
           <Label htmlFor="bedrooms">Bedrooms</Label>
-          <Input id="bedrooms" name="bedrooms" type="number" required />
+          <Input
+            id="bedrooms"
+            name="bedrooms"
+            type="number"
+            required
+            className="focus-visible:ring-red-600 focus:border-0"
+          />
         </div>
-        <div className="grid gap-2">
+        <div className="m-1">
           <Label htmlFor="bathrooms">Bathrooms</Label>
-          <Input id="bathrooms" name="bathrooms" type="number" required />
+          <Input
+            id="bathrooms"
+            name="bathrooms"
+            type="number"
+            required
+            className="focus-visible:ring-red-600 focus:border-0"
+          />
         </div>
       </div>
 
-      <div className="flex justify-between">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex items-center space-x-2">
-          <Checkbox id="is_available" name="is_available" />
-          <Label htmlFor="is_available">Is Available</Label>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Checkbox id="accepts_pets" name="accepts_pets" />
+          <Checkbox
+            id="accepts_pets"
+            name="accepts_pets"
+            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+          />
           <Label htmlFor="accepts_pets">Accepts Pets</Label>
         </div>
         <div className="flex items-center space-x-2">
-          <Checkbox id="accepts_smokers" name="accepts_smokers" />
+          <Checkbox
+            id="accepts_smokers"
+            name="accepts_smokers"
+            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+          />
           <Label htmlFor="accepts_smokers">Accepts Smokers</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="pool"
+            name="pool"
+            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+          />
+          <Label htmlFor="pool">Pool Available</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="garden"
+            name="garden"
+            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+          />
+          <Label htmlFor="garden">Garden Available</Label>
         </div>
       </div>
       <div className="flex justify-between">
-        <div className="grid gap-2">
+        <div className="m-1">
           <Label htmlFor="area">Area (sq ft)</Label>
-          <Input id="area" name="area" type="number" required />
+          <Input
+            id="area"
+            name="area"
+            type="number"
+            required
+            className="focus-visible:ring-red-600 focus:border-0"
+          />
         </div>
-        <div className="grid gap-2">
+        <div className="m-1">
           <Label htmlFor="pet_deposit">Pet Deposit</Label>
           <Input
             id="pet_deposit"
             name="pet_deposit"
             type="number"
             step="0.01"
+            className="focus-visible:ring-red-600 focus:border-0"
           />
         </div>
       </div>
 
       <div className="grid gap-2">
         <Label htmlFor="type">Type</Label>
-        <Select name="type">
+        <Select name="type" onValueChange={setSelectedType}>
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Please Choose" />
+            <SelectValue placeholder="Please Choose">
+              {
+                houseTypes.find((type) => type.id === parseInt(selectedType))
+                  ?.name
+              }
+              {/* {typeof selectedType} */}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -135,9 +226,15 @@ export default function AddNewPropertyForm({
 
       <div className="grid gap-2">
         <Label htmlFor="location">Location</Label>
-        <Select name="location">
+        <Select name="location" onValueChange={setSelectedLocation}>
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Please Choose" />
+            <SelectValue placeholder="Please Choose">
+              {
+                houseLocations.find(
+                  (type) => type.id === parseInt(selectedLocation)
+                )?.name
+              }
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -153,19 +250,40 @@ export default function AddNewPropertyForm({
 
       <div className="grid gap-2">
         <Label htmlFor="deposit">Deposit</Label>
-        <Input id="deposit" name="deposit" type="number" step="0.01" required />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="images">Property Images</Label>
         <Input
-          id="images"
-          name="images"
-          type="file"
-          multiple
-          onChange={handleImageChange}
+          id="deposit"
+          name="deposit"
+          type="number"
+          step="0.01"
+          required
+          className="focus-visible:ring-red-600 focus:border-0"
         />
       </div>
-      <Button type="submit">Submit</Button>
+      <div className="grid gap-2">
+        <Label htmlFor="image_files">Property Images</Label>
+        <Input
+          id="image_files"
+          name="image_files"
+          type="file"
+          multiple
+          accept="image/*"
+          onChange={handleImageChange}
+          className="focus-visible:ring-red-600 focus:border-0"
+        />
+        <div className="flex flex-wrap gap-2 mt-2">
+          {previewUrls.map((url, index) => (
+            <img
+              key={index}
+              src={url}
+              alt={`Preview ${index + 1}`}
+              className="w-24 h-24 object-cover rounded"
+            />
+          ))}
+        </div>
+      </div>
+      <Button type="submit" className="bg-red-600">
+        Submit
+      </Button>
     </form>
   );
 }

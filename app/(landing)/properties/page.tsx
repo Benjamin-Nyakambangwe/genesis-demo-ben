@@ -50,7 +50,50 @@ async function getFullHousesList() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/properties",
+    "http://127.0.0.1:8000/api/properties-filter",
+    requestOptions
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+async function getHouseTypes() {
+  // const token = cookies().get("access")?.value;
+  // console.log(token);
+  const myHeaders = new Headers();
+  // myHeaders.append("Cookie", `access=${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+  const res = await fetch(
+    "http://127.0.0.1:8000/api/house-types",
+    requestOptions
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
+async function getHouseLocations() {
+  // const token = cookies().get("access")?.value;
+  // console.log(token);
+  const myHeaders = new Headers();
+  // myHeaders.append("Cookie", `access=${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+  const res = await fetch(
+    "http://127.0.0.1:8000/api/house-locations",
     requestOptions
   );
   if (!res.ok) {
@@ -62,25 +105,30 @@ async function getFullHousesList() {
 
 const PropertiesPage = async () => {
   const fullHouses = await getFullHousesList();
-  const rooms = await getFullHousesList();
-  const cottages = await getFullHousesList();
-  const clusters = await getFullHousesList();
+  const houseTypes = await getHouseTypes();
+  const houseLocations = await getHouseLocations();
+  // const rooms = await getFullHousesList();
+  // const cottages = await getFullHousesList();
+  // const clusters = await getFullHousesList();
 
-  // console.log("properties for rent list", propertiesToRent);
+  console.log("full houses on List page", fullHouses);
 
   return (
     <div className="bg-gray-100 mt-16 pt-8">
       <div className="block md:flex w-full container">
         <div className="w-full md:w-[30%]">
-          <PropertiesFilter />
+          <PropertiesFilter
+            houseTypes={houseTypes}
+            houseLocations={houseLocations}
+          />
         </div>
         <div className="w-full md:w-[70%]">
-          <PropertiesHeader />
+          <PropertiesHeader numOfHouses={fullHouses.length + 1} />
           <PropertiesList
             fullHouses={fullHouses}
-            rooms={rooms}
-            cottages={cottages}
-            clusters={clusters}
+            // rooms={rooms}
+            // cottages={cottages}
+            // clusters={clusters}
           />
         </div>
       </div>

@@ -66,6 +66,7 @@ export function RegisterForm() {
                     name="first_name"
                     placeholder=""
                     required
+                    className="focus-visible:ring-red-600 focus:border-0"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -75,6 +76,7 @@ export function RegisterForm() {
                     name="last_name"
                     placeholder=""
                     required
+                    className="focus-visible:ring-red-600 focus:border-0"
                   />
                 </div>
               </div>
@@ -86,20 +88,34 @@ export function RegisterForm() {
                   name="email"
                   placeholder=""
                   required
+                  className="focus-visible:ring-red-600 focus:border-0"
                 />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" name="password" type="password" />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  className="focus-visible:ring-red-600 focus:border-0"
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="re_password">Repeat Password</Label>
-                <Input id="re_password" name="re_password" type="password" />
+                <Input
+                  id="re_password"
+                  name="re_password"
+                  type="password"
+                  className="focus-visible:ring-red-600 focus:border-0"
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="userType">Where Do You Fit</Label>
                 <Select name="user_type">
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger
+                    className="w-fullfocus:ring-2 focus:ring-red-600 focus-visible:ring-2 focus-visible:ring-red-600 focus:outline-none border-input
+"
+                  >
                     <SelectValue placeholder="Please Choose" />
                   </SelectTrigger>
                   <SelectContent>
@@ -111,17 +127,20 @@ export function RegisterForm() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full bg-red-600">
                 Create an account
               </Button>
-              <Button variant="outline" className="w-full">
+              {/* <Button variant="outline" className="w-full">
                 Sign up with GitHub
-              </Button>
+              </Button> */}
             </div>
           </form>
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
-            <Link href="/auth/login" className="underline">
+            <Link
+              href="/auth/login"
+              className="underline font-bold text-red-600"
+            >
               Sign in
             </Link>
           </div>

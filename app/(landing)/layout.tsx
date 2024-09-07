@@ -18,7 +18,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   const cookieStore = cookies();
-  const token = cookieStore.get("token")?.value;
+  const token = cookieStore.get("access")?.value;
   return (
     <html lang="en" suppressHydrationWarning>
       <head />

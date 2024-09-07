@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 interface ImageData {
-  filePath: string;
+  image: string;
 }
 
 interface ImageShowcaseProps {
@@ -18,7 +18,7 @@ const ImageShowcase: React.FC<ImageShowcaseProps> = ({ images }) => {
     <div className="max-w-4xl mx-auto">
       <div className="mb-4">
         <Image
-          src={images[activeIndex].filePath}
+          src={images[activeIndex].image}
           alt="image"
           width={1000}
           height={600}
@@ -38,7 +38,7 @@ const ImageShowcase: React.FC<ImageShowcaseProps> = ({ images }) => {
             onClick={() => setActiveIndex(index)}
           >
             <Image
-              src={image.filePath}
+              src={image.image}
               alt="image"
               width={100}
               height={75}

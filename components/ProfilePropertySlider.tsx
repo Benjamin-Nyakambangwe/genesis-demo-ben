@@ -72,7 +72,7 @@ const ProfilePropertySlider: React.FC<ProfilePropertySliderProps> = ({
   return (
     <div className="w-full text-red-600">
       <Slider {...settings}>
-        {data.map((property) => (
+        {data?.map((property) => (
           <div key={property.id} className="px-2">
             <PropertyCard property={property} />
           </div>

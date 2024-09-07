@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { submitEditProfileForm } from "@/lib/submitEditProfileFormAction";
+import { submitEditProfileFormAction } from "@/lib/submitEditProfileFormAction";
 
 export default function EditTenantProfileForm({
   className,
@@ -16,7 +16,7 @@ export default function EditTenantProfileForm({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const result = await submitEditProfileForm(formData);
+    const result = await submitEditProfileFormAction(formData);
     if (result.success) {
       alert(result.message);
     } else {
@@ -36,12 +36,19 @@ export default function EditTenantProfileForm({
           name="date_of_birth"
           type="date"
           value={data.date_of_birth}
+          className="focus-visible:ring-red-600 focus:border-0"
         />
       </div>
 
       <div className="grid gap-2">
         <Label htmlFor="phone">Phone Number</Label>
-        <Input id="phone" name="phone" type="tel" defaultValue={data.phone} />
+        <Input
+          id="phone"
+          name="phone"
+          type="tel"
+          defaultValue={data.phone}
+          className="focus-visible:ring-red-600 focus:border-0"
+        />
       </div>
       <div className="grid gap-2">
         <Label htmlFor="alternate_phone">Alternate Phone Number</Label>
@@ -50,6 +57,7 @@ export default function EditTenantProfileForm({
           name="alternate_phone"
           type="tel"
           defaultValue={data.alternate_phone}
+          className="focus-visible:ring-red-600 focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -59,6 +67,7 @@ export default function EditTenantProfileForm({
           name="emergency_contact_name"
           type="text"
           defaultValue={data.emergency_contact_name}
+          className="focus-visible:ring-red-600 focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -68,6 +77,7 @@ export default function EditTenantProfileForm({
           name="emergency_contact_phone"
           type="tel"
           defaultValue={data.emergency_contact_phone}
+          className="focus-visible:ring-red-600 focus:border-0"
         />
       </div>
 
@@ -86,9 +96,12 @@ export default function EditTenantProfileForm({
           id="additional_notes"
           name="additional_notes"
           defaultValue={data.additional_notes}
+          className="focus-visible:ring-red-600 focus:border-0"
         />
       </div>
-      <Button type="submit">Submit</Button>
+      <Button type="submit" className="bg-red-600">
+        Submit
+      </Button>
     </form>
   );
 }

@@ -25,7 +25,10 @@ const AddNewPropertyButton = () => {
   }, [isAddNewPropertyDialogOpen]);
   return (
     <>
-      <Button onClick={() => updateAddNewPropertyDialogOpen()}>
+      <Button
+        className="ml-2 bg-red-600"
+        onClick={() => updateAddNewPropertyDialogOpen()}
+      >
         New Listing
       </Button>
     </>

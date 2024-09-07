@@ -5,8 +5,8 @@ import Link from "next/link";
 const AuthButton = () => {
   return (
     <Link href="/auth/login">
-      <Button className="rounded-full border-grey-500 " variant="outline">
-        Login <CircleUserRound className="ml-2 h-4 w-4" />
+      <Button className=" bg-red-600 text-white hover:bg-grey-900">
+        Login <CircleUserRound className="ml-2 h-4 w-4 text-white" />
       </Button>
     </Link>
   );

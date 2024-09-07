@@ -6,6 +6,8 @@ import AddNewPropertyButton from "@/components/AddNewPropertyButton";
 import EditProfileButton from "@/components/EditProfileButton";
 import { AddNewPropertyDialog } from "@/components/AddPropertyDialog";
 import { EditProfileDialog } from "@/components/EditProfileDialog";
+import { Card, CardContent } from "@/components/ui/card";
+import { Mail, Phone, User } from "lucide-react";
 
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
@@ -63,7 +65,7 @@ async function getOwnProperties() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/properties",
+    "http://127.0.0.1:8000/api/own-properties",
     requestOptions
   );
   if (!res.ok) {
@@ -138,15 +140,17 @@ const ProfilePage = async () => {
   return (
     <div className=" container mt-24 mb-24">
       <div className="flex justify-between max-w-[100vw]">
-        <div className="flex flex-col justify-center items-center">
-          <Image
-            src="/img/person.jpg"
-            alt="@shadcn"
-            width={150}
-            height={150}
-            className="rounded-3xl"
-          />
-          {/* <Avatar>
+        <Card className="">
+          <CardContent>
+            <div className=" mt-20 flex flex-col justify-center items-center">
+              <Image
+                src="/img/person.jpg"
+                alt="@shadcn"
+                width={150}
+                height={150}
+                className="rounded-3xl"
+              />
+              {/* <Avatar>
           <AvatarImage
             src="https://github.com/shadcn.png"
             alt="@shadcn"
@@ -154,14 +158,33 @@ const ProfilePage = async () => {
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar> */}
-          <h2>{data?.user.first_name}</h2>
-          <h3>{data?.user.email}</h3>
-          <h3>{data?.phone}</h3>
-          <div className="flex justify-between mt-4">
-            <EditProfileButton />
-            <AddNewPropertyButton />
-          </div>
-        </div>
+              <div className="flex flex-col items-start mt-4">
+                <div className="flex justify-between">
+                  <User className="h-4 w-4 text-red-600 mr-2" />
+                  <h2>
+                    {data?.user.first_name} {data?.user.last_name}
+                  </h2>
+                </div>
+
+                <div className="flex justify-between">
+                  <Mail className="h-4 w-4 text-red-600 mr-2" />
+
+                  <h3>{data?.user.email}</h3>
+                </div>
+                <div className="flex justify-between">
+                  <Phone className="h-4 w-4 text-red-600 mr-2" />
+                  <h3>{data?.phone}</h3>
+                </div>
+              </div>
+
+              <div className="flex justify-between mt-4">
+                <EditProfileButton />
+                <AddNewPropertyButton />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="w-[70%]">
           <ProfilePropertySlider data={properties} />
         </div>

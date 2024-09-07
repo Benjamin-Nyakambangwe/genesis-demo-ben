@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 interface Props {
   params: {
@@ -43,7 +44,7 @@ const ActivatePage = ({ params }: Props) => {
         } else {
           const data = await res.json();
           console.error("Activation failed:", data);
-          alert("Account activation failed. Please try again.");
+          // alert("Account activation failed. Please try again.");
         }
       } catch (error) {
         console.error("Activation request error:", error);
@@ -54,7 +55,14 @@ const ActivatePage = ({ params }: Props) => {
     activateAccount();
   }, [params, router]);
 
-  return <div>Account Activation in Progress...</div>;
+  return (
+    <div className="flex items-center justify-center flex-col mt-20">
+      <Image src="/img/RO-JA.svg" alt="logo" width="650" height="250" />
+      <h1 className="text-2xl font-bold mt-5 text-center">
+        Your Account Is Being Activated Now.....
+      </h1>
+    </div>
+  );
 };
 
 export default ActivatePage;
