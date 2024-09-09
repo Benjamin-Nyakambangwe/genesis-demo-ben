@@ -316,7 +316,7 @@ export default function CardWithForm({
         </div>
         <Button
           variant="outline"
-          className="h-8 border-red-600 text-red-600 border-2"
+          className="h-8 border-red-600 text-red-600 border-2 rounded-full"
         >
           Details
         </Button>

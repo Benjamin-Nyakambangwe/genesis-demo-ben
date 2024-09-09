@@ -19,7 +19,7 @@ const LogoutButton = () => {
     <form onSubmit={handleSubmit}>
       <Button
         type="submit"
-        className=" border-red-600 text-red-600 ml-2 "
+        className=" border-red-600 text-red-600 ml-2 rounded-full"
         variant="outline"
       >
         Logout <CircleUserRound className="ml-2 h-4 w-4" />

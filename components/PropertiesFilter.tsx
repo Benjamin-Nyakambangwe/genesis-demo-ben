@@ -205,7 +205,7 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
               </div>
             </div>
           </div>
-          <Button className="w-full mt-4 bg-red-600" type="submit">
+          <Button className="w-full mt-4 bg-red-600 rounded-full" type="submit">
             Search
           </Button>
         </form>

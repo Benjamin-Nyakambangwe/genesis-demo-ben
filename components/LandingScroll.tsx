@@ -2,14 +2,15 @@ import React from "react";
 
 const LandingScroll = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-800">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="flex [&:hover>div]:w-16 [&>div:hover]:w-[30rem]">
+    <div className="min-h-screen ">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex h-[65vh] [&:hover>div]:w-16 [&>div:hover]:w-full">
           {/* First Image */}
-          <div className="group relative h-96 w-[30rem] cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
+          <div className="group relative w-full cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
             <img
               className="h-full w-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
-              src="https://cdn.pixabay.com/photo/2016/01/31/19/41/apple-1172060_960_720.jpg"
+              // src="https://cdn.pixabay.com/photo/2016/01/31/19/41/apple-1172060_960_720.jpg"
+              src="/img/student.jpg"
               alt="Apple Design"
             />
             <div className="invisible absolute inset-0 bg-gradient-to-b from-green-500/20 to-black group-hover:visible">
@@ -23,9 +24,9 @@ const LandingScroll = () => {
                   </svg>
                   <div>
                     <p className="font-semibold text-xl text-gray-100">
-                      Beyond Builder
+                      Student Accomodation
                     </p>
-                    <p className="text-gray-300">Better Design</p>
+                    <p className="text-gray-300">ROJA </p>
                   </div>
                 </div>
               </div>
@@ -33,10 +34,11 @@ const LandingScroll = () => {
           </div>
 
           {/* Second Image */}
-          <div className="group relative h-96 w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
+          <div className="group relative w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
             <img
-              className="h-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
+              className="h-full w-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
               src="https://cdn.pixabay.com/photo/2022/08/17/15/46/family-7392843_960_720.jpg"
+              src="/img/cluster.jpg"
               alt="Family and Sunset"
             />
             <div className="invisible absolute inset-0 bg-gradient-to-b from-green-500/20 to-black group-hover:visible">
@@ -50,9 +52,9 @@ const LandingScroll = () => {
                   </svg>
                   <div>
                     <p className="font-semibold text-xl text-gray-100">
-                      Family and Sunset
+                      Gated Cluster
                     </p>
-                    <p className="text-gray-300">Better Design</p>
+                    <p className="text-gray-300">ROJA</p>
                   </div>
                 </div>
               </div>
@@ -60,10 +62,11 @@ const LandingScroll = () => {
           </div>
 
           {/* Third Image */}
-          <div className="group relative h-96 w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
+          <div className="group relative w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
             <img
-              className="h-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
-              src="https://cdn.pixabay.com/photo/2020/04/17/14/07/athlete-5055367_960_720.jpg"
+              className="h-full w-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
+              src="/img/house.webp"
+              // src="https://cdn.pixabay.com/photo/2020/04/17/14/07/athlete-5055367_960_720.jpg"
               alt="Athlete"
             />
             <div className="invisible absolute inset-0 bg-gradient-to-b from-green-500/20 to-black group-hover:visible">
@@ -77,9 +80,9 @@ const LandingScroll = () => {
                   </svg>
                   <div>
                     <p className="font-semibold text-xl text-gray-100">
-                      Athlete Training
+                      Full House
                     </p>
-                    <p className="text-gray-300">Better Design</p>
+                    <p className="text-gray-300">ROJA</p>
                   </div>
                 </div>
               </div>
@@ -87,9 +90,9 @@ const LandingScroll = () => {
           </div>
 
           {/* Fourth Image */}
-          <div className="group relative h-96 w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
+          <div className="group relative w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
             <img
-              className="h-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
+              className="h-full w-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
               src="https://cdn.pixabay.com/photo/2021/09/17/15/17/fruit-6633086_960_720.jpg"
               alt="Fruit Design"
             />
@@ -113,16 +116,16 @@ const LandingScroll = () => {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Footer */}
-      <div className="fixed bottom-10 right-10">
-        <p className="text-xl font-semibold text-white">
-          Images are from{" "}
-          <a href="https://pixabay.com" className="lowercase text-blue-500">
-            pixabay.com
-          </a>
-        </p>
+        {/* Footer */}
+        {/* <div className="mt-8 text-right">
+          <p className="text-xl font-semibold text-white">
+            Images are from{" "}
+            <a href="https://pixabay.com" className="lowercase text-blue-500">
+              pixabay.com
+            </a>
+          </p>
+        </div> */}
       </div>
     </div>
   );

@@ -36,7 +36,9 @@ const Header: React.FC = ({ token }) => {
           {token ? (
             <div className="flex justify-between">
               <Link href="/profile">
-                <Button className="bg-red-600 text-white">Visit Profile</Button>
+                <Button className="bg-red-600 text-white rounded-full">
+                  Visit Profile
+                </Button>
               </Link>
               <LogoutButton />
             </div>

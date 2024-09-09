@@ -25,7 +25,7 @@ const EditProfileButton = () => {
   return (
     <>
       <Button
-        className="text-red-600 border-red-600 border-2"
+        className="text-red-600 border-red-600 border-2 rounded-full"
         variant="outlined"
         onClick={() => updateEditProfileDialogOpen()}
       >
