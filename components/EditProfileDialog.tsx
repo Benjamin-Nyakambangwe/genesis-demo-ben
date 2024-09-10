@@ -64,7 +64,7 @@ export function EditProfileDialog({ userType, data }) {
             {userType?.includes("landlord") ? (
               <EditProfileForm data={data} />
             ) : (
-              <EditTenantProfileForm data={data} />
+              <EditTenantProfileForm initialData={data} />
             )}
           </div>
         </DialogContent>

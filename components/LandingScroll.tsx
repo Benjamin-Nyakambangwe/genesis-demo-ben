@@ -2,18 +2,17 @@ import React from "react";
 
 const LandingScroll = () => {
   return (
-    <div className="min-h-screen ">
+    <div className="max-h-screen mb-16">
       <div className="container mx-auto px-4 py-8">
         <div className="flex h-[65vh] [&:hover>div]:w-16 [&>div:hover]:w-full">
           {/* First Image */}
           <div className="group relative w-full cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
             <img
-              className="h-full w-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
-              // src="https://cdn.pixabay.com/photo/2016/01/31/19/41/apple-1172060_960_720.jpg"
+              className="h-full w-full object-cover transition-all  group-hover:scale-125"
               src="/img/student.jpg"
-              alt="Apple Design"
+              alt="Student Accommodation"
             />
-            <div className="invisible absolute inset-0 bg-gradient-to-b from-green-500/20 to-black group-hover:visible">
+            <div className="invisible absolute inset-0 bg-gradient-to-b from-transparent to-black group-hover:visible">
               <div className="absolute inset-x-5 bottom-6">
                 <div className="flex gap-3 text-white">
                   <svg width="48" height="48" viewBox="0 0 32 32">
@@ -24,7 +23,7 @@ const LandingScroll = () => {
                   </svg>
                   <div>
                     <p className="font-semibold text-xl text-gray-100">
-                      Student Accomodation
+                      Student Accommodation
                     </p>
                     <p className="text-gray-300">ROJA </p>
                   </div>
@@ -36,12 +35,11 @@ const LandingScroll = () => {
           {/* Second Image */}
           <div className="group relative w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
             <img
-              className="h-full w-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
-              src="https://cdn.pixabay.com/photo/2022/08/17/15/46/family-7392843_960_720.jpg"
+              className="h-full w-full object-cover transition-all  group-hover:scale-125"
               src="/img/cluster.jpg"
-              alt="Family and Sunset"
+              alt="Gated Cluster"
             />
-            <div className="invisible absolute inset-0 bg-gradient-to-b from-green-500/20 to-black group-hover:visible">
+            <div className="invisible absolute inset-0 bg-gradient-to-b from-transparent to-black group-hover:visible">
               <div className="absolute inset-x-5 bottom-6">
                 <div className="flex gap-3 text-white">
                   <svg width="48" height="48" viewBox="0 0 32 32">
@@ -64,12 +62,11 @@ const LandingScroll = () => {
           {/* Third Image */}
           <div className="group relative w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
             <img
-              className="h-full w-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
+              className="h-full w-full object-cover transition-all  group-hover:scale-125"
               src="/img/house.webp"
-              // src="https://cdn.pixabay.com/photo/2020/04/17/14/07/athlete-5055367_960_720.jpg"
-              alt="Athlete"
+              alt="Full House"
             />
-            <div className="invisible absolute inset-0 bg-gradient-to-b from-green-500/20 to-black group-hover:visible">
+            <div className="invisible absolute inset-0 bg-gradient-to-b from-transparent to-black group-hover:visible">
               <div className="absolute inset-x-5 bottom-6">
                 <div className="flex gap-3 text-white">
                   <svg width="48" height="48" viewBox="0 0 32 32">
@@ -92,11 +89,11 @@ const LandingScroll = () => {
           {/* Fourth Image */}
           <div className="group relative w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
             <img
-              className="h-full w-full object-cover transition-all group-hover:rotate-12 group-hover:scale-125"
+              className="h-full w-full object-cover transition-all  group-hover:scale-125"
               src="https://cdn.pixabay.com/photo/2021/09/17/15/17/fruit-6633086_960_720.jpg"
               alt="Fruit Design"
             />
-            <div className="invisible absolute inset-0 bg-gradient-to-b from-green-500/20 to-black group-hover:visible">
+            <div className="invisible absolute inset-0 bg-gradient-to-b from-transparent to-black group-hover:visible">
               <div className="absolute inset-x-5 bottom-6">
                 <div className="flex gap-3 text-white">
                   <svg width="48" height="48" viewBox="0 0 32 32">

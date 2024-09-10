@@ -1,22 +1,20 @@
-import React from "react";
-import HeroSwitch from "./HeroSwitch";
+"use client";
+import { TypewriterEffectSmooth } from "../components/accertenity/typewriter-effect";
 import Image from "next/image";
-import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Search } from "lucide-react";
 
-const HeroSection: React.FC = () => {
+export function HeroSection() {
+  const words = [
+    { text: "Get" },
+    { text: "The" },
+    { text: "Best" },
+    { text: "Accomodation" },
+    { text: "With" },
+    { text: "ROJA.", className: "text-red-600" },
+  ];
+
   return (
-    <div className="relative h-[80vh]">
+    <div className="relative flex flex-col items-center justify-center h-[40rem]">
       <Image
         src="/assets/hero.jpg"
         alt="Hero background"
@@ -25,45 +23,32 @@ const HeroSection: React.FC = () => {
         quality={100}
         priority
       />
+      <div className="absolute inset-0 bg-black opacity-50"></div>
 
-      <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+      <div className="relative z-10 flex flex-col items-center">
+        <p className="text-neutral-200 text-xs sm:text-base mb-4">
+          The road to freedom starts from here
+        </p>
+        <TypewriterEffectSmooth words={words} />
+        <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-8">
+          <Button
+            variant="outline"
+            className="border-red-600 border-2 rounded-full text-red-600 font-bold bg-transparent"
+          >
+            Join now
+          </Button>
+          <Button className="rounded-full bg-red-600 text-white">
+            View Listings
+          </Button>
 
-      {/* <div className="relative z-10 flex flex-col items-center justify-center h-full text-white">
-        <div className="w-[60%] max-w-none">
-          <div className="mb-3">
-            <HeroSwitch />
-          </div>
-          <form className="bg-white rounded-md p-4 md:p-6 lg:p-8">
-            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-2">
-              <Select>
-                <SelectTrigger id="propertyType">
-                  <SelectValue placeholder="Property Types" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="house">House</SelectItem>
-                  <SelectItem value="villa">Villa</SelectItem>
-                  <SelectItem value="cottage">Cottage</SelectItem>
-                  <SelectItem value="condo">Condo</SelectItem>
-                  <SelectItem value="commercial">Commercial</SelectItem>
-                  <SelectItem value="resort">Resort</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Input
-                type="text"
-                placeholder="Suburb, City, Province, Town"
-                className="w-full sm:flex-grow"
-              />
-
-              <Button type="submit" className="w-full sm:w-auto bg-red-600">
-                <Search className="mr-2 h-4 w-4" /> Search
-              </Button>
-            </div>
-          </form>
+          {/* <button className="w-40 h-10 rounded-xl bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg text-white text-sm border border-white border-opacity-20">
+            Join now
+          </button>
+          <button className="w-40 h-10 rounded-xl bg-white text-black border border-black text-sm">
+            View Listings
+          </button> */}
         </div>
-      </div> */}
+      </div>
     </div>
   );
-};
-
-export default HeroSection;
+}

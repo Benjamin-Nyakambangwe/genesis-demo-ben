@@ -3,7 +3,7 @@
 
 import { cookies } from "next/headers";
 
-export async function submitEditTenantProfileForm(formData: FormData) {
+export async function submitEditTenantProfileFormAction(formData: FormData) {
   const token = cookies().get("access")?.value;
 
   const myHeaders = new Headers();

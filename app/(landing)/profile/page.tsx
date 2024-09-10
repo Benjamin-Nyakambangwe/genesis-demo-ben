@@ -8,6 +8,8 @@ import { AddNewPropertyDialog } from "@/components/AddPropertyDialog";
 import { EditProfileDialog } from "@/components/EditProfileDialog";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Phone, User } from "lucide-react";
+import TenantDetailsCard from "@/components/TenantDetailsCard";
+import IdUploadButton from "@/components/IdUploadButton";
 
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
@@ -179,15 +181,26 @@ const ProfilePage = async () => {
 
               <div className="flex justify-between mt-4">
                 <EditProfileButton />
-                <AddNewPropertyButton />
+                {userType?.includes("landlord") ? (
+                  <AddNewPropertyButton />
+                ) : (
+                  <IdUploadButton />
+                )}
               </div>
             </div>
           </CardContent>
         </Card>
-
-        <div className="w-[70%]">
-          <ProfilePropertySlider data={properties} />
-        </div>
+        {userType?.includes("landlord") ? (
+          <div className="w-[70%]">
+            <ProfilePropertySlider data={properties} />
+            {/* <TenantDetailsCard tenantDetails={data} /> */}
+          </div>
+        ) : (
+          <div className="w-[90%]">
+            {/* <ProfilePropertySlider data={properties} /> */}
+            <TenantDetailsCard tenantDetails={data} />
+          </div>
+        )}
       </div>
       <AddNewPropertyDialog
         userType={userType}

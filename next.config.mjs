@@ -18,6 +18,9 @@ const nextConfig = {
         hostname: "127.0.0.1",
         pathname: "**",
       },
+
+      { protocol: "https", hostname: "cdn.pixabay.com", pathname: "**" },
+      { protocol: "https", hostname: "pixabay.com", pathname: "**" },
     ],
   },
   // {
