@@ -34,6 +34,8 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
   const [acceptsSmokers, setAcceptsSmokers] = useState(false);
   const [hasPool, setHasPool] = useState(false);
   const [hasGarden, setHasGarden] = useState(false);
+  const [minArea, setMinArea] = useState("");
+  const [maxArea, setMaxArea] = useState("");
 
   const {
     updatePropertyType,
@@ -203,6 +205,22 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
                 />
                 <Label htmlFor="garden">Garden</Label>
               </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">
+              <Input
+                id="min-area"
+                placeholder="Min. Area"
+                value={minArea}
+                onChange={(e) => setMinArea(e.target.value)}
+                className="focus-visible:ring-red-600 focus:border-0"
+              />
+              <Input
+                id="max-area"
+                placeholder="Max. Area"
+                value={maxArea}
+                onChange={(e) => setMaxArea(e.target.value)}
+                className="focus-visible:ring-red-600 focus:border-0"
+              />
             </div>
           </div>
           <Button className="w-full mt-4 bg-red-600 rounded-full" type="submit">

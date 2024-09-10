@@ -21,7 +21,7 @@ const IdUploadButton = () => {
       if (result.success) {
         alert("ID image uploaded successfully");
       } else {
-        alert(`Failed to upload ID image: ${result.message}`);
+        alert();
       }
     } catch (error) {
       console.error("Error uploading ID image:", error);

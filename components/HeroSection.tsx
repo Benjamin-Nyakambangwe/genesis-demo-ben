@@ -2,6 +2,7 @@
 import { TypewriterEffectSmooth } from "../components/accertenity/typewriter-effect";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 export function HeroSection() {
   const words = [
@@ -35,10 +36,10 @@ export function HeroSection() {
             variant="outline"
             className="border-red-600 border-2 rounded-full text-red-600 font-bold bg-transparent"
           >
-            Join now
+            <Link href="/auth/login">Join now</Link>
           </Button>
-          <Button className="rounded-full bg-red-600 text-white">
-            View Listings
+          <Button className="rounded-full bg-red-600 text-white font-bold">
+            <Link href="/properties">View Listings</Link>
           </Button>
 
           {/* <button className="w-40 h-10 rounded-xl bg-white bg-opacity-20 backdrop-filter backdrop-blur-lg text-white text-sm border border-white border-opacity-20">

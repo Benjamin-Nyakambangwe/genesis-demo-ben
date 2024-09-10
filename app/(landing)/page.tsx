@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Testimonials } from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 async function getFullHousesList() {
   const myHeaders = new Headers();
@@ -192,8 +193,8 @@ const HomePage = async () => {
             </p>
           </CardContent>
           <CardFooter className="flex justify-center">
-            <Button className="bg-red-600 hover:bg-red-700 text-white rounded-full">
-              Browse Properties
+            <Button className="bg-red-600 hover:bg-red-700 text-white rounded-full p-8">
+              <Link href="/properties">Browse Properties</Link>
             </Button>
           </CardFooter>
         </Card>
