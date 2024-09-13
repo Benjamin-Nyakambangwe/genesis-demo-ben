@@ -29,10 +29,13 @@ import Script from "next/script";
 import ImageShowcase from "@/components/ImageShowcase";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { revalidatePath } from "next/cache";
+import { cookies } from "next/headers";
+import CommentSection from "@/components/CommentSection";
 
 async function getProperty(listingId: string) {
   const res = await fetch(`http://127.0.0.1:8000/api/properties/${listingId}`, {
-    next: { revalidate: 3600 },
+    next: { revalidate: 36 },
   });
 
   if (!res.ok) {
@@ -40,6 +43,77 @@ async function getProperty(listingId: string) {
   }
 
   return res.json();
+}
+
+async function createComment(
+  formData: FormData,
+  listingId: string,
+  tenantId: string
+) {
+  "use server";
+
+  const content = formData.get("content");
+
+  if (!content || typeof content !== "string") {
+    throw new Error("Content is required and must be a string");
+  }
+
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("access")?.value;
+  const userDetails = cookieStore.get("user_details")?.value;
+
+  if (!userDetails) {
+    throw new Error("User details not found in cookies");
+  }
+
+  let user;
+  try {
+    user = JSON.parse(userDetails);
+  } catch (error) {
+    throw new Error("Failed to parse user details");
+  }
+
+  console.log("Comment User", user);
+
+  if (!user || !user.user_id) {
+    throw new Error("User ID not found in user details");
+  }
+
+  const userID = user.user_id;
+
+  if (!accessToken) {
+    throw new Error("User not authenticated");
+  }
+
+  const myHeaders = new Headers();
+  myHeaders.append("Cookie", `access=${accessToken}`);
+  // myHeaders.append("Content-Type", "application/json");
+  console.log("Listing ID", listingId);
+
+  const formdata = new FormData();
+  formdata.append("property", listingId); // listingId is already a string
+  formdata.append("content", content);
+  formdata.append("tenant", tenantId); // Keep as string
+
+  let response;
+  try {
+    response = await fetch("http://127.0.0.1:8000/api/comments/", {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+    });
+  } catch (error) {
+    throw new Error(`Network error: ${error.message}`);
+  }
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(
+      `Failed to create comment: ${response.status} ${errorText}`
+    );
+  }
+
+  revalidatePath(`/properties/${listingId}`);
 }
 
 export async function generateStaticParams() {
@@ -56,24 +130,57 @@ export async function generateStaticParams() {
   }));
 }
 
+async function getTenant() {
+  const token = cookies().get("access")?.value;
+  if (!token) {
+    return null;
+  }
+
+  console.log(token);
+  const myHeaders = new Headers();
+  myHeaders.append("Cookie", `access=${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow" as RequestRedirect,
+  };
+
+  try {
+    const res = await fetch(
+      "http://127.0.0.1:8000/auth/tenant-profile/",
+      requestOptions
+    );
+    if (!res.ok) {
+      console.error("Failed to fetch tenant data:", await res.text());
+      return null;
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching tenant data:", error);
+    return null;
+  }
+}
+
 const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
   const property = await getProperty(params.listingId);
+  const cookieStore = cookies();
+  const userDetails = cookieStore.get("user_details")?.value;
 
-  // Sample comments (in a real app, these would come from a database)
-  const sampleComments = [
-    {
-      id: 1,
-      user: "John Doe",
-      text: "Great property! Love the location.",
-      date: "2023-04-15",
-    },
-    {
-      id: 2,
-      user: "Jane Smith",
-      text: "The garden is beautiful. Can't wait to see it in person.",
-      date: "2023-04-16",
-    },
-  ];
+  let user = null;
+  let tenant = null;
+
+  if (userDetails) {
+    try {
+      user = JSON.parse(userDetails);
+      console.log(user);
+      if (user && user.user_type === "tenant") {
+        tenant = await getTenant();
+      }
+    } catch (error) {
+      console.error("Failed to parse user details:", error);
+    }
+  }
 
   return (
     <>
@@ -230,32 +337,16 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
             </Card>
 
             <Card className="shadow-lg">
-              <CardContent className="p-6">
+              <CardContent className="p-6 h-[500px] flex flex-col">
                 <h3 className="text-xl font-semibold mb-4">Comments</h3>
-                <div className="space-y-4 mb-6">
-                  {sampleComments.map((comment) => (
-                    <div
-                      key={comment.id}
-                      className="border-b pb-2 border-red-600"
-                    >
-                      <p className="font-semibold text-red-600">
-                        {comment.user}
-                      </p>
-                      <p className="text-sm text-gray-600">{comment.date}</p>
-                      <p className="mt-1">{comment.text}</p>
-                    </div>
-                  ))}
-                </div>
-                <form className="space-y-4">
-                  {/* <Input placeholder="Your name" /> */}
-                  <Textarea
-                    placeholder="Add a comment....."
-                    className="focus-visible:ring-red-600 focus:border-0"
+                <div className="flex-grow overflow-hidden">
+                  <CommentSection
+                    initialComments={property.comments}
+                    propertyId={property.id}
+                    tenant={tenant}
+                    createComment={createComment}
                   />
-                  <Button type="submit" className="bg-red-600">
-                    Post Comment
-                  </Button>
-                </form>
+                </div>
               </CardContent>
             </Card>
           </div>

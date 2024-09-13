@@ -240,9 +240,9 @@ export default function CardWithForm({
           style={{ backgroundImage: `url(${slides[currentIndex]?.url})` }}
           className="w-full h-full rounded-2xl bg-center bg-cover duration-800"
         ></div>
-        <div className="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 text-xs rounded">
+        {/* <div className="absolute top-2 left-2 bg-red-600 text-white px-2 py-1 text-xs rounded">
           {property.type}
-        </div>
+        </div> */}
         <button
           className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md"
           onClick={() => setIsFavorite(!isFavorite)}
