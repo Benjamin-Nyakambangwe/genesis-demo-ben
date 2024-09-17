@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { usePropertiesStore } from "@/store/properties";
 
 export default function AddNewPropertyForm({
   className,
@@ -30,6 +31,7 @@ export default function AddNewPropertyForm({
   const [selectedType, setSelectedType] = React.useState<string>("test");
   const [selectedLocation, setSelectedLocation] =
     React.useState<string>("test");
+  const addProperty = usePropertiesStore((state) => state.addProperty);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,8 +48,12 @@ export default function AddNewPropertyForm({
     const result = await submitNewPropertyForm(formData);
     if (result.success) {
       alert(result.message);
+      // Add the new property to the store
+      if (result.property) {
+        addProperty(result.property);
+      }
       // Reset form and images
-      event.currentTarget.reset();
+      // event.currentTarget.reset();
       setImages([]);
       setPreviewUrls([]);
     } else {

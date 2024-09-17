@@ -11,6 +11,7 @@ import { Mail, Phone, User } from "lucide-react";
 import TenantDetailsCard from "@/components/TenantDetailsCard";
 import IdUploadButton from "@/components/IdUploadButton";
 import { EditPropertyDialog } from "@/components/EditPropertyDialog";
+import { usePropertiesStore } from "@/store/properties";
 
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
@@ -135,6 +136,9 @@ const ProfilePage = async () => {
     properties = await getOwnProperties();
     houseTypes = await getHouseTypes();
     houseLocations = await getHouseLocations();
+
+    // Initialize the properties store with the fetched properties
+    usePropertiesStore.getState().setProperties(properties);
   } else if (userType?.includes("tenant")) {
     data = await getCurrentTenant();
   }
@@ -193,7 +197,7 @@ const ProfilePage = async () => {
         </Card>
         {userType?.includes("landlord") ? (
           <div className="w-[70%]">
-            <ProfilePropertySlider data={properties} />
+            <ProfilePropertySlider initialData={properties} />
             {/* <TenantDetailsCard tenantDetails={data} /> */}
           </div>
         ) : (

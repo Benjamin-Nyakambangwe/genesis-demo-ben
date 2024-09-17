@@ -34,8 +34,8 @@ export function DeletePropertyDialog({ property }) {
         <DialogHeader>
           <DialogTitle>Delete Property</DialogTitle>
           <DialogDescription className="text-red-600">
-            Are you sure you want to delete this property: {property.title}{" "}
-            located in {property.location.name} on address {property.address}
+            Are you sure you want to delete this property: {property?.title}{" "}
+            located in {property?.location?.name} on address {property?.address}
           </DialogDescription>
         </DialogHeader>
 

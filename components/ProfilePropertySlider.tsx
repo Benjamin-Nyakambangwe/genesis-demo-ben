@@ -1,16 +1,17 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import PropertyCard from "./PropertyCard";
 import Slider, { Settings } from "react-slick";
 import { Property } from "@/types";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import { usePropertiesStore } from "@/store/properties";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 interface ProfilePropertySliderProps {
-  data: Property[];
+  initialData: Property[];
 }
 
 const CustomPrevArrow: React.FC<any> = (props) => {
@@ -40,8 +41,16 @@ const CustomNextArrow: React.FC<any> = (props) => {
 };
 
 const ProfilePropertySlider: React.FC<ProfilePropertySliderProps> = ({
-  data,
+  initialData,
 }) => {
+  const { properties, setProperties } = usePropertiesStore();
+
+  useEffect(() => {
+    if (initialData && initialData.length > 0) {
+      setProperties(initialData);
+    }
+  }, [initialData, setProperties]);
+
   const settings: Settings = {
     dots: true,
     infinite: true,
@@ -72,7 +81,7 @@ const ProfilePropertySlider: React.FC<ProfilePropertySliderProps> = ({
   return (
     <div className="w-full text-red-600">
       <Slider {...settings}>
-        {data?.map((property) => (
+        {properties.map((property) => (
           <div key={property.id} className="px-2">
             <PropertyCard property={property} edit={true} />
           </div>
