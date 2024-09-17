@@ -10,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Mail, Phone, User } from "lucide-react";
 import TenantDetailsCard from "@/components/TenantDetailsCard";
 import IdUploadButton from "@/components/IdUploadButton";
+import { EditPropertyDialog } from "@/components/EditPropertyDialog";
 
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
@@ -208,6 +209,10 @@ const ProfilePage = async () => {
         houseLocations={houseLocations}
       />
       <EditProfileDialog data={data} userType={userType} />
+      <EditPropertyDialog
+        houseTypes={houseTypes}
+        houseLocations={houseLocations}
+      />
     </div>
   );
 };

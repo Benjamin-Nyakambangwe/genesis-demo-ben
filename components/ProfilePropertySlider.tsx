@@ -74,7 +74,7 @@ const ProfilePropertySlider: React.FC<ProfilePropertySliderProps> = ({
       <Slider {...settings}>
         {data?.map((property) => (
           <div key={property.id} className="px-2">
-            <PropertyCard property={property} />
+            <PropertyCard property={property} edit={true} />
           </div>
         ))}
       </Slider>
