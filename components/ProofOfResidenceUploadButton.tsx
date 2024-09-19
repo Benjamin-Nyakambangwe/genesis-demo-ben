@@ -1,9 +1,9 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { submitEditTenantProfileFormAction } from "@/lib/submitEditTenantProfileFormAction";
+import { submitEditProfileFormAction } from "@/lib/submitEditProfileFormAction";
 
-const IdUploadButton = () => {
+const ProofOfResidenceUploadButton = () => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -14,18 +14,18 @@ const IdUploadButton = () => {
     setIsUploading(true);
 
     const formData = new FormData();
-    formData.append("id_image", file);
+    formData.append("proof_of_residence", file);
 
     try {
-      const result = await submitEditTenantProfileFormAction(formData);
+      const result = await submitEditProfileFormAction(formData);
       if (result.success) {
-        alert("ID image uploaded successfully");
+        alert("Proof of residence uploaded successfully");
       } else {
-        alert();
+        alert(result.message);
       }
     } catch (error) {
-      console.error("Error uploading ID image:", error);
-      alert("An error occurred while uploading the ID image");
+      console.error("Error uploading proof of residence:", error);
+      alert("An error occurred while uploading the proof of residence");
     } finally {
       setIsUploading(false);
     }
@@ -41,7 +41,7 @@ const IdUploadButton = () => {
         type="file"
         ref={fileInputRef}
         onChange={handleUpload}
-        accept="image/*"
+        accept="image/*,.pdf,.doc,.docx"
         style={{ display: "none" }}
       />
       <Button
@@ -49,10 +49,10 @@ const IdUploadButton = () => {
         disabled={isUploading}
         className="w-full rounded-full bg-red-600"
       >
-        {isUploading ? "Uploading..." : "Upload ID Image"}
+        {isUploading ? "Uploading..." : "Proof of Residence"}
       </Button>
     </div>
   );
 };
 
-export default IdUploadButton;
+export default ProofOfResidenceUploadButton;

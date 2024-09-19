@@ -1,6 +1,6 @@
 import "@/app/globals.css";
 import { Raleway as FontSans } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import { cookies } from "next/headers";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header";

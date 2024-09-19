@@ -1,12 +1,15 @@
 "use client";
 
-import * as React from "react";
+import { useState } from "react";
+import { submitEditTenantProfileFormAction } from "@/lib/submitEditTenantProfileFormAction";
+import { useTenantDetailsStore } from "@/store/tenantDetails";
+import { useDialogsState } from "@/store/dialogs";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -14,20 +17,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { submitEditTenantProfileFormAction } from "@/lib/submitEditTenantProfileFormAction";
+import { toast } from "sonner";
 
-export default function EditProfileForm({
-  className,
+export default function EditTenantProfileForm({
   initialData,
+  className,
 }: React.ComponentProps<"form"> & { initialData?: any }) {
+  const updateTenantDetails = useTenantDetailsStore(
+    (state) => state.updateTenantDetails
+  );
+  const updateEditProfileDialogOpen = useDialogsState(
+    (state) => state.updateEditProfileDialogOpen
+  );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsSubmitting(true);
     const formData = new FormData(event.currentTarget);
     const result = await submitEditTenantProfileFormAction(formData);
+    setIsSubmitting(false);
+
     if (result.success) {
-      alert(result.message);
+      updateTenantDetails(result.data);
+      toast.success("Profile updated successfully");
+      updateEditProfileDialogOpen(); // Close the dialog
     } else {
-      alert(result.message);
+      toast.error(result.message || "Failed to update profile");
     }
   };
 
@@ -66,6 +82,30 @@ export default function EditProfileForm({
           type="tel"
           defaultValue={initialData?.phone}
         />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="id_number">National ID</Label>
+        <Input
+          id="id_number"
+          name="id_number"
+          type="text"
+          defaultValue={initialData?.id_number}
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="marital_status">Marital Status</Label>
+        <Select
+          name="marital_status"
+          defaultValue={initialData?.marital_status}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select marital status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="single">Single</SelectItem>
+            <SelectItem value="married">Married</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div className="grid gap-2">
         <Label htmlFor="emergency_contact_name">Emergency Contact Name</Label>

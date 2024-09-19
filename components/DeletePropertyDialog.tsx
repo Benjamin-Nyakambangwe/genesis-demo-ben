@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -6,11 +8,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useDialogsState } from "@/store/dialogs";
+import { deleteProperty } from "@/lib/deletePropertyAction";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface DialogsStore {
   isDeletePropertyDialogOpen: boolean;
@@ -18,12 +20,32 @@ interface DialogsStore {
 }
 
 export function DeletePropertyDialog({ property }) {
+  const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
   const isDeletePropertyDialogOpen = useDialogsState(
     (state: DialogsStore) => state.isDeletePropertyDialogOpen
   );
   const updateDeletePropertyDialogOpen = useDialogsState(
     (state: DialogsStore) => state.updateDeletePropertyDialogOpen
   );
+
+  const handleDelete = async () => {
+    setIsDeleting(true);
+    try {
+      const result = await deleteProperty(property.id);
+      if (result.success) {
+        updateDeletePropertyDialogOpen(); // Close the dialog
+        router.refresh(); // Refresh the page to reflect the changes
+      } else {
+        alert(result.message); // Show error message
+      }
+    } catch (error) {
+      console.error("Error deleting property:", error);
+      alert("An error occurred while deleting the property.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <Dialog
@@ -41,11 +63,13 @@ export function DeletePropertyDialog({ property }) {
 
         <DialogFooter>
           <Button
-            type="submit"
+            type="button"
             variant="destructive"
             className="w-full rounded-full"
+            onClick={handleDelete}
+            disabled={isDeleting}
           >
-            Delete
+            {isDeleting ? "Deleting..." : "Delete"}
           </Button>
         </DialogFooter>
       </DialogContent>

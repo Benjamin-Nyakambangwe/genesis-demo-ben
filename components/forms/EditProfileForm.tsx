@@ -8,7 +8,13 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { submitEditProfileFormAction } from "@/lib/submitEditProfileFormAction";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 export default function EditTenantProfileForm({
   className,
   data,
@@ -49,6 +55,27 @@ export default function EditTenantProfileForm({
           defaultValue={data.phone}
           className="focus-visible:ring-red-600 focus:border-0"
         />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="id_number">National ID</Label>
+        <Input
+          id="id_number"
+          name="id_number"
+          type="text"
+          defaultValue={data.id_number}
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="marital_status">Marital Status</Label>
+        <Select name="marital_status" defaultValue={data.marital_status}>
+          <SelectTrigger>
+            <SelectValue placeholder="Select marital status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="single">Single</SelectItem>
+            <SelectItem value="married">Married</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
       <div className="grid gap-2">
         <Label htmlFor="alternate_phone">Alternate Phone Number</Label>

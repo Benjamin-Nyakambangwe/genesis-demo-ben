@@ -1,9 +1,9 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { submitEditTenantProfileFormAction } from "@/lib/submitEditTenantProfileFormAction";
+import { submitEditProfileFormAction } from "@/lib/submitEditProfileFormAction";
 
-const IdUploadButton = () => {
+const LandlordProfileImageUploadButton = () => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -14,18 +14,18 @@ const IdUploadButton = () => {
     setIsUploading(true);
 
     const formData = new FormData();
-    formData.append("id_image", file);
+    formData.append("profile_image", file);
 
     try {
-      const result = await submitEditTenantProfileFormAction(formData);
+      const result = await submitEditProfileFormAction(formData);
       if (result.success) {
-        alert("ID image uploaded successfully");
+        alert("Profile image uploaded successfully");
       } else {
-        alert();
+        alert(result.message);
       }
     } catch (error) {
-      console.error("Error uploading ID image:", error);
-      alert("An error occurred while uploading the ID image");
+      console.error("Error uploading profile image:", error);
+      alert("An error occurred while uploading the profile image");
     } finally {
       setIsUploading(false);
     }
@@ -41,18 +41,19 @@ const IdUploadButton = () => {
         type="file"
         ref={fileInputRef}
         onChange={handleUpload}
-        accept="image/*"
+        accept="image/*,.pdf,.doc,.docx"
         style={{ display: "none" }}
       />
       <Button
         onClick={triggerFileInput}
         disabled={isUploading}
-        className="w-full rounded-full bg-red-600"
+        className="w-full rounded-full text-red-600 border-red-600 border-2 hover:bg-red-600 hover:text-white"
+        variant="outline"
       >
-        {isUploading ? "Uploading..." : "Upload ID Image"}
+        {isUploading ? "Uploading..." : "Upload Profile Image"}
       </Button>
     </div>
   );
 };
 
-export default IdUploadButton;
+export default LandlordProfileImageUploadButton;

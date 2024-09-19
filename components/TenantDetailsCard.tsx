@@ -1,147 +1,150 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+"use client";
 
-interface TenantDetails {
-  date_of_birth: string | null;
-  gender: string | null;
-  phone: string | null;
-  emergency_contact_name: string | null;
-  emergency_contact_phone: string | null;
-  occupation: string | null;
-  employer: string | null;
-  work_phone: string | null;
-  preferred_lease_term: string | null;
-  max_rent: number | null;
-  preferred_move_in_date: string | null;
-  preferred_area: string | null;
-  number_of_occupants: number | null;
-  pets: boolean;
-  pet_details: string | null;
-  smoker: boolean;
-  has_vehicle: boolean;
-  num_of_vehicles: number | null;
-  criminal_record: boolean;
-  personal_reference_1_name: string | null;
-  personal_reference_1_phone: string | null;
-  personal_reference_1_relation: string | null;
-  personal_reference_2_name: string | null;
-  personal_reference_2_phone: string | null;
-  personal_reference_2_relation: string | null;
-  additional_notes: string | null;
-}
+import { useTenantDetailsStore } from "@/store/tenantDetails";
+import { useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 
-const TenantDetailsCard: React.FC<{ tenantDetails: TenantDetails }> = ({
-  tenantDetails,
-}) => {
+export default function TenantDetailsCard({ initialTenantDetails }) {
+  const { tenantDetails, updateTenantDetails } = useTenantDetailsStore();
+
+  useEffect(() => {
+    updateTenantDetails(initialTenantDetails);
+  }, [initialTenantDetails, updateTenantDetails]);
+
+  const displayDetails = tenantDetails || initialTenantDetails;
+
   return (
-    <Card className="w-[90%] mx-auto">
-      <CardHeader>
-        <CardTitle>Tenant Details</CardTitle>
-        <CardDescription>Detailed information about the tenant</CardDescription>
-      </CardHeader>
+    <Card className="w-full">
       <CardContent>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <InfoItem label="Date of Birth" value={tenantDetails.date_of_birth} />
-          <InfoItem label="Gender" value={tenantDetails.gender} />
-          <InfoItem label="Phone" value={tenantDetails.phone} />
-          <InfoItem
-            label="Emergency Contact"
-            value={tenantDetails.emergency_contact_name}
-          />
-          <InfoItem
-            label="Emergency Contact Phone"
-            value={tenantDetails.emergency_contact_phone}
-          />
-          <InfoItem label="Occupation" value={tenantDetails.occupation} />
-          <InfoItem label="Employer" value={tenantDetails.employer} />
-          <InfoItem label="Work Phone" value={tenantDetails.work_phone} />
-          <InfoItem
-            label="Preferred Lease Term"
-            value={tenantDetails.preferred_lease_term}
-          />
-          <InfoItem
-            label="Max Rent"
-            value={tenantDetails.max_rent?.toString()}
-          />
-          <InfoItem
-            label="Preferred Move-in Date"
-            value={tenantDetails.preferred_move_in_date}
-          />
-          <InfoItem
-            label="Preferred Area"
-            value={tenantDetails.preferred_area}
-          />
-          <InfoItem
-            label="Number of Occupants"
-            value={tenantDetails.number_of_occupants?.toString()}
-          />
-          <InfoItem label="Pets" value={tenantDetails.pets ? "Yes" : "No"} />
-          <InfoItem label="Pet Details" value={tenantDetails.pet_details} />
-          <InfoItem
-            label="Smoker"
-            value={tenantDetails.smoker ? "Yes" : "No"}
-          />
-          <InfoItem
-            label="Has Vehicle"
-            value={tenantDetails.has_vehicle ? "Yes" : "No"}
-          />
-          <InfoItem
-            label="Number of Vehicles"
-            value={tenantDetails.num_of_vehicles?.toString()}
-          />
-          <InfoItem
-            label="Criminal Record"
-            value={tenantDetails.criminal_record ? "Yes" : "No"}
-          />
-          <InfoItem
-            label="Personal Reference 1"
-            value={tenantDetails.personal_reference_1_name}
-          />
-          <InfoItem
-            label="Reference 1 Phone"
-            value={tenantDetails.personal_reference_1_phone}
-          />
-          <InfoItem
-            label="Reference 1 Relation"
-            value={tenantDetails.personal_reference_1_relation}
-          />
-          <InfoItem
-            label="Personal Reference 2"
-            value={tenantDetails.personal_reference_2_name}
-          />
-          <InfoItem
-            label="Reference 2 Phone"
-            value={tenantDetails.personal_reference_2_phone}
-          />
-          <InfoItem
-            label="Reference 2 Relation"
-            value={tenantDetails.personal_reference_2_relation}
-          />
+        <h2 className="text-2xl font-bold mb-4">Tenant Details</h2>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p>
+              <strong>Name:</strong> {displayDetails?.user.first_name}{" "}
+              {displayDetails?.user.last_name}
+            </p>
+            <p>
+              <strong>National ID:</strong> {displayDetails?.id_number}
+            </p>
+            <p>
+              <strong>Email:</strong> {displayDetails?.user.email}
+            </p>
+            <p>
+              <strong>Phone:</strong> {displayDetails?.phone}
+            </p>
+            <p>
+              <strong>Date of Birth:</strong> {displayDetails?.date_of_birth}
+            </p>
+            <p>
+              <strong>Gender:</strong> {displayDetails?.gender}
+            </p>
+            <p>
+              <strong>Marital Status:</strong> {displayDetails?.marital_status}
+            </p>
+            <p>
+              <strong>Occupation:</strong> {displayDetails?.occupation}
+            </p>
+            <p>
+              <strong>Employer:</strong> {displayDetails?.employer}
+            </p>
+            <p>
+              <strong>Work Phone:</strong> {displayDetails?.work_phone}
+            </p>
+          </div>
+          <div>
+            <p>
+              <strong>Emergency Contact:</strong>{" "}
+              {displayDetails?.emergency_contact_name}
+            </p>
+            <p>
+              <strong>Emergency Contact Phone:</strong>{" "}
+              {displayDetails?.emergency_contact_phone}
+            </p>
+            <p>
+              <strong>Preferred Lease Term:</strong>{" "}
+              {displayDetails?.preferred_lease_term} months
+            </p>
+            <p>
+              <strong>Max Rent:</strong> ${displayDetails?.max_rent}
+            </p>
+            <p>
+              <strong>Preferred Move-in Date:</strong>{" "}
+              {displayDetails?.preferred_move_in_date}
+            </p>
+            <p>
+              <strong>Preferred Area:</strong> {displayDetails?.preferred_area}
+            </p>
+            <p>
+              <strong>Number of Occupants:</strong>{" "}
+              {displayDetails?.number_of_occupants}
+            </p>
+            <p>
+              <strong>Pets:</strong> {displayDetails?.pets ? "Yes" : "No"}
+            </p>
+            {displayDetails?.pets && (
+              <p>
+                <strong>Pet Details:</strong> {displayDetails?.pet_details}
+              </p>
+            )}
+            <p>
+              <strong>Smoker:</strong> {displayDetails?.smoker ? "Yes" : "No"}
+            </p>
+            <p>
+              <strong>Has Vehicle:</strong>{" "}
+              {displayDetails?.has_vehicle ? "Yes" : "No"}
+            </p>
+            {displayDetails?.has_vehicle && (
+              <p>
+                <strong>Number of Vehicles:</strong>{" "}
+                {displayDetails?.num_of_vehicles}
+              </p>
+            )}
+            <p>
+              <strong>Criminal Record:</strong>{" "}
+              {displayDetails?.criminal_record ? "Yes" : "No"}
+            </p>
+          </div>
         </div>
-        {tenantDetails.additional_notes && (
+        <div className="mt-4">
+          <h3 className="text-xl font-semibold mb-2">Personal References</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <p>
+                <strong>Reference 1 Name:</strong>{" "}
+                {displayDetails?.personal_reference_1_name}
+              </p>
+              <p>
+                <strong>Reference 1 Phone:</strong>{" "}
+                {displayDetails?.personal_reference_1_phone}
+              </p>
+              <p>
+                <strong>Reference 1 Relation:</strong>{" "}
+                {displayDetails?.personal_reference_1_relation}
+              </p>
+            </div>
+            <div>
+              <p>
+                <strong>Reference 2 Name:</strong>{" "}
+                {displayDetails?.personal_reference_2_name}
+              </p>
+              <p>
+                <strong>Reference 2 Phone:</strong>{" "}
+                {displayDetails?.personal_reference_2_phone}
+              </p>
+              <p>
+                <strong>Reference 2 Relation:</strong>{" "}
+                {displayDetails?.personal_reference_2_relation}
+              </p>
+            </div>
+          </div>
+        </div>
+        {displayDetails?.additional_notes && (
           <div className="mt-4">
-            <h3 className="font-semibold">Additional Notes:</h3>
-            <p>{tenantDetails.additional_notes}</p>
+            <h3 className="text-xl font-semibold mb-2">Additional Notes</h3>
+            <p>{displayDetails?.additional_notes}</p>
           </div>
         )}
       </CardContent>
     </Card>
   );
-};
-
-const InfoItem: React.FC<{ label: string; value: string | null }> = ({
-  label,
-  value,
-}) => (
-  <div>
-    <span className="font-semibold">{label}:</span> {value || "N/A"}
-  </div>
-);
-
-export default TenantDetailsCard;
+}

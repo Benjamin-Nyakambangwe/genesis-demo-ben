@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ConsentCheckbox } from "@/components/ConsentCheckbox";
 
 export function RegisterForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -127,7 +128,13 @@ export function RegisterForm() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button type="submit" className="w-full bg-red-600">
+              <ConsentCheckbox />
+              <Button
+                type="submit"
+                className="w-full bg-red-600"
+                id="submit-button"
+                disabled
+              >
                 Create an account
               </Button>
               {/* <Button variant="outline" className="w-full">

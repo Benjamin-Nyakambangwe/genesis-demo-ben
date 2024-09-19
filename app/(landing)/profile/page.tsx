@@ -12,6 +12,11 @@ import TenantDetailsCard from "@/components/TenantDetailsCard";
 import IdUploadButton from "@/components/IdUploadButton";
 import { EditPropertyDialog } from "@/components/EditPropertyDialog";
 import { usePropertiesStore } from "@/store/properties";
+import LandlordIdUploadButton from "@/components/LandlordIdUploadButton";
+import LandlordProfileImageUploadButton from "@/components/LandloadProfileImageUploadButton";
+import ProofOfEmploymentUploadButton from "@/components/ProofOfEmploymentUploadButton";
+import ProofOfResidenceUploadButton from "@/components/ProofOfResidenceUploadButton";
+import TenantProfileImageUploadButton from "@/components/TenantProfileImageUploadButton";
 
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
@@ -149,9 +154,9 @@ const ProfilePage = async () => {
       <div className="flex justify-between max-w-[100vw]">
         <Card className="">
           <CardContent>
-            <div className=" mt-20 flex flex-col justify-center items-center">
+            <div className=" mt-7 flex flex-col justify-center items-center">
               <Image
-                src="/img/person.jpg"
+                src="/img/avatar.png"
                 alt="@shadcn"
                 width={150}
                 height={150}
@@ -184,12 +189,21 @@ const ProfilePage = async () => {
                 </div>
               </div>
 
-              <div className="flex justify-between mt-4">
+              <div className="grid grid-cols-1 gap-4 mt-4">
                 <EditProfileButton />
                 {userType?.includes("landlord") ? (
-                  <AddNewPropertyButton />
+                  <>
+                    <AddNewPropertyButton />
+                    <LandlordIdUploadButton />
+                    <ProofOfResidenceUploadButton />
+                    <LandlordProfileImageUploadButton />
+                  </>
                 ) : (
-                  <IdUploadButton />
+                  <>
+                    <IdUploadButton />
+                    <ProofOfEmploymentUploadButton />
+                    <TenantProfileImageUploadButton />
+                  </>
                 )}
               </div>
             </div>
@@ -203,7 +217,7 @@ const ProfilePage = async () => {
         ) : (
           <div className="w-[90%]">
             {/* <ProfilePropertySlider data={properties} /> */}
-            <TenantDetailsCard tenantDetails={data} />
+            <TenantDetailsCard initialTenantDetails={data} />
           </div>
         )}
       </div>

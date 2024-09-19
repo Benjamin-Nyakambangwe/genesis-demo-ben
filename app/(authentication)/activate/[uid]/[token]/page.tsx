@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { toast } from "sonner";
 
 interface Props {
   params: {
@@ -39,7 +40,12 @@ const ActivatePage = ({ params }: Props) => {
         );
 
         if (res.status === 204) {
-          alert("Account activated successfully. You can now login.");
+          toast.success("Account activated successfully.", {
+            description: "Please login to continue",
+            duration: 5000,
+            position: "top-right",
+          });
+
           router.push("/auth/login");
         } else {
           const data = await res.json();
@@ -48,7 +54,12 @@ const ActivatePage = ({ params }: Props) => {
         }
       } catch (error) {
         console.error("Activation request error:", error);
-        alert("An error occurred during account activation.");
+        // alert("An error occurred during account activation.");
+        toast.success("An error occurred during account activation.", {
+          description: "Please try again or contact support",
+          duration: 5000,
+          position: "top-right",
+        });
       }
     };
 

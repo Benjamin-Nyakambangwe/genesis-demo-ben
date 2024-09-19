@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
 
 const ForgotPasswordPage = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,9 +29,17 @@ const ForgotPasswordPage = () => {
     // console.log(data);
 
     if (res.status === 204) {
-      alert("Email sent successfully");
+      toast.success("Email sent successfully", {
+        description: "Please check your email for the reset password link",
+        duration: 5000,
+        position: "top-right",
+      });
     } else {
-      alert("Failed to send email");
+      toast.error("Failed to send email", {
+        description: "Something went wrong please try again",
+        duration: 5000,
+        position: "top-right",
+      });
     }
   };
 

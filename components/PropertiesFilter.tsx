@@ -50,6 +50,8 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
     updateAcceptsSmokers,
     updateHasPool,
     updateHasGarden,
+    updateMinArea,
+    updateMaxArea,
   } = useFilterState();
 
   const handleSearch = (e) => {
@@ -66,6 +68,8 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
     updateAcceptsSmokers(acceptsSmokers);
     updateHasGarden(hasGarden);
     updateHasPool(hasPool);
+    updateMinArea(Number(minArea));
+    updateMaxArea(Number(maxArea));
 
     // You might want to add updates for pool and garden if they're in your Zustand store
     console.log("Search triggered with current state:", {
@@ -81,6 +85,8 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
       acceptsSmokers,
       hasPool,
       hasGarden,
+      minArea,
+      maxArea,
     });
   };
 

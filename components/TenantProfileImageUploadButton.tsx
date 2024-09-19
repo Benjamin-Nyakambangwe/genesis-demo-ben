@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { submitEditTenantProfileFormAction } from "@/lib/submitEditTenantProfileFormAction";
 
-const IdUploadButton = () => {
+const TenantProfileImageUploadButton = () => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -14,18 +14,18 @@ const IdUploadButton = () => {
     setIsUploading(true);
 
     const formData = new FormData();
-    formData.append("id_image", file);
+    formData.append("profile_image", file);
 
     try {
       const result = await submitEditTenantProfileFormAction(formData);
       if (result.success) {
-        alert("ID image uploaded successfully");
+        alert("Profile image uploaded successfully");
       } else {
         alert();
       }
     } catch (error) {
-      console.error("Error uploading ID image:", error);
-      alert("An error occurred while uploading the ID image");
+      console.error("Error uploading profile image:", error);
+      alert("An error occurred while uploading the profile image");
     } finally {
       setIsUploading(false);
     }
@@ -49,10 +49,10 @@ const IdUploadButton = () => {
         disabled={isUploading}
         className="w-full rounded-full bg-red-600"
       >
-        {isUploading ? "Uploading..." : "Upload ID Image"}
+        {isUploading ? "Uploading..." : "Upload Profile Image"}
       </Button>
     </div>
   );
 };
 
-export default IdUploadButton;
+export default TenantProfileImageUploadButton;

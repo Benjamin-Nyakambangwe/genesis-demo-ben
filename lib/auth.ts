@@ -31,11 +31,13 @@ export async function login(formData: FormData) {
   try {
     const res = await fetch("http://127.0.0.1:8000/auth/jwt/create/", options);
 
+    const data = await res.json();
     if (!res.ok) {
-      throw new Error("Login failed");
+      console.log(data);
+      return { success: false, data };
+      // throw new Error(`Login failed: ${res.status} ${res.statusText}`);
     }
 
-    const data = await res.json();
     // console.log("DATA", data);
 
     // Decrypt the access token
