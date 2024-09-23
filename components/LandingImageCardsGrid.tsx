@@ -21,7 +21,7 @@ export const Card = React.memo(
       className={cn(
         "rounded-lg relative bg-gray-100 dark:bg-neutral-900 overflow-hidden h-60 md:h-96 w-full transition-all duration-300 ease-out",
         hovered !== null && hovered !== index && "blur-sm scale-[0.98]",
-        hovered === index && "border-4 border-red-600" // Add red border when hovered
+        hovered === index && "border-4 border-[#344E41]" // Add red border when hovered
       )}
     >
       <Image

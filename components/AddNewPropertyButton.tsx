@@ -26,7 +26,7 @@ const AddNewPropertyButton = () => {
   return (
     <>
       <Button
-        className="ml-2 bg-red-600 rounded-full"
+        className="ml-2 bg-[#344E41] hover:bg-[#A3B18A] rounded-full"
         onClick={() => updateAddNewPropertyDialogOpen()}
       >
         New Listing

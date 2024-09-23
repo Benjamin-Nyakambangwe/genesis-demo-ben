@@ -19,7 +19,7 @@ const CustomPrevArrow: React.FC<any> = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", color: "red" }}
+      style={{ ...style, display: "block", color: "#344E41" }}
       onClick={onClick}
     >
       <ChevronLeft className="h-10 w-10 " />
@@ -32,7 +32,7 @@ const CustomNextArrow: React.FC<any> = (props) => {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", color: "red" }}
+      style={{ ...style, display: "block", color: "#344E41" }}
       onClick={onClick}
     >
       <ChevronRight className="h-10 w-10 " />
@@ -79,7 +79,7 @@ const ProfilePropertySlider: React.FC<ProfilePropertySliderProps> = ({
   };
 
   return (
-    <div className="w-full text-red-600">
+    <div className="w-full text-[#344E41">
       <Slider {...settings}>
         {properties.map((property) => (
           <div key={property.id} className="px-2">

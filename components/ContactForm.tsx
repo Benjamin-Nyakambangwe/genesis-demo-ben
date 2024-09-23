@@ -15,7 +15,7 @@ import { Textarea } from "./ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import Image from "next/image";
 import { Phone, MessageCircle } from "lucide-react";
-
+import Link from "next/link";
 interface FormData {
   firstName: string;
   lastName: string;
@@ -128,9 +128,10 @@ export default function ContactForm({ listingId }: ContactFormProps) {
         <CardTitle className="text-center p-4">Housing Investment</CardTitle>
         <Button
           variant="outline"
-          className="w-full mb-2 text-red-600 border-red-600"
+          className="w-full mb-2 text-[#344E41] border-[#344E41]"
         >
-          <Phone className="h-3 w-3 mr-2 text-red-600" /> Reveal Owner's Contact
+          <Phone className="h-3 w-3 mr-2 text-[#344E41]" /> Reveal Owner's
+          Contact
         </Button>
         {/* <Button
           variant="outline"
@@ -156,7 +157,7 @@ export default function ContactForm({ listingId }: ContactFormProps) {
           </div>
           <CardFooter className="flex flex-col items-center mt-4">
             <Button
-              className="w-full bg-red-600 text-white rounded-full"
+              className="w-full bg-[#344E41] text-[#DAD7CD] hover:bg-[#A3B18A] rounded-full"
               type="submit"
               disabled={isSubmitting}
             >
@@ -165,8 +166,8 @@ export default function ContactForm({ listingId }: ContactFormProps) {
             <div>
               <p className="text-xs text-center mt-2">
                 By sending inquiry messages, you agree to our{" "}
-                <span className="text-red-600 font-bold">
-                  Terms and Conditions.
+                <span className="text-[#344E41] font-bold">
+                  <Link href="/terms-of-service">Terms and Conditions.</Link>
                 </span>
               </p>
             </div>

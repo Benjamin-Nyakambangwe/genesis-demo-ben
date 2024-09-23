@@ -156,7 +156,7 @@ const ProfilePage = async () => {
           <CardContent>
             <div className=" mt-7 flex flex-col justify-center items-center">
               <Image
-                src="/img/avatar.png"
+                src={data?.profile_image || "/img/avatar.png"}
                 alt="@shadcn"
                 width={150}
                 height={150}
@@ -172,19 +172,19 @@ const ProfilePage = async () => {
         </Avatar> */}
               <div className="flex flex-col items-start mt-4">
                 <div className="flex justify-between">
-                  <User className="h-4 w-4 text-red-600 mr-2" />
+                  <User className="h-4 w-4 text-[#344E41] mr-2" />
                   <h2>
                     {data?.user.first_name} {data?.user.last_name}
                   </h2>
                 </div>
 
                 <div className="flex justify-between">
-                  <Mail className="h-4 w-4 text-red-600 mr-2" />
+                  <Mail className="h-4 w-4 text-[#344E41] mr-2" />
 
                   <h3>{data?.user.email}</h3>
                 </div>
                 <div className="flex justify-between">
-                  <Phone className="h-4 w-4 text-red-600 mr-2" />
+                  <Phone className="h-4 w-4 text-[#344E41] mr-2" />
                   <h3>{data?.phone}</h3>
                 </div>
               </div>

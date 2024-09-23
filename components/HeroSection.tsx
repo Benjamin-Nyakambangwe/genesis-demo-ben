@@ -11,7 +11,7 @@ export function HeroSection() {
     { text: "Best" },
     { text: "Accomodation" },
     { text: "With" },
-    { text: "ROJA.", className: "text-red-600" },
+    { text: "ROJA.", className: "text-[#344E41]" },
   ];
 
   return (
@@ -27,18 +27,18 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
       <div className="relative z-10 flex flex-col items-center">
-        <p className="text-neutral-200 text-xs sm:text-base mb-4">
+        <p className=" text-xs sm:text-base mb-4 text-[#A3B18A]">
           The road to freedom starts from here
         </p>
         <TypewriterEffectSmooth words={words} />
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 mt-8">
           <Button
             variant="outline"
-            className="border-red-600 border-2 rounded-full text-red-600 font-bold bg-transparent"
+            className="border-[#344E41] border-2 rounded-full text-[#DAD7CD] font-bold bg-transparent"
           >
             <Link href="/auth/login">Join now</Link>
           </Button>
-          <Button className="rounded-full bg-red-600 text-white font-bold">
+          <Button className="rounded-full bg-[#344E41] text-[#DAD7CD] font-bold">
             <Link href="/properties">View Listings</Link>
           </Button>
 

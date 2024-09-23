@@ -40,7 +40,7 @@ const PropertiesHeader: React.FC = ({ numOfHouses }) => {
             <span className="text-sm font-medium">Sort By:</span>
           </div> */}
 
-          <div className="text-sm font-medium w-full sm:w-auto text-center sm:text-left text-red-600">
+          <div className="text-sm font-medium w-full sm:w-auto text-center sm:text-left text-[#344E41]">
             <span className="font-bold">{numOfHouses}</span> Search Results
           </div>
 
@@ -48,7 +48,7 @@ const PropertiesHeader: React.FC = ({ numOfHouses }) => {
             <Button
               variant="outline"
               size="sm"
-              className="mr-2 text-red-600 border-red-600"
+              className="mr-2 text-[#344E41] border-[#344E41]"
               onClick={switchToList}
             >
               <List className="h-4 w-4" />
@@ -56,7 +56,7 @@ const PropertiesHeader: React.FC = ({ numOfHouses }) => {
             <Button
               variant="outline"
               size="sm"
-              className="text-red-600 border-red-600"
+              className="text-[#344E41] border-[#344E41]"
               onClick={switchToGrid}
             >
               <LayoutGrid className="h-4 w-4" />

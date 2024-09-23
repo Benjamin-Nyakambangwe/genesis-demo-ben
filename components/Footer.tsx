@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <div className="block md:flex justify-between items-center p-5 text-white bg-red-600">
-      <div className="block md:flex">
+    <div className="block md:flex justify-between items-center p-5 text-[#DAD7CD] bg-[#344E41]">
+      <div className="block md:flex container">
         <h5 className="mr-3">&copy; {new Date().getFullYear()} ROJA </h5>
         <h5>All Rights Reserved </h5>
       </div>

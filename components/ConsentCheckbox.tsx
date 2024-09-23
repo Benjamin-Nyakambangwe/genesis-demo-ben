@@ -25,11 +25,11 @@ export function ConsentCheckbox() {
       />
       <Label htmlFor="consent" className="text-sm">
         I agree to the{" "}
-        <a href="/terms-of-service" className="text-red-600 underline">
+        <a href="/terms-of-service" className="text-[#344E41] underline">
           Terms of Service
         </a>{" "}
         and{" "}
-        <a href="/privacy-policy" className="text-red-600 underline">
+        <a href="/privacy-policy" className="text-[#344E41] underline">
           Privacy Policy
         </a>
       </Label>

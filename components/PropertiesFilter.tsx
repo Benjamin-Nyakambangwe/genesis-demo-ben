@@ -100,7 +100,7 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
               <Select value={propertyType} onValueChange={setPropertyType}>
                 <SelectTrigger
                   id="property-type"
-                  className="focus:ring-2 focus:ring-red-600 focus-visible:ring-2 focus-visible:ring-red-600 focus:outline-none border-input"
+                  className="focus:ring-2 focus:ring-[#344E41] focus-visible:ring-2 focus-visible:ring-[#344E41] focus:outline-none border-input"
                 >
                   <SelectValue placeholder="Property Types" />
                 </SelectTrigger>
@@ -117,7 +117,7 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
               <Select value={location} onValueChange={setLocation}>
                 <SelectTrigger
                   id="location"
-                  className="focus:ring-2 focus:ring-red-600 focus-visible:ring-2 focus-visible:ring-red-600 focus:outline-none border-input"
+                  className="focus:ring-2 focus:ring-[#344E41] focus-visible:ring-2 focus-visible:ring-[#344E41] focus:outline-none border-input"
                 >
                   <SelectValue placeholder="Location" />
                 </SelectTrigger>
@@ -136,42 +136,42 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
                 placeholder="Min. Price"
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
               <Input
                 id="max-price"
                 placeholder="Max. Price"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
               <Input
                 id="min-beds"
                 placeholder="Min. Beds"
                 value={minBeds}
                 onChange={(e) => setMinBeds(e.target.value)}
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
               <Input
                 id="max-beds"
                 placeholder="Max. Beds"
                 value={maxBeds}
                 onChange={(e) => setMaxBeds(e.target.value)}
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
               <Input
                 id="min-baths"
                 placeholder="Min. Baths"
                 value={minBaths}
                 onChange={(e) => setMinBaths(e.target.value)}
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
               <Input
                 id="max-baths"
                 placeholder="Max. Baths"
                 value={maxBaths}
                 onChange={(e) => setMaxBaths(e.target.value)}
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">
@@ -180,7 +180,7 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
                   id="accepts_pets"
                   checked={acceptsPets}
                   onCheckedChange={setAcceptsPets}
-                  className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+                  className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
                 />
                 <Label htmlFor="accepts_pets">Accepts Pets</Label>
               </div>
@@ -189,7 +189,7 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
                   id="accepts_smokers"
                   checked={acceptsSmokers}
                   onCheckedChange={setAcceptsSmokers}
-                  className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+                  className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
                 />
                 <Label htmlFor="accepts_smokers">Accepts Smokers</Label>
               </div>
@@ -198,7 +198,7 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
                   id="pool"
                   checked={hasPool}
                   onCheckedChange={setHasPool}
-                  className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+                  className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
                 />
                 <Label htmlFor="pool">Pool</Label>
               </div>
@@ -207,7 +207,7 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
                   id="garden"
                   checked={hasGarden}
                   onCheckedChange={setHasGarden}
-                  className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+                  className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
                 />
                 <Label htmlFor="garden">Garden</Label>
               </div>
@@ -218,18 +218,21 @@ export default function PropertiesFilter({ houseLocations, houseTypes }) {
                 placeholder="Min. Area"
                 value={minArea}
                 onChange={(e) => setMinArea(e.target.value)}
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
               <Input
                 id="max-area"
                 placeholder="Max. Area"
                 value={maxArea}
                 onChange={(e) => setMaxArea(e.target.value)}
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
             </div>
           </div>
-          <Button className="w-full mt-4 bg-red-600 rounded-full" type="submit">
+          <Button
+            className="w-full mt-4 bg-[#344E41] hover:bg-[#A3B18A] text-[#DAD7CD] rounded-full"
+            type="submit"
+          >
             Search
           </Button>
         </form>

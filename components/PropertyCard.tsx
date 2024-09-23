@@ -130,13 +130,13 @@ export default function CardWithForm({
           ></div>
           {edit && (
             <div className="absolute top-2 left-2 flex space-x-2">
-              <div className="bg-red-600 text-white px-2 py-1 text-xs rounded cursor-pointer">
+              <div className="bg-[#344E41] text-white px-2 py-1 text-xs rounded cursor-pointer">
                 <Settings
                   className="h-4 w-4 text-white"
                   onClick={editProperty}
                 />
               </div>
-              <div className="bg-red-600 text-white px-2 py-1 text-xs rounded cursor-pointer">
+              <div className="bg-[#344E41] text-white px-2 py-1 text-xs rounded cursor-pointer">
                 <Trash2
                   className="h-4 w-4 text-white"
                   onClick={() => updateDeletePropertyDialogOpen()}
@@ -150,7 +150,7 @@ export default function CardWithForm({
           >
             <Heart
               className={`h-5 w-5 ${
-                isFavorite ? "text-red-600 fill-red-600" : "text-gray-400"
+                isFavorite ? "text-[#344E41] fill-[#344E41]" : "text-gray-400"
               }`}
             />
           </button>
@@ -168,15 +168,15 @@ export default function CardWithForm({
 
           <div className="flex justify-between text-sm">
             <div className="flex items-center">
-              <Bath className="h-4 w-4 mr-1 hidden md:flex text-red-600" />
+              <Bath className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
               <span>{property.bathrooms} Bath</span>
             </div>
             <div className="flex items-center">
-              <Bed className="h-4 w-4 mr-1 hidden md:flex text-red-600" />
+              <Bed className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
               <span>{property.bedrooms} Beds</span>
             </div>
             <div className="flex items-center">
-              <Square className="h-4 w-4 mr-1 hidden md:flex text-red-600" />
+              <Square className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
               <span className="pr-1">{property.area}</span> sqm
             </div>
           </div>
@@ -184,20 +184,20 @@ export default function CardWithForm({
           <div className="flex justify-between text-sm mt-2">
             {property.accepts_pets && (
               <div className="flex items-center">
-                <Dog className="h-4 w-4 mr-1 hidden md:flex text-red-600" />
+                <Dog className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
                 <span>Pets</span>
               </div>
             )}
 
             {property.pool && (
               <div className="flex items-center">
-                <Droplets className="h-4 w-4 mr-1 hidden md:flex text-red-600" />
+                <Droplets className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
                 <span>Pool</span>
               </div>
             )}
             {property.garden && (
               <div className="flex items-center">
-                <Vegan className="h-4 w-4 mr-1 hidden md:flex text-red-600" />
+                <Vegan className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
                 <span>Garden</span>
               </div>
             )}
@@ -211,13 +211,13 @@ export default function CardWithForm({
               size="icon"
               className="flex items-center font-bold"
             >
-              <DollarSign className="h-4 w-4 text-red-600" />
+              <DollarSign className="h-4 w-4 text-[#344E41]" />
               {property.price}/months
             </div>
           </div>
           <Button
             variant="outline"
-            className="h-8 border-red-600 text-red-600 border-2 rounded-full"
+            className="h-8 border-[#344E41] text-[#344E41] hover:bg-[#A3B18A] hover:text-white font-bold border-2 rounded-full"
           >
             Details
           </Button>

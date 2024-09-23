@@ -56,8 +56,8 @@ export default function CommentSection({
           {comments.map((comment) => {
             console.log("Comment date:", comment.created_at); // This line is fine now
             return (
-              <div key={comment.id} className="border-b pb-2 border-red-600">
-                <p className="font-semibold text-red-600">{comment.tenant}</p>
+              <div key={comment.id} className="border-b pb-2 border-[#344E41]">
+                <p className="font-semibold text-[#344E41]">{comment.tenant}</p>
                 <p className="text-sm text-gray-600">
                   {formatRelativeTime(comment.created_at)}
                 </p>
@@ -73,10 +73,10 @@ export default function CommentSection({
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Add a comment....."
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
         {tenant ? (
-          <Button type="submit" className="bg-red-600">
+          <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
             Post Comment
           </Button>
         ) : (

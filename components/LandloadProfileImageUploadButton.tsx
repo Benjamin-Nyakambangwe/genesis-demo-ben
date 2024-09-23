@@ -47,7 +47,7 @@ const LandlordProfileImageUploadButton = () => {
       <Button
         onClick={triggerFileInput}
         disabled={isUploading}
-        className="w-full rounded-full text-red-600 border-red-600 border-2 hover:bg-red-600 hover:text-white"
+        className="w-full rounded-full text-[#344E41] border-[#344E41] border-2 font-bold hover:text-white"
         variant="outline"
       >
         {isUploading ? "Uploading..." : "Upload Profile Image"}

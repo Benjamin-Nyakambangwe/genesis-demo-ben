@@ -242,7 +242,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                 <h3 className="text-xl font-semibold mb-4">Property Details</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div className="flex items-center space-x-2">
-                    <div className="text-red-600">
+                    <div className="text-[#344E41]">
                       <Home className="h-5 w-5" />
                     </div>
                     <div>
@@ -251,7 +251,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="text-red-600">
+                    <div className="text-[#344E41]">
                       <MapPin className="h-5 w-5" />
                     </div>
                     <div>
@@ -261,7 +261,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <div className="text-red-600">
+                    <div className="text-[#344E41]">
                       <Bed className="h-5 w-5" />
                     </div>
                     <div>
@@ -270,7 +270,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="text-red-600">
+                    <div className="text-[#344E41]">
                       <Bath className="h-5 w-5" />
                     </div>
                     <div>
@@ -279,7 +279,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="text-red-600">
+                    <div className="text-[#344E41]">
                       <DollarSign className="h-5 w-5" />
                     </div>
                     <div>
@@ -289,7 +289,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <div className="text-red-600">
+                    <div className="text-[#344E41]">
                       <PawPrint className="h-5 w-5" />
                     </div>
                     <div>
@@ -298,7 +298,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="text-red-600">
+                    <div className="text-[#344E41]">
                       <Cigarette className="h-5 w-5" />
                     </div>
                     <div>
@@ -308,7 +308,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <div className="text-red-600">
+                    <div className="text-[#344E41]">
                       <Droplets className="h-5 w-5" />
                     </div>
                     <div>
@@ -317,7 +317,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="text-red-600">
+                    <div className="text-[#344E41]">
                       <Vegan className="h-5 w-5" />
                     </div>
                     <div>

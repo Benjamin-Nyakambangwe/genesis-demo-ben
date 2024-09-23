@@ -44,7 +44,7 @@ export const LoginForm = async ({
       </CardHeader>
       <CardContent>
         {error && (
-          <p className="text-red-600 mb-4 text-sm">
+          <p className="text-[#344E41] mb-4 text-sm">
             {decodeURIComponent(error)}
           </p>
         )}
@@ -58,7 +58,7 @@ export const LoginForm = async ({
                 name="email"
                 placeholder="m@example.com"
                 required
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
             </div>
             <div className="grid gap-2">
@@ -66,7 +66,7 @@ export const LoginForm = async ({
                 <Label htmlFor="password">Password</Label>
                 <Link
                   href="/forgot-password"
-                  className="ml-auto inline-block text-sm underline"
+                  className="ml-auto inline-block text-sm underline text-[#344E41]"
                 >
                   Forgot your password?
                 </Link>
@@ -76,15 +76,14 @@ export const LoginForm = async ({
                 name="password"
                 type="password"
                 required
-                className="focus-visible:ring-red-600 focus:border-0"
+                className="focus-visible:ring-[#344E41] focus:border-0"
               />
             </div>
-          
+
             <Button
               type="submit"
-              className="w-full bg-red-600"
+              className="w-full bg-[#344E41] hover:bg-[#A3B18A]"
               id="submit-button"
-            
             >
               Login
             </Button>
@@ -94,7 +93,7 @@ export const LoginForm = async ({
             Don&apos;t have an account?{" "}
             <Link
               href="/auth/register"
-              className="underline text-red-600 font-bold"
+              className="underline text-[#344E41] font-bold"
             >
               Sign up
             </Link>

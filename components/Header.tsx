@@ -16,9 +16,9 @@ const Header: React.FC = ({ token }) => {
 
   const linkStyle = (href) => {
     const isActive = pathname === href;
-    return `block  py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 md:p-0 md:dark:hover:text-red-600 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+    return `block  py-2 px-3 rounded hover:bg-gray-100 hover:text-[#344E41] hover:font-bold md:hover:bg-transparent md:hover:text-[#344E41] md:p-0 md:dark:hover:text-red-600 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
       isActive
-        ? "text-red-600 font-bold border-b-2 border-red-600 font-bold"
+        ? "text-[#344E41] font-bold border-b-2 border-[#344E41] font-bold"
         : "text-gray-900"
     }`;
   };
@@ -36,7 +36,7 @@ const Header: React.FC = ({ token }) => {
           {token ? (
             <div className="flex justify-between">
               <Link href="/profile">
-                <Button className="bg-red-600 text-white rounded-full">
+                <Button className="bg-[#344E41] text-[#DAD7CD] rounded-full hover:bg-[#A3B18A]">
                   Visit Profile
                 </Button>
               </Link>

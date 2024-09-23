@@ -67,7 +67,7 @@ export function RegisterForm() {
                     name="first_name"
                     placeholder=""
                     required
-                    className="focus-visible:ring-red-600 focus:border-0"
+                    className="focus-visible:ring-[#344E41] focus:border-0"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -77,7 +77,7 @@ export function RegisterForm() {
                     name="last_name"
                     placeholder=""
                     required
-                    className="focus-visible:ring-red-600 focus:border-0"
+                    className="focus-visible:ring-[#344E41] focus:border-0"
                   />
                 </div>
               </div>
@@ -89,7 +89,7 @@ export function RegisterForm() {
                   name="email"
                   placeholder=""
                   required
-                  className="focus-visible:ring-red-600 focus:border-0"
+                  className="focus-visible:ring-[#344E41] focus:border-0"
                 />
               </div>
               <div className="grid gap-2">
@@ -98,7 +98,7 @@ export function RegisterForm() {
                   id="password"
                   name="password"
                   type="password"
-                  className="focus-visible:ring-red-600 focus:border-0"
+                  className="focus-visible:ring-[#344E41] focus:border-0"
                 />
               </div>
               <div className="grid gap-2">
@@ -107,14 +107,14 @@ export function RegisterForm() {
                   id="re_password"
                   name="re_password"
                   type="password"
-                  className="focus-visible:ring-red-600 focus:border-0"
+                  className="focus-visible:ring-[#344E41] focus:border-0"
                 />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="userType">Where Do You Fit</Label>
                 <Select name="user_type">
                   <SelectTrigger
-                    className="w-fullfocus:ring-2 focus:ring-red-600 focus-visible:ring-2 focus-visible:ring-red-600 focus:outline-none border-input
+                    className="w-fullfocus:ring-2 focus:ring-[#344E41] focus-visible:ring-2 focus-visible:ring-[#344E41] focus:outline-none border-input
 "
                   >
                     <SelectValue placeholder="Please Choose" />
@@ -131,7 +131,7 @@ export function RegisterForm() {
               <ConsentCheckbox />
               <Button
                 type="submit"
-                className="w-full bg-red-600"
+                className="w-full bg-[#344E41] hover:bg-[#A3B18A]"
                 id="submit-button"
                 disabled
               >
@@ -146,7 +146,7 @@ export function RegisterForm() {
             Already have an account?{" "}
             <Link
               href="/auth/login"
-              className="underline font-bold text-red-600"
+              className="underline font-bold text-[#344E41] "
             >
               Sign in
             </Link>
