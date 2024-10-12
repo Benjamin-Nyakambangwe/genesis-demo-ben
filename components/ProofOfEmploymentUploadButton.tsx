@@ -47,7 +47,7 @@ const ProofOfEmploymentUploadButton = () => {
       <Button
         onClick={triggerFileInput}
         disabled={isUploading}
-        className="w-full rounded-full text-[#344E41] border-[#344E41] border-2 font-bold hover:text-white"
+        className="w-full rounded-full text-[#344E41] border-[#344E41] hover:bg-[#A3B18A] border-2 font-bold hover:text-white"
         variant="outline"
       >
         {isUploading ? "Uploading..." : "Proof of Employment"}

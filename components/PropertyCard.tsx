@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { useDialogsState } from "@/store/dialogs";
 import { DeletePropertyDialog } from "./DeletePropertyDialog";
+import PropertyTenantsDrawer from "./PropertyTenantsDrawer";
 interface PropertyImage {
   filePath: string;
 }
@@ -50,6 +51,8 @@ interface DialogsStore {
   updateEditPropertyDialogOpen: () => void;
   isDeletePropertyDialogOpen: boolean;
   updateDeletePropertyDialogOpen: () => void;
+  isPropertyTenantsDrawerOpen: boolean;
+  updatePropertyTenantsDrawerOpen: () => void;
 }
 
 export default function CardWithForm({
@@ -98,15 +101,30 @@ export default function CardWithForm({
   const isDeletePropertyDialogOpen = useDialogsState(
     (state: DialogsStore) => state.isDeletePropertyDialogOpen
   );
+  const isPropertyTenantsDrawerOpen = useDialogsState(
+    (state: DialogsStore) => state.isPropertyTenantsDrawerOpen
+  );
+  const updatePropertyTenantsDrawerOpen = useDialogsState(
+    (state: DialogsStore) => state.updatePropertyTenantsDrawerOpen
+  );
   const [localIsEditPropertyDialogOpen, setLocalIsEditPropertyDialogOpen] =
     useState<boolean>(isEditPropertyDialogOpen);
   const [localIsDeletePropertyDialogOpen, setLocalIsDeletePropertyDialogOpen] =
     useState<boolean>(isDeletePropertyDialogOpen);
+  const [
+    localIsPropertyTenantsDrawerOpen,
+    setLocalIsPropertyTenantsDrawerOpen,
+  ] = useState<boolean>(isPropertyTenantsDrawerOpen);
 
   useEffect(() => {
     setLocalIsEditPropertyDialogOpen(isEditPropertyDialogOpen);
     setLocalIsDeletePropertyDialogOpen(isDeletePropertyDialogOpen);
-  }, [isEditPropertyDialogOpen, isDeletePropertyDialogOpen]);
+    setLocalIsPropertyTenantsDrawerOpen(isPropertyTenantsDrawerOpen);
+  }, [
+    isEditPropertyDialogOpen,
+    isDeletePropertyDialogOpen,
+    isPropertyTenantsDrawerOpen,
+  ]);
 
   const editProperty = () => {
     updateEditPropertyDialogOpen();
@@ -204,26 +222,41 @@ export default function CardWithForm({
           </div>
         </CardContent>
         <Separator className="mb-1.5" />
-        <CardFooter className="flex justify-between">
-          <div className="flex space-x-2 ">
-            <div
-              variant="outline"
-              size="icon"
-              className="flex items-center font-bold"
-            >
-              <DollarSign className="h-4 w-4 text-[#344E41]" />
-              {property.price}/months
+        <CardFooter className="flex flex-col justify-between">
+          <div className="flex justify-between w-full">
+            <div className="flex space-x-2 ">
+              <div
+                variant="outline"
+                size="icon"
+                className="flex items-center font-bold"
+              >
+                <DollarSign className="h-4 w-4 text-[#344E41]" />
+                {property.price}/months
+              </div>
             </div>
+            <Button
+              variant="outline"
+              className="h-8 border-[#344E41] text-[#344E41] hover:bg-[#A3B18A] hover:text-white font-bold border-2 rounded-full"
+            >
+              Details
+            </Button>
           </div>
-          <Button
-            variant="outline"
-            className="h-8 border-[#344E41] text-[#344E41] hover:bg-[#A3B18A] hover:text-white font-bold border-2 rounded-full"
-          >
-            Details
-          </Button>
+          {edit && (
+            <Button
+              onClick={() => {
+                updatePropertyToEdit(property);
+                updatePropertyTenantsDrawerOpen();
+              }}
+              className="w-full h-8 border-[#344E41] text-[#fff] bg-[#344E41] hover:bg-[#A3B18A] hover:text-white mt-2 font-bold border-2 rounded-full"
+            >
+              Interested Tenants
+            </Button>
+          )}
         </CardFooter>
       </Card>
+
       <DeletePropertyDialog property={property} />
+      {/* <PropertyTenantsDrawer /> */}
     </>
   );
 }

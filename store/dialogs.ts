@@ -32,6 +32,12 @@ interface DialogsState {
   updatePropertyToEdit: (property: Property) => void;
   isDeletePropertyDialogOpen: boolean;
   updateDeletePropertyDialogOpen: () => void;
+  isEcocashPaymentDialogOpen: boolean;
+  updateEcocashPaymentDialogOpen: () => void;
+  isConfirmPropertyDetailsDialogOpen: boolean;
+  updateConfirmPropertyDetailsDialogOpen: () => void;
+  isPropertyTenantsDrawerOpen: boolean;
+  updatePropertyTenantsDrawerOpen: () => void;
 }
 
 export const useDialogsState = create<DialogsState>((set) => ({
@@ -40,7 +46,22 @@ export const useDialogsState = create<DialogsState>((set) => ({
   isEditPropertyDialogOpen: false,
   propertyToEdit: null,
   isDeletePropertyDialogOpen: false,
-
+  isEcocashPaymentDialogOpen: false,
+  isConfirmPropertyDetailsDialogOpen: false,
+  isPropertyTenantsDrawerOpen: false,
+  updateEcocashPaymentDialogOpen: () =>
+    set((state) => ({
+      isEcocashPaymentDialogOpen: !state.isEcocashPaymentDialogOpen,
+    })),
+  updateConfirmPropertyDetailsDialogOpen: () =>
+    set((state) => ({
+      isConfirmPropertyDetailsDialogOpen:
+        !state.isConfirmPropertyDetailsDialogOpen,
+    })),
+  updatePropertyTenantsDrawerOpen: () =>
+    set((state) => ({
+      isPropertyTenantsDrawerOpen: !state.isPropertyTenantsDrawerOpen,
+    })),
   updateDeletePropertyDialogOpen: () =>
     set((state) => ({
       isDeletePropertyDialogOpen: !state.isDeletePropertyDialogOpen,

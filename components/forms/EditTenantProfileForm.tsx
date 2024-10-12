@@ -59,6 +59,7 @@ export default function EditTenantProfileForm({
           name="date_of_birth"
           type="date"
           defaultValue={initialData?.date_of_birth}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -81,6 +82,7 @@ export default function EditTenantProfileForm({
           name="phone"
           type="tel"
           defaultValue={initialData?.phone}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -90,6 +92,7 @@ export default function EditTenantProfileForm({
           name="id_number"
           type="text"
           defaultValue={initialData?.id_number}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -114,6 +117,7 @@ export default function EditTenantProfileForm({
           name="emergency_contact_name"
           type="text"
           defaultValue={initialData?.emergency_contact_name}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -123,6 +127,7 @@ export default function EditTenantProfileForm({
           name="emergency_contact_phone"
           type="tel"
           defaultValue={initialData?.emergency_contact_phone}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -132,6 +137,7 @@ export default function EditTenantProfileForm({
           name="occupation"
           type="text"
           defaultValue={initialData?.occupation}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -141,6 +147,7 @@ export default function EditTenantProfileForm({
           name="employer"
           type="text"
           defaultValue={initialData?.employer}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -150,6 +157,7 @@ export default function EditTenantProfileForm({
           name="work_phone"
           type="tel"
           defaultValue={initialData?.work_phone}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -161,6 +169,7 @@ export default function EditTenantProfileForm({
           name="preferred_lease_term"
           type="number"
           defaultValue={initialData?.preferred_lease_term}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -171,6 +180,7 @@ export default function EditTenantProfileForm({
           type="number"
           step="0.01"
           defaultValue={initialData?.max_rent}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -180,6 +190,7 @@ export default function EditTenantProfileForm({
           name="preferred_move_in_date"
           type="date"
           defaultValue={initialData?.preferred_move_in_date}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -188,6 +199,7 @@ export default function EditTenantProfileForm({
           id="preferred_area"
           name="preferred_area"
           defaultValue={initialData?.preferred_area}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -197,10 +209,16 @@ export default function EditTenantProfileForm({
           name="number_of_occupants"
           type="number"
           defaultValue={initialData?.number_of_occupants}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="flex items-center space-x-2">
-        <Checkbox id="pets" name="pets" defaultChecked={initialData?.pets} />
+        <Checkbox
+          id="pets"
+          name="pets"
+          defaultChecked={initialData?.pets}
+          className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
+        />
         <Label htmlFor="pets">Pets</Label>
       </div>
       <div className="grid gap-2">
@@ -209,6 +227,7 @@ export default function EditTenantProfileForm({
           id="pet_details"
           name="pet_details"
           defaultValue={initialData?.pet_details}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="flex items-center space-x-2">
@@ -216,6 +235,7 @@ export default function EditTenantProfileForm({
           id="smoker"
           name="smoker"
           defaultChecked={initialData?.smoker}
+          className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
         />
         <Label htmlFor="smoker">Smoker</Label>
       </div>
@@ -224,6 +244,7 @@ export default function EditTenantProfileForm({
           id="has_vehicle"
           name="has_vehicle"
           defaultChecked={initialData?.has_vehicle}
+          className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
         />
         <Label htmlFor="has_vehicle">Has Vehicle</Label>
       </div>
@@ -234,6 +255,7 @@ export default function EditTenantProfileForm({
           name="num_of_vehicles"
           type="number"
           defaultValue={initialData?.num_of_vehicles}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="flex items-center space-x-2">
@@ -241,6 +263,7 @@ export default function EditTenantProfileForm({
           id="criminal_record"
           name="criminal_record"
           defaultChecked={initialData?.criminal_record}
+          className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
         />
         <Label htmlFor="criminal_record">Criminal Record</Label>
       </div>
@@ -253,6 +276,7 @@ export default function EditTenantProfileForm({
           name="personal_reference_1_name"
           type="text"
           defaultValue={initialData?.personal_reference_1_name}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -264,6 +288,7 @@ export default function EditTenantProfileForm({
           name="personal_reference_1_phone"
           type="tel"
           defaultValue={initialData?.personal_reference_1_phone}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -275,6 +300,7 @@ export default function EditTenantProfileForm({
           name="personal_reference_1_relation"
           type="text"
           defaultValue={initialData?.personal_reference_1_relation}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -286,6 +312,7 @@ export default function EditTenantProfileForm({
           name="personal_reference_2_name"
           type="text"
           defaultValue={initialData?.personal_reference_2_name}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -297,6 +324,7 @@ export default function EditTenantProfileForm({
           name="personal_reference_2_phone"
           type="tel"
           defaultValue={initialData?.personal_reference_2_phone}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -308,6 +336,7 @@ export default function EditTenantProfileForm({
           name="personal_reference_2_relation"
           type="text"
           defaultValue={initialData?.personal_reference_2_relation}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -316,9 +345,15 @@ export default function EditTenantProfileForm({
           id="additional_notes"
           name="additional_notes"
           defaultValue={initialData?.additional_notes}
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
-      <Button type="submit">Update Profile</Button>
+      <Button
+        className="w-full bg-[#344E41] text-white hover:bg-[#344E41]"
+        type="submit"
+      >
+        Update Profile
+      </Button>
     </form>
   );
 }

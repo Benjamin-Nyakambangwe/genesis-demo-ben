@@ -91,7 +91,7 @@ export default function AddNewPropertyForm({
           name="title"
           type="text"
           required
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -100,7 +100,7 @@ export default function AddNewPropertyForm({
           id="description"
           name="description"
           required
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="flex justify-between">
@@ -111,7 +111,7 @@ export default function AddNewPropertyForm({
             name="address"
             type="text"
             required
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
         <div className="m-1">
@@ -122,7 +122,7 @@ export default function AddNewPropertyForm({
             type="number"
             step="0.01"
             required
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
       </div>
@@ -134,7 +134,7 @@ export default function AddNewPropertyForm({
             name="bedrooms"
             type="number"
             required
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
         <div className="m-1">
@@ -144,7 +144,7 @@ export default function AddNewPropertyForm({
             name="bathrooms"
             type="number"
             required
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
       </div>
@@ -154,7 +154,7 @@ export default function AddNewPropertyForm({
           <Checkbox
             id="accepts_pets"
             name="accepts_pets"
-            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="accepts_pets">Accepts Pets</Label>
         </div>
@@ -162,7 +162,7 @@ export default function AddNewPropertyForm({
           <Checkbox
             id="accepts_smokers"
             name="accepts_smokers"
-            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="accepts_smokers">Accepts Smokers</Label>
         </div>
@@ -170,7 +170,7 @@ export default function AddNewPropertyForm({
           <Checkbox
             id="pool"
             name="pool"
-            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="pool">Pool Available</Label>
         </div>
@@ -178,7 +178,7 @@ export default function AddNewPropertyForm({
           <Checkbox
             id="garden"
             name="garden"
-            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="garden">Garden Available</Label>
         </div>
@@ -191,7 +191,7 @@ export default function AddNewPropertyForm({
             name="area"
             type="number"
             required
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
         <div className="m-1">
@@ -201,7 +201,7 @@ export default function AddNewPropertyForm({
             name="pet_deposit"
             type="number"
             step="0.01"
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
       </div>
@@ -262,7 +262,7 @@ export default function AddNewPropertyForm({
           type="number"
           step="0.01"
           required
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -274,7 +274,7 @@ export default function AddNewPropertyForm({
           multiple
           accept="image/*"
           onChange={handleImageChange}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
         <div className="flex flex-wrap gap-2 mt-2">
           {previewUrls.map((url, index) => (
@@ -287,7 +287,7 @@ export default function AddNewPropertyForm({
           ))}
         </div>
       </div>
-      <Button type="submit" className="bg-red-600">
+      <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
         Submit
       </Button>
     </form>

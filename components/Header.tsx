@@ -84,6 +84,11 @@ const Header: React.FC = ({ token }) => {
               </Link>
             </li>
             <li>
+              <Link href="/pricing" className={linkStyle("/pricing")}>
+                Pricing
+              </Link>
+            </li>
+            <li>
               <Link href="/blog" className={linkStyle("/blog")}>
                 Blog
               </Link>

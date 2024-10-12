@@ -11,7 +11,7 @@ export function HeroSection() {
     { text: "Best" },
     { text: "Accomodation" },
     { text: "With" },
-    { text: "ROJA.", className: "text-[#344E41]" },
+    { text: "ROJA.", className: "text-[#A3B18A]" },
   ];
 
   return (

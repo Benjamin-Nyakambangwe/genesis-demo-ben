@@ -32,7 +32,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import CommentSection from "@/components/CommentSection";
-
+import { ConfirmPropertyDetailsDialog } from "@/components/ConfirmPropertyDetailsRevealDialog";
 async function getProperty(listingId: string) {
   const res = await fetch(`http://127.0.0.1:8000/api/properties/${listingId}`, {
     next: { revalidate: 36 },
@@ -162,8 +162,41 @@ async function getTenant() {
   }
 }
 
+async function getLandlord(id) {
+  const token = cookies().get("access")?.value;
+  if (!token) {
+    return null;
+  }
+
+  console.log(token);
+  const myHeaders = new Headers();
+  myHeaders.append("Cookie", `access=${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow" as RequestRedirect,
+  };
+
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:8000/auth/landlord-profile-limited/${id}`,
+      requestOptions
+    );
+    if (!res.ok) {
+      console.error("Failed to fetch landlord data:", await res.text());
+      return null;
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching landlord data:", error);
+    return null;
+  }
+}
+
 const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
   const property = await getProperty(params.listingId);
+  const landlord = await getLandlord(property.owner.id);
   const cookieStore = cookies();
   const userDetails = cookieStore.get("user_details")?.value;
 
@@ -182,13 +215,18 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
     }
   }
 
+  console.log("Property:", property);
+
   return (
     <>
       <div className="container mx-auto px-4 py-8 mt-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div className="mb-4 md:mb-0">
             <h1 className="text-3xl font-bold mb-2">{property?.title}</h1>
-            <h5 className="text-xl text-gray-600">{property?.address}</h5>
+            <h5 className="text-xl text-gray-600">
+              {property?.location?.name || "Location not available"}{" "}
+              {property?.location?.city ? `| ${property?.location?.city}` : ""}
+            </h5>
           </div>
           <div className="flex flex-col md:flex-row items-start md:items-center">
             <h2 className="text-2xl font-semibold  mb-4 md:mb-0 md:mr-8">
@@ -332,7 +370,12 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
           <div className="lg:col-span-1">
             <Card className="shadow-lg mb-8">
               <CardContent className="p-6">
-                <ContactForm listingId={property?.id} />
+                <ContactForm
+                  listingId={property?.id}
+                  landlord={landlord}
+                  address={property?.address}
+                  property={property}
+                />
               </CardContent>
             </Card>
 
@@ -351,6 +394,10 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
             </Card>
           </div>
         </div>
+        <ConfirmPropertyDetailsDialog
+          price={property?.price}
+          propertyId={property?.id}
+        />
       </div>
     </>
   );

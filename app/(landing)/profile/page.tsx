@@ -17,6 +17,10 @@ import LandlordProfileImageUploadButton from "@/components/LandloadProfileImageU
 import ProofOfEmploymentUploadButton from "@/components/ProofOfEmploymentUploadButton";
 import ProofOfResidenceUploadButton from "@/components/ProofOfResidenceUploadButton";
 import TenantProfileImageUploadButton from "@/components/TenantProfileImageUploadButton";
+import PaymentStatus from "@/components/PaymentStatus";
+import PaymentForm from "@/components/forms/PaymentForm";
+import Chat from "@/components/Chat";
+import PropertyTenantsDrawer from "@/components/PropertyTenantsDrawer";
 
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
@@ -128,9 +132,32 @@ async function getHouseLocations() {
   return res.json();
 }
 
+async function getChats() {
+  const token = cookies().get("access")?.value;
+  console.log(token);
+  const myHeaders = new Headers();
+  myHeaders.append("Cookie", `access=${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+  const res = await fetch(
+    "http://127.0.0.1:8000/api/available-chats/",
+    requestOptions
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
 const ProfilePage = async () => {
   const cookieStore = cookies();
   const userType = cookieStore.get("user_details")?.value;
+  const userToken = cookieStore.get("access")?.value;
   let data;
   let properties;
   let houseTypes;
@@ -147,6 +174,8 @@ const ProfilePage = async () => {
   } else if (userType?.includes("tenant")) {
     data = await getCurrentTenant();
   }
+
+  const chats = await getChats();
 
   console.log("landloard", data);
   return (
@@ -221,6 +250,18 @@ const ProfilePage = async () => {
           </div>
         )}
       </div>
+
+      <Chat
+        initialChats={chats}
+        userToken={userToken || ""}
+        currentUserEmail={data?.user.email}
+        currentUserId={data?.user.id}
+        userData={data}
+      />
+
+      {/* <PaymentStatus /> */}
+      {/* <PaymentForm /> */}
+
       <AddNewPropertyDialog
         userType={userType}
         houseTypes={houseTypes}
@@ -231,6 +272,7 @@ const ProfilePage = async () => {
         houseTypes={houseTypes}
         houseLocations={houseLocations}
       />
+      <PropertyTenantsDrawer />
     </div>
   );
 };

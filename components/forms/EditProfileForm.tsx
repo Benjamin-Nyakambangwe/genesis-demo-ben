@@ -42,7 +42,7 @@ export default function EditTenantProfileForm({
           name="date_of_birth"
           type="date"
           value={data.date_of_birth}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
 
@@ -53,7 +53,7 @@ export default function EditTenantProfileForm({
           name="phone"
           type="tel"
           defaultValue={data.phone}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -84,7 +84,7 @@ export default function EditTenantProfileForm({
           name="alternate_phone"
           type="tel"
           defaultValue={data.alternate_phone}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -94,7 +94,7 @@ export default function EditTenantProfileForm({
           name="emergency_contact_name"
           type="text"
           defaultValue={data.emergency_contact_name}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -104,7 +104,7 @@ export default function EditTenantProfileForm({
           name="emergency_contact_phone"
           type="tel"
           defaultValue={data.emergency_contact_phone}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
 
@@ -123,10 +123,10 @@ export default function EditTenantProfileForm({
           id="additional_notes"
           name="additional_notes"
           defaultValue={data.additional_notes}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
-      <Button type="submit" className="bg-red-600">
+      <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
         Submit
       </Button>
     </form>
