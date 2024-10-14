@@ -30,7 +30,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useDialogsState } from "@/store/dialogs";
 import Link from "next/link";
-
+import { setCurrentTenantAction } from "@/lib/setCurrentTenant";
 interface DialogsStore {
   propertyToEdit: any; // Replace 'any' with your property type
   isPropertyTenantsDrawerOpen: boolean;
@@ -66,6 +66,7 @@ export default function PropertyTenantsDrawer() {
             <TableHead>Last Name</TableHead>
 
             <TableHead>Action</TableHead>
+            <TableHead>Assign As Tenant</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -76,8 +77,18 @@ export default function PropertyTenantsDrawer() {
               <TableCell>
                 <Button variant="outline">
                   <Link href={`/tenant-profile/${tenant.id}`}>
-                    View Details
+                    View Profile
                   </Link>
+                </Button>
+              </TableCell>
+              <TableCell>
+                <Button
+                  variant="outline"
+                  onClick={async () =>
+                    await setCurrentTenantAction(tenant.id, propertyToEdit.id)
+                  }
+                >
+                  Assign To Property
                 </Button>
               </TableCell>
             </TableRow>
@@ -93,7 +104,7 @@ export default function PropertyTenantsDrawer() {
         open={isPropertyTenantsDrawerOpen}
         onOpenChange={updatePropertyTenantsDrawerOpen}
       >
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[675px]">
           <DialogHeader>
             <DialogTitle>View Property Tenants</DialogTitle>
           </DialogHeader>

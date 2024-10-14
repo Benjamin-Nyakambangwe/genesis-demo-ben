@@ -32,6 +32,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import CommentSection from "@/components/CommentSection";
+import ReviewSection from "@/components/ReviewSection";
 import { ConfirmPropertyDetailsDialog } from "@/components/ConfirmPropertyDetailsRevealDialog";
 async function getProperty(listingId: string) {
   const res = await fetch(`http://127.0.0.1:8000/api/properties/${listingId}`, {
@@ -388,6 +389,20 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     propertyId={property.id}
                     tenant={tenant}
                     createComment={createComment}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg">
+              <CardContent className="p-6 h-[500px] flex flex-col">
+                <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+                <div className="flex-grow overflow-hidden">
+                  <ReviewSection
+                    propertyId={property.id}
+                    propertyOwner={landlord}
+                    property={property}
+                    // createReview={createReview}
                   />
                 </div>
               </CardContent>

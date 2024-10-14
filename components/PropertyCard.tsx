@@ -249,7 +249,9 @@ export default function CardWithForm({
               }}
               className="w-full h-8 border-[#344E41] text-[#fff] bg-[#344E41] hover:bg-[#A3B18A] hover:text-white mt-2 font-bold border-2 rounded-full"
             >
-              Interested Tenants
+              {property?.current_tenant
+                ? "Currently Occupied"
+                : "Interested Tenants"}
             </Button>
           )}
         </CardFooter>
