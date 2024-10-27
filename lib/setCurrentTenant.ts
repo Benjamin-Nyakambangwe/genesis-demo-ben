@@ -23,7 +23,7 @@ export async function setCurrentTenantAction(
 
   try {
     const res = await fetch(
-      `http://127.0.0.1:8000/auth/set-current-tenant/${listingId}/`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/set-current-tenant/${listingId}/`,
       requestOptions
     );
     const data = await res.text();

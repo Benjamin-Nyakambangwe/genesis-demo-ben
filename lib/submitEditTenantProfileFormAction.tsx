@@ -19,7 +19,7 @@ export async function submitEditTenantProfileFormAction(formData: FormData) {
 
   try {
     const res = await fetch(
-      "http://127.0.0.1:8000/auth/tenant-profile/",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/tenant-profile/`,
       requestOptions
     );
     const data = await res.json(); // Parse the response as JSON

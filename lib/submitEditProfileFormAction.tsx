@@ -22,7 +22,7 @@ export async function submitEditProfileFormAction(formData: FormData) {
 
   try {
     const res = await fetch(
-      "http://127.0.0.1:8000/auth/landlord-profile/",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/landlord-profile/`,
       requestOptions
     );
     const data = await res.text();

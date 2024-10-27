@@ -30,7 +30,7 @@ export async function submitMessage(formData: FormData) {
 
   try {
     const response = await fetch(
-      "http://localhost:8000/api/messages/",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/messages/`,
       requestOptions
     );
     if (!response.ok) {

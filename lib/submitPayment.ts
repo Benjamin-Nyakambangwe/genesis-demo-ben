@@ -35,7 +35,7 @@ export async function submitPaymentAction({ plan, phone }: PaymentData) {
 
   try {
     const res = await fetch(
-      "http://127.0.0.1:8000/auth/initiate/",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/initiate/`,
       requestOptions
     );
     const data = await res.text();

@@ -13,7 +13,7 @@ export async function submitEditPropertyForm(
   formData: FormData
 ): Promise<EditPropertyResponse> {
   const propertyId = formData.get("id");
-  const apiUrl = `http:127.0.0.1:8000/api/properties/${propertyId}/`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties/${propertyId}/`;
 
   try {
     // Get the session token from cookies

@@ -35,7 +35,7 @@ const ActivatePage = ({ params }: Props) => {
 
       try {
         const res = await fetch(
-          "http://127.0.0.1:8000/auth/users/activation/",
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/users/activation/`,
           options
         );
 

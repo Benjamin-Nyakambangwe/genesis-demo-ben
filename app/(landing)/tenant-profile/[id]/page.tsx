@@ -115,7 +115,7 @@ async function fetchTenantData(id: string) {
   };
 
   const response = await fetch(
-    `http://127.0.0.1:8000/auth/custom-tenant-profile/${id}/`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/custom-tenant-profile/${id}/`,
     requestOptions
   );
   if (!response.ok) {

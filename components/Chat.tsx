@@ -70,7 +70,7 @@ export default function Chat({
     if (selectedChat) {
       // Initialize WebSocket connection
       socketRef.current = new WebSocket(
-        `ws://127.0.0.1:8000/ws/chat/${selectedChat.chat_id}/`
+        `${process.env.NEXT_PUBLIC_WS_BACKEND_URL}/ws/chat/${selectedChat.chat_id}/`
       );
 
       socketRef.current.onopen = () => {

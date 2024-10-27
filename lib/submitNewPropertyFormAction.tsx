@@ -21,7 +21,7 @@ export async function submitNewPropertyForm(formData: FormData) {
 
   try {
     const res = await fetch(
-      "http://127.0.0.1:8000/api/properties/",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties/`,
       requestOptions
     );
     const data = await res.json();

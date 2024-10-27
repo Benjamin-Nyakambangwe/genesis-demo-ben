@@ -34,7 +34,7 @@ async function getCurrentLandlord() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/auth/landlord-profile/",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/landlord-profile/`,
     requestOptions
   );
   if (!res.ok) {
@@ -56,7 +56,7 @@ async function getCurrentTenant() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/auth/tenant-profile/",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/tenant-profile/`,
     requestOptions
   );
   if (!res.ok) {
@@ -78,7 +78,7 @@ async function getOwnProperties() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/own-properties",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/own-properties`,
     requestOptions
   );
   if (!res.ok) {
@@ -100,7 +100,7 @@ async function getHouseTypes() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/house-types",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/house-types`,
     requestOptions
   );
   if (!res.ok) {
@@ -122,7 +122,7 @@ async function getHouseLocations() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/house-locations",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/house-locations`,
     requestOptions
   );
   if (!res.ok) {
@@ -134,24 +134,36 @@ async function getHouseLocations() {
 
 async function getChats() {
   const token = cookies().get("access")?.value;
-  console.log(token);
+  if (!token) {
+    // If there's no token, return an empty array instead of throwing an error
+    return [];
+  }
+
   const myHeaders = new Headers();
   myHeaders.append("Cookie", `access=${token}`);
 
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
-  const res = await fetch(
-    "http://127.0.0.1:8000/api/available-chats/",
-    requestOptions
-  );
-  if (!res.ok) {
-    throw new Error("Failed to fetch data");
-  }
 
-  return res.json();
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/available-chats/`,
+      requestOptions
+    );
+    if (!res.ok) {
+      // If the response is not OK, return an empty array instead of throwing an error
+      console.error("Failed to fetch chats:", res.statusText);
+      return [];
+    }
+    return res.json();
+  } catch (error) {
+    // If there's an error during the fetch, log it and return an empty array
+    console.error("Error fetching chats:", error);
+    return [];
+  }
 }
 
 const ProfilePage = async () => {
@@ -175,7 +187,13 @@ const ProfilePage = async () => {
     data = await getCurrentTenant();
   }
 
-  const chats = await getChats();
+  let chats = [];
+  try {
+    chats = await getChats();
+  } catch (error) {
+    console.error("Error fetching chats:", error);
+    // chats will remain an empty array if there's an error
+  }
 
   console.log("landloard", data);
   return (
@@ -251,13 +269,15 @@ const ProfilePage = async () => {
         )}
       </div>
 
-      <Chat
-        initialChats={chats}
-        userToken={userToken || ""}
-        currentUserEmail={data?.user.email}
-        currentUserId={data?.user.id}
-        userData={data}
-      />
+      {chats.length > 0 && (
+        <Chat
+          initialChats={chats}
+          userToken={userToken || ""}
+          currentUserEmail={data?.user.email}
+          currentUserId={data?.user.id}
+          userData={data}
+        />
+      )}
 
       {/* <PaymentStatus /> */}
       {/* <PaymentForm /> */}

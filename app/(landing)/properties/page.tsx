@@ -50,7 +50,7 @@ async function getFullHousesList() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/properties-filter",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-filter`,
     requestOptions
   );
   if (!res.ok) {
@@ -71,7 +71,7 @@ async function getHouseTypes() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/house-types",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/house-types`,
     requestOptions
   );
   if (!res.ok) {
@@ -93,7 +93,7 @@ async function getHouseLocations() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/house-locations",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/house-locations`,
     requestOptions
   );
   if (!res.ok) {

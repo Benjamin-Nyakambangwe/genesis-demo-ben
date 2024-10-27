@@ -56,7 +56,7 @@ async function getProperties(
 ) {
   const myHeaders = new Headers();
 
-  let url = "http://127.0.0.1:8000/api/properties-filter/";
+  let url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-filter/`;
   let queryParams = [];
 
   if (propertyType) {

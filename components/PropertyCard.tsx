@@ -67,7 +67,7 @@ export default function CardWithForm({
   const slides = property.images.map((image) => ({
     url: image.image.includes("http://")
       ? image.image
-      : `http://127.0.0.1:8000${image.image}`,
+      : `${process.env.NEXT_PUBLIC_BACKEND_URL}${image.image}`,
   }));
 
   const nextSlide = () => {

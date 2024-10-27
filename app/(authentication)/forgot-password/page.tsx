@@ -22,7 +22,7 @@ const ForgotPasswordPage = () => {
     };
 
     const res = await fetch(
-      "http://127.0.0.1:8000/auth/users/reset_password/",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/users/reset_password/`,
       requestOptions
     );
     // const data = await res.json();

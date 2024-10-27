@@ -86,7 +86,7 @@ export default function EditPropertyForm({
     const removedUrl = previewUrls[index];
     setPreviewUrls((prevUrls) => prevUrls.filter((_, i) => i !== index));
 
-    if (removedUrl.startsWith("http://127.0.0.1:8000")) {
+    if (removedUrl.startsWith(`${process.env.NEXT_PUBLIC_BACKEND_URL}`)) {
       setRemovedImages((prevRemoved) => [...prevRemoved, removedUrl]);
     } else {
       setImages((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -98,7 +98,7 @@ export default function EditPropertyForm({
     // Cleanup preview URLs when component unmounts
     return () => {
       previewUrls.forEach((url) => {
-        if (!url.startsWith("http://127.0.0.1:8000")) {
+        if (!url.startsWith(`${process.env.NEXT_PUBLIC_BACKEND_URL}`)) {
           URL.revokeObjectURL(url);
         }
       });

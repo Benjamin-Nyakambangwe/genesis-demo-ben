@@ -29,7 +29,10 @@ export async function login(formData: FormData) {
   };
 
   try {
-    const res = await fetch("http://127.0.0.1:8000/auth/jwt/create/", options);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/jwt/create/`,
+      options
+    );
 
     const data = await res.json();
     if (!res.ok) {
@@ -86,7 +89,10 @@ export async function register(formData: FormData) {
   };
 
   try {
-    const res = await fetch("http://127.0.0.1:8000/auth/users/", options);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/users/`,
+      options
+    );
 
     if (!res.ok) {
       // Handle error cases
@@ -133,7 +139,9 @@ export async function updateAccess(request: any) {
   // If no access token, attempt to refresh using the refresh token
   const refreshToken = cookieStore.get("refresh")?.value;
   if (!refreshToken) {
-    return NextResponse.redirect("http://localhost:3000/auth/login");
+    return NextResponse.redirect(
+      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/auth/login`
+    );
   }
 
   const options = {
@@ -146,7 +154,7 @@ export async function updateAccess(request: any) {
 
   try {
     const response = await fetch(
-      "http://127.0.0.1:8000/auth/jwt/refresh/",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/jwt/refresh/`,
       options
     );
 

@@ -3,28 +3,27 @@
 
 import { cookies } from "next/headers";
 
-export async function submitMessageAction(receiver: string, content: string) {
+export async function revokeCurrentTenantAction(
+  tenantId: string,
+  listingId: string
+) {
   const token = cookies().get("access")?.value;
-  // console.log("Receiver", formData.get("receiver") as string);
-  // console.log("Content", content);
 
   const myHeaders = new Headers();
   myHeaders.append("Cookie", `access=${token}`);
 
   const formData = new FormData();
-  formData.append("receiver", receiver.get("receiver") as string);
-  formData.append("content", receiver.get("message") as string);
+  formData.append("tenant_id", tenantId);
 
   const requestOptions = {
     method: "POST",
     headers: myHeaders,
     body: formData,
-    redirect: "follow" as RequestRedirect,
   };
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/messages/`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/revoke-current-tenant/${listingId}/`,
       requestOptions
     );
     const data = await res.text();

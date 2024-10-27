@@ -35,9 +35,12 @@ import CommentSection from "@/components/CommentSection";
 import ReviewSection from "@/components/ReviewSection";
 import { ConfirmPropertyDetailsDialog } from "@/components/ConfirmPropertyDetailsRevealDialog";
 async function getProperty(listingId: string) {
-  const res = await fetch(`http://127.0.0.1:8000/api/properties/${listingId}`, {
-    next: { revalidate: 36 },
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties/${listingId}`,
+    {
+      next: { revalidate: 36 },
+    }
+  );
 
   if (!res.ok) {
     notFound();
@@ -98,11 +101,14 @@ async function createComment(
 
   let response;
   try {
-    response = await fetch("http://127.0.0.1:8000/api/comments/", {
-      method: "POST",
-      headers: myHeaders,
-      body: formdata,
-    });
+    response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/`,
+      {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+      }
+    );
   } catch (error) {
     throw new Error(`Network error: ${error.message}`);
   }
@@ -118,7 +124,9 @@ async function createComment(
 }
 
 export async function generateStaticParams() {
-  const res = await fetch("http://127.0.0.1:8000/api/properties");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties`
+  );
 
   if (!res.ok) {
     throw new Error("Failed to fetch properties");
@@ -149,7 +157,7 @@ async function getTenant() {
 
   try {
     const res = await fetch(
-      "http://127.0.0.1:8000/auth/tenant-profile/",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/tenant-profile/`,
       requestOptions
     );
     if (!res.ok) {
@@ -181,7 +189,7 @@ async function getLandlord(id) {
 
   try {
     const res = await fetch(
-      `http://127.0.0.1:8000/auth/landlord-profile-limited/${id}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/landlord-profile-limited/${id}`,
       requestOptions
     );
     if (!res.ok) {
@@ -216,7 +224,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
     }
   }
 
-  console.log("Property:", property);
+  console.log("PROPERTY IN PROPERTY PAGE", property);
 
   return (
     <>
@@ -388,6 +396,9 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     initialComments={property.comments}
                     propertyId={property.id}
                     tenant={tenant}
+                    landlord={landlord}
+                    user={user}
+                    property={property}
                     createComment={createComment}
                   />
                 </div>
@@ -402,6 +413,8 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     propertyId={property.id}
                     propertyOwner={landlord}
                     property={property}
+                    tenant={tenant}
+                    userDetails={userDetails}
                     // createReview={createReview}
                   />
                 </div>

@@ -28,7 +28,7 @@ export async function giveTenantAccessAction(propertyId) {
 
   try {
     const res = await fetch(
-      `http://127.0.0.1:8000/auth/add-tenant-access/${propertyId}/`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/add-tenant-access/${propertyId}/`,
       requestOptions
     );
     const data = await res.text();

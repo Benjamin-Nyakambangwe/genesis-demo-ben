@@ -28,7 +28,7 @@ async function getFullHousesList() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/properties-filter?type=Full",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-filter?type=Full`,
     requestOptions
   );
   if (!res.ok) {
@@ -46,7 +46,7 @@ async function getRoomsList() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/properties-filter?type=Room",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-filter?type=Room`,
     requestOptions
   );
   if (!res.ok) {
@@ -64,7 +64,7 @@ async function getClustersList() {
     redirect: "follow",
   };
   const res = await fetch(
-    "http://127.0.0.1:8000/api/properties-filter?type=Cluster",
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-filter?type=Cluster`,
     requestOptions
   );
   if (!res.ok) {

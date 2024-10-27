@@ -31,6 +31,7 @@ import { cn } from "@/lib/utils";
 import { useDialogsState } from "@/store/dialogs";
 import Link from "next/link";
 import { setCurrentTenantAction } from "@/lib/setCurrentTenant";
+import { revokeCurrentTenantAction } from "@/lib/revokeCurrentTenant";
 interface DialogsStore {
   propertyToEdit: any; // Replace 'any' with your property type
   isPropertyTenantsDrawerOpen: boolean;
@@ -49,7 +50,7 @@ export default function PropertyTenantsDrawer() {
     (state: DialogsStore) => state.propertyToEdit
   );
 
-  console.log(propertyToEdit);
+  console.log("PROPERTY TO EDIT", propertyToEdit);
 
   const scrollableContentStyle =
     "overflow-y-auto max-h-[calc(100vh-200px)] scrollbar-hide";
@@ -81,16 +82,32 @@ export default function PropertyTenantsDrawer() {
                   </Link>
                 </Button>
               </TableCell>
-              <TableCell>
-                <Button
-                  variant="outline"
-                  onClick={async () =>
-                    await setCurrentTenantAction(tenant.id, propertyToEdit.id)
-                  }
-                >
-                  Assign To Property
-                </Button>
-              </TableCell>
+              {propertyToEdit.current_tenant?.id != tenant.id ? (
+                <TableCell>
+                  <Button
+                    variant="outline"
+                    onClick={async () =>
+                      await setCurrentTenantAction(tenant.id, propertyToEdit.id)
+                    }
+                  >
+                    Assign To Property
+                  </Button>
+                </TableCell>
+              ) : (
+                <TableCell>
+                  <Button
+                    variant="outline"
+                    onClick={async () =>
+                      await revokeCurrentTenantAction(
+                        tenant.id,
+                        propertyToEdit.id
+                      )
+                    }
+                  >
+                    Revoke Tenant
+                  </Button>
+                </TableCell>
+              )}
             </TableRow>
           ))}
         </TableBody>

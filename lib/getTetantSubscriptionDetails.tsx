@@ -28,7 +28,7 @@ export async function getTetantSubscriptionDetailsAction() {
 
   try {
     const res = await fetch(
-      "http://127.0.0.1:8000/auth/tenant-profile-limited/",
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/tenant-profile-limited/`,
       requestOptions
     );
     const data = await res.text();

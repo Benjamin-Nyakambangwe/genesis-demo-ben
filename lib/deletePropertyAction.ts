@@ -11,7 +11,7 @@ interface DeletePropertyResponse {
 export async function deleteProperty(
   propertyId: string | number
 ): Promise<DeletePropertyResponse> {
-  const apiUrl = `http://127.0.0.1:8000/api/properties/${propertyId}/`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties/${propertyId}/`;
 
   try {
     const token = cookies().get("access")?.value;
