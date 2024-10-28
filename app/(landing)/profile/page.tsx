@@ -31,7 +31,7 @@ async function getCurrentLandlord() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/landlord-profile/`,
@@ -53,7 +53,7 @@ async function getCurrentTenant() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/tenant-profile/`,
@@ -75,7 +75,7 @@ async function getOwnProperties() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/own-properties`,
@@ -97,7 +97,7 @@ async function getHouseTypes() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/house-types`,
@@ -119,7 +119,7 @@ async function getHouseLocations() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/house-locations`,

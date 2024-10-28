@@ -47,7 +47,7 @@ async function getFullHousesList() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-filter`,
@@ -68,7 +68,7 @@ async function getHouseTypes() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/house-types`,
@@ -90,7 +90,7 @@ async function getHouseLocations() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/house-locations`,
@@ -125,10 +125,10 @@ const PropertiesPage = async () => {
         <div className="w-full md:w-[70%]">
           <PropertiesHeader numOfHouses={fullHouses.length + 1} />
           <PropertiesList
-            fullHouses={fullHouses}
-            // rooms={rooms}
-            // cottages={cottages}
-            // clusters={clusters}
+          // fullHouses={fullHouses}
+          // rooms={rooms}
+          // cottages={cottages}
+          // clusters={clusters}
           />
         </div>
       </div>

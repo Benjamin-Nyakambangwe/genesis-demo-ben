@@ -10,8 +10,11 @@ interface BearStore {
   isGrid: boolean;
   updateIsGrid: () => void;
 }
+interface PropertiesHeaderProps {
+  numOfHouses: number;
+}
 
-const PropertiesHeader: React.FC = ({ numOfHouses }) => {
+const PropertiesHeader: React.FC<PropertiesHeaderProps> = ({ numOfHouses }) => {
   const updateIsGrid = useBearStore((state: BearStore) => state.updateIsGrid);
   const isGrid = useBearStore((state: BearStore) => state.isGrid);
   const [localIsGrid, setLocalIsGrid] = useState<boolean>(isGrid);

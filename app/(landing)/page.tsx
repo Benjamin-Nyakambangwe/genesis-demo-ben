@@ -25,7 +25,7 @@ async function getFullHousesList() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-filter?type=Full`,
@@ -43,7 +43,7 @@ async function getRoomsList() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-filter?type=Room`,
@@ -61,7 +61,7 @@ async function getClustersList() {
   const requestOptions = {
     method: "GET",
     headers: myHeaders,
-    redirect: "follow",
+    redirect: "follow" as RequestRedirect,
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-filter?type=Cluster`,

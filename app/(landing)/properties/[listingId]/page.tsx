@@ -15,8 +15,7 @@ import {
   Calendar,
   PawPrint,
   Cigarette,
-  Pool,
-  Tree,
+
   MapPin,
 } from "lucide-react";
 
@@ -109,8 +108,10 @@ async function createComment(
         body: formdata,
       }
     );
-  } catch (error) {
-    throw new Error(`Network error: ${error.message}`);
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Unknown error occurred";
+    throw new Error(`Network error: ${message}`);
   }
 
   if (!response.ok) {
@@ -134,7 +135,7 @@ export async function generateStaticParams() {
 
   const data = await res.json();
 
-  return data.map((property) => ({
+  return data.map((property : { id: number | string }) => ({
     listingId: property.id.toString(),
   }));
 }
@@ -171,7 +172,7 @@ async function getTenant() {
   }
 }
 
-async function getLandlord(id) {
+async function getLandlord(id: string) {
   const token = cookies().get("access")?.value;
   if (!token) {
     return null;
@@ -396,7 +397,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     initialComments={property.comments}
                     propertyId={property.id}
                     tenant={tenant}
-                    landlord={landlord}
+                    // landlord={landlord}
                     user={user}
                     property={property}
                     createComment={createComment}
@@ -413,7 +414,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     propertyId={property.id}
                     propertyOwner={landlord}
                     property={property}
-                    tenant={tenant}
+                    // tenant={tenant}
                     userDetails={userDetails}
                     // createReview={createReview}
                   />

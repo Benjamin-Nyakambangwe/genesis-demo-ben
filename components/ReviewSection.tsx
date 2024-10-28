@@ -23,10 +23,11 @@ interface ReviewSectionProps {
     users_with_access: { id: number }[];
     // ... other property fields
   };
-  currentTenant: {
-    id: number;
-    // ... other tenant fields
-  } | null;
+  // currentTenant: {
+  //   id: number;
+  //   // ... other tenant fields
+  // } | null;
+  userDetails: string | undefined;
 }
 
 interface StarRatingProps {

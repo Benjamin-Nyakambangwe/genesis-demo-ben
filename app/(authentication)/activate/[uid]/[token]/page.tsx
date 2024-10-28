@@ -29,7 +29,7 @@ const ActivatePage = ({ params }: Props) => {
           // Add CSRF token header if required
           // "X-CSRFToken": getCsrfToken(),
         },
-        credentials: "include", // This will include cookies in the request
+        credentials: "include" as RequestCredentials, // Type assertion to RequestCredentials
         body: new URLSearchParams({ uid: uid, token: decodedToken }),
       };
 
