@@ -15,7 +15,6 @@ import {
   Calendar,
   PawPrint,
   Cigarette,
-
   MapPin,
 } from "lucide-react";
 
@@ -33,6 +32,7 @@ import { cookies } from "next/headers";
 import CommentSection from "@/components/CommentSection";
 import ReviewSection from "@/components/ReviewSection";
 import { ConfirmPropertyDetailsDialog } from "@/components/ConfirmPropertyDetailsRevealDialog";
+
 async function getProperty(listingId: string) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties/${listingId}`,
@@ -51,7 +51,7 @@ async function getProperty(listingId: string) {
 async function createComment(
   formData: FormData,
   listingId: string,
-  tenantId: string
+  isLandlord: boolean
 ) {
   "use server";
 
@@ -96,7 +96,7 @@ async function createComment(
   const formdata = new FormData();
   formdata.append("property", listingId); // listingId is already a string
   formdata.append("content", content);
-  formdata.append("tenant", tenantId); // Keep as string
+  formdata.append("is_owner", isLandlord.toString()); // Keep as string
 
   let response;
   try {
@@ -135,7 +135,7 @@ export async function generateStaticParams() {
 
   const data = await res.json();
 
-  return data.map((property : { id: number | string }) => ({
+  return data.map((property: { id: number | string }) => ({
     listingId: property.id.toString(),
   }));
 }
@@ -204,9 +204,42 @@ async function getLandlord(id: string) {
   }
 }
 
+async function getCurrentUser() {
+  const token = cookies().get("access")?.value;
+  if (!token) {
+    return null;
+  }
+
+  console.log(token);
+  const myHeaders = new Headers();
+  myHeaders.append("Cookie", `access=${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow" as RequestRedirect,
+  };
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/current-user/`,
+      requestOptions
+    );
+    if (!res.ok) {
+      console.error("Failed to fetch current user data:", await res.text());
+      return null;
+    }
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching current user data:", error);
+    return null;
+  }
+}
+
 const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
   const property = await getProperty(params.listingId);
   const landlord = await getLandlord(property.owner.id);
+  const currentUser = await getCurrentUser();
   const cookieStore = cookies();
   const userDetails = cookieStore.get("user_details")?.value;
 
@@ -401,6 +434,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     user={user}
                     property={property}
                     createComment={createComment}
+                    currentUser={currentUser}
                   />
                 </div>
               </CardContent>

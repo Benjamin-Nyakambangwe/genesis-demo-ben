@@ -49,6 +49,8 @@ export async function login(formData: FormData) {
     // Get the expiration time from the decoded token
     const expirationTime = new Date(decodedToken.exp * 1000);
 
+    console.log("EXPIRATION TIME for token after login", expirationTime);
+
     // Set the access token cookie with the expiration time from the token
     cookies().set("access", data.access, {
       expires: expirationTime,
@@ -56,7 +58,7 @@ export async function login(formData: FormData) {
     });
 
     // Set the refresh token cookie (12 hours expiration as before)
-    const refreshExpire = new Date(Date.now() + 12 * 60 * 60 * 1000);
+    const refreshExpire = new Date(Date.now() + 36 * 60 * 60 * 1000);
     cookies().set("refresh", data.refresh, {
       expires: refreshExpire,
       httpOnly: true,
@@ -165,18 +167,18 @@ export async function updateAccess(request: any) {
     const data = await response.json();
     console.log("refresh token data", data);
 
-    const expires = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
     // Decrypt the access token
     const decodedToken = await decrypt(data.access);
 
     // Get the expiration time from the decoded token
     const expirationTime = new Date(decodedToken.exp * 1000);
+    console.log("EXPIRATION TIME for token after refresh", expirationTime);
     const res = NextResponse.next();
     res.cookies.set({
       name: "access",
       value: data.access,
       httpOnly: true,
-      expires: expires,
+      expires: expirationTime,
     });
     res.cookies.set(
       "user_details",

@@ -34,6 +34,7 @@ export default function CommentSection({
   user,
   property,
   createComment,
+  currentUser,
 }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [content, setContent] = useState("");
@@ -49,11 +50,13 @@ export default function CommentSection({
 
     const formData = new FormData();
     formData.append("content", content);
-    await createComment(formData, propertyId, tenant.id);
+
+    await createComment(formData, propertyId, isLandlord);
 
     const newComment: Comment = {
       id: Date.now(),
       tenant: tenant ? tenant.name : `${user.first_name} ${user.last_name}`,
+      commenter: currentUser.first_name + " " + currentUser.last_name,
       created_at: new Date().toISOString(),
       content,
       is_owner: isLandlord,
