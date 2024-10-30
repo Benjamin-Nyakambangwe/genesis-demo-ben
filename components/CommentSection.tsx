@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { formatRelativeTime } from "@/utils/dateFormatter";
 import { Badge } from "@/components/ui/badge";
 import { BadgeCheck, BadgeBadgeCheck } from "lucide-react";
+import CommentsLikeDislike from "./CommentsLikeDislike";
 
 interface Comment {
   id: number;
@@ -35,6 +36,7 @@ export default function CommentSection({
   property,
   createComment,
   currentUser,
+  userToken,
 }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [content, setContent] = useState("");
@@ -60,6 +62,8 @@ export default function CommentSection({
       created_at: new Date().toISOString(),
       content,
       is_owner: isLandlord,
+      like_count: 0,
+      dislike_count: 0,
     };
     setComments([...comments, newComment]);
     setContent("");
@@ -85,7 +89,13 @@ export default function CommentSection({
               <p className="text-sm text-gray-600">
                 {formatRelativeTime(comment.created_at)}
               </p>
-              <p className="mt-1">{comment.content}</p>
+              <p className="mt-1 mb-1">{comment.content}</p>
+              <CommentsLikeDislike
+                commentId={comment.id}
+                userToken={userToken}
+                like_count={comment.like_count}
+                dislike_count={comment.dislike_count}
+              />
             </div>
           ))}
         </div>

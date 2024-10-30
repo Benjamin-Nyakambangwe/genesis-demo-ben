@@ -32,6 +32,25 @@ import { cookies } from "next/headers";
 import CommentSection from "@/components/CommentSection";
 import ReviewSection from "@/components/ReviewSection";
 import { ConfirmPropertyDetailsDialog } from "@/components/ConfirmPropertyDetailsRevealDialog";
+import { Star } from "lucide-react";
+const AverageRatingStars = ({ rating }: { rating: number }) => {
+  return (
+    <div className="flex items-center">
+      {[...Array(5)].map((_, index) => (
+        <Star
+          key={index}
+          className={`h-4 w-4 ${
+            index + 1 <= rating
+              ? "text-yellow-400 fill-yellow-400"
+              : index + 0.5 <= rating
+              ? "text-yellow-400 fill-yellow-400 opacity-50"
+              : "text-gray-300"
+          }`}
+        />
+      ))}
+    </div>
+  );
+};
 
 async function getProperty(listingId: string) {
   const res = await fetch(
@@ -204,6 +223,21 @@ async function getLandlord(id: string) {
   }
 }
 
+async function getReviews(propertyId: string) {
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow" as RequestRedirect,
+  };
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties-reviews/${propertyId}`,
+    requestOptions
+  );
+  const data = await res.json();
+
+  return data;
+}
+
 async function getCurrentUser() {
   const token = cookies().get("access")?.value;
   if (!token) {
@@ -240,8 +274,24 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
   const property = await getProperty(params.listingId);
   const landlord = await getLandlord(property.owner.id);
   const currentUser = await getCurrentUser();
+  const reviews = await getReviews(params.listingId);
   const cookieStore = cookies();
   const userDetails = cookieStore.get("user_details")?.value;
+  const userToken = cookieStore.get("access")?.value;
+
+  // Calculate average rating
+  const calculateAverageRating = (reviews: any[]) => {
+    if (!reviews || reviews.length === 0) return 0;
+
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+    const averageRating = totalRating / reviews.length;
+
+    // Round to 1 decimal place
+    return Math.round(averageRating * 10) / 10;
+  };
+
+  const averageRating = calculateAverageRating(reviews);
+  const totalReviews = reviews?.length || 0;
 
   let user = null;
   let tenant = null;
@@ -260,50 +310,40 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
 
   console.log("PROPERTY IN PROPERTY PAGE", property);
 
+  console.log("REVIEWS IN PROPERTY PAGE", reviews);
+
   return (
     <>
       <div className="container mx-auto px-4 py-8 mt-16">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
           <div className="mb-4 md:mb-0">
             <h1 className="text-3xl font-bold mb-2">{property?.title}</h1>
-            <h5 className="text-xl text-gray-600">
-              {property?.location?.name || "Location not available"}{" "}
-              {property?.location?.city ? `| ${property?.location?.city}` : ""}
-            </h5>
+            <div className="flex items-center gap-2">
+              <h5 className="text-xl text-gray-600">
+                {property?.location?.name || "Location not available"}{" "}
+                {property?.location?.city
+                  ? `| ${property?.location?.city}`
+                  : ""}
+              </h5>
+            </div>
           </div>
           <div className="flex flex-col md:flex-row items-start md:items-center">
-            <h2 className="text-2xl font-semibold  mb-4 md:mb-0 md:mr-8">
+            <h2 className="text-2xl font-semibold mb-4 md:mb-0 md:mr-8">
               $ {property?.price}
             </h2>
-            <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                size="icon"
-                className="hover:bg-blue-100"
-              >
-                <Facebook className="h-5 w-5 text-blue-600" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="hover:bg-blue-100"
-              >
-                <Twitter className="h-5 w-5 text-blue-400" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="hover:bg-pink-100"
-              >
-                <Instagram className="h-5 w-5 text-pink-600" />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="hover:bg-gray-100"
-              >
-                <Share2 className="h-5 w-5 text-gray-600" />
-              </Button>
+            <div className="flex items-center space-x-2">
+              {totalReviews > 0 && (
+                <div className="flex items-center gap-2 text-md text-[#344E41]">
+                  <span className="text-md text-[#344E41] font-semibold">
+                    {averageRating.toFixed(1)}
+                  </span>
+                  <AverageRatingStars rating={averageRating} />
+                  <span className="text-md text-[#344E41] font-semibold">
+                    ({totalReviews} -{" "}
+                    {totalReviews === 1 ? "review" : "reviews"})
+                  </span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -422,6 +462,22 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
               </CardContent>
             </Card>
 
+            <Card className="shadow-lg mb-2">
+              <CardContent className="p-6 h-[500px] flex flex-col">
+                <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+                <div className="flex-grow overflow-hidden">
+                  <ReviewSection
+                    propertyId={property.id}
+                    propertyOwner={landlord}
+                    property={property}
+                    // tenant={tenant}
+                    userDetails={userDetails}
+                    // createReview={createReview}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+
             <Card className="shadow-lg">
               <CardContent className="p-6 h-[500px] flex flex-col">
                 <h3 className="text-xl font-semibold mb-4">Comments</h3>
@@ -435,22 +491,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     property={property}
                     createComment={createComment}
                     currentUser={currentUser}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="shadow-lg">
-              <CardContent className="p-6 h-[500px] flex flex-col">
-                <h3 className="text-xl font-semibold mb-4">Reviews</h3>
-                <div className="flex-grow overflow-hidden">
-                  <ReviewSection
-                    propertyId={property.id}
-                    propertyOwner={landlord}
-                    property={property}
-                    // tenant={tenant}
-                    userDetails={userDetails}
-                    // createReview={createReview}
+                    userToken={userToken}
                   />
                 </div>
               </CardContent>
