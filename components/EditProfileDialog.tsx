@@ -1,8 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
 import { useMediaQuery } from "usehooks-ts";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,12 +11,12 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import { cn } from "@/lib/utils";
 import { useDialogsState } from "@/store/dialogs";
 import EditProfileForm from "@/components/forms/EditProfileForm";
 import EditTenantProfileForm from "./forms/EditTenantProfileForm";
@@ -28,7 +26,12 @@ interface DialogsStore {
   updateEditProfileDialogOpen: () => void;
 }
 
-export function EditProfileDialog({ userType, data }) {
+interface EditProfileDialogProps {
+  userType: string;
+  data: any; // Replace 'any' with your data type
+}
+
+export function EditProfileDialog({ userType, data }: EditProfileDialogProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const updateEditProfileDialogOpen = useDialogsState(
     (state: DialogsStore) => state.updateEditProfileDialogOpen
@@ -36,29 +39,26 @@ export function EditProfileDialog({ userType, data }) {
   const isEditProfileDialogOpen = useDialogsState(
     (state: DialogsStore) => state.isEditProfileDialogOpen
   );
-  const [localIsEditProfileDialogOpen, setLocalIsEditProfileDialogOpen] =
-    useState<boolean>(isEditProfileDialogOpen);
 
-  useEffect(() => {
-    setLocalIsEditProfileDialogOpen(isEditProfileDialogOpen);
-  }, [isEditProfileDialogOpen]);
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      updateEditProfileDialogOpen();
+    }
+  };
 
   const scrollableContentStyle =
     "overflow-y-auto max-h-[calc(100vh-200px)] scrollbar-hide";
 
   if (isDesktop) {
     return (
-      <Dialog
-        open={isEditProfileDialogOpen}
-        onOpenChange={updateEditProfileDialogOpen}
-      >
+      <Dialog open={isEditProfileDialogOpen} onOpenChange={handleOpenChange}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            {userType?.includes("landlord") ? (
-              <DrawerTitle>Edit Landlord Profile</DrawerTitle>
-            ) : (
-              <DrawerTitle>Edit Tenant Profile</DrawerTitle>
-            )}
+            <DialogTitle>
+              {userType?.includes("landlord")
+                ? "Edit Landlord Profile"
+                : "Edit Tenant Profile"}
+            </DialogTitle>
           </DialogHeader>
           <div className={scrollableContentStyle}>
             {userType?.includes("landlord") ? (
@@ -73,30 +73,26 @@ export function EditProfileDialog({ userType, data }) {
   }
 
   return (
-    <Drawer
-      open={isEditProfileDialogOpen}
-      onOpenChange={updateEditProfileDialogOpen}
-    >
+    <Drawer open={isEditProfileDialogOpen} onOpenChange={handleOpenChange}>
       <DrawerContent>
         <DrawerHeader className="text-left">
-          {userType?.includes("landlord") ? (
-            <DrawerTitle>Edit Landlord Profile</DrawerTitle>
-          ) : (
-            <DrawerTitle>Edit Tenant Profile</DrawerTitle>
-          )}
+          <DrawerTitle>
+            {userType?.includes("landlord")
+              ? "Edit Landlord Profile"
+              : "Edit Tenant Profile"}
+          </DrawerTitle>
         </DrawerHeader>
         <div className={cn(scrollableContentStyle, "px-4")}>
           {userType?.includes("landlord") ? (
             <EditProfileForm data={data} />
           ) : (
-            <EditTenantProfileForm data={data} />
+            <EditTenantProfileForm initialData={data} />
           )}
-          {/* <EditProfileForm userType={userType} /> */}
         </div>
         <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
+          {/* <Button variant="outline" onClick={() => handleOpenChange(false)}>
+            Cancel
+          </Button> */}
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

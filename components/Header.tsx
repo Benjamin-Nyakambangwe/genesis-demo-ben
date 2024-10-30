@@ -7,16 +7,21 @@ import { usePathname } from "next/navigation";
 import AuthButton from "./AuthButton";
 import { Button } from "./ui/button";
 import LogoutButton from "./LogoutButton";
+import { Menu, X } from "lucide-react";
 
-const Header: React.FC = ({ token }) => {
+interface HeaderProps {
+  token?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ token }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
 
-  const linkStyle = (href) => {
+  const linkStyle = (href: string) => {
     const isActive = pathname === href;
-    return `block  py-2 px-3 rounded hover:bg-gray-100 hover:text-[#344E41] hover:font-bold md:hover:bg-transparent md:hover:text-[#344E41] md:p-0 md:dark:hover:text-red-600 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+    return `block py-2 px-3 rounded hover:bg-gray-100 hover:text-[#344E41] hover:font-bold md:hover:bg-transparent md:hover:text-[#344E41] md:p-0 md:dark:hover:text-red-600 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
       isActive
         ? "text-[#344E41] font-bold border-b-2 border-[#344E41] font-bold"
         : "text-gray-900"
@@ -37,7 +42,7 @@ const Header: React.FC = ({ token }) => {
             <div className="flex justify-between">
               <Link href="/profile">
                 <Button className="bg-[#344E41] text-[#DAD7CD] rounded-full hover:bg-[#A3B18A]">
-                  Visit Profile
+                  Profile
                 </Button>
               </Link>
               <LogoutButton />
@@ -54,21 +59,11 @@ const Header: React.FC = ({ token }) => {
             aria-expanded={mobileMenuOpen}
           >
             <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
           </button>
         </div>
         <div

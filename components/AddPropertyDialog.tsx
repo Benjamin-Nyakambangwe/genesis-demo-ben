@@ -2,50 +2,42 @@
 
 import * as React from "react";
 import { useState, useEffect } from "react";
-
 import { cn } from "@/lib/utils";
-// import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMediaQuery } from "usehooks-ts";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
+  DrawerFooter,
 } from "@/components/ui/drawer";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useDialogsState } from "@/store/dialogs";
 import AddNewPropertyForm from "@/components/forms/AddNewPropertyForm";
+import { useDialogsState } from "@/store/dialogs";
 
 interface DialogsStore {
   isAddNewPropertyDialogOpen: boolean;
   updateAddNewPropertyDialogOpen: () => void;
 }
 
-export function AddNewPropertyDialog({ userType, houseTypes, houseLocations }) {
+interface AddNewPropertyDialogProps {
+  userType: string;
+  houseTypes: Array<{ id: string; name: string }>;
+  houseLocations: Array<{ id: string; name: string }>;
+}
+
+export function AddNewPropertyDialog({
+  userType,
+  houseTypes,
+  houseLocations,
+}: AddNewPropertyDialogProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const updateAddNewPropertyDialogOpen = useDialogsState(
     (state: DialogsStore) => state.updateAddNewPropertyDialogOpen
@@ -53,22 +45,19 @@ export function AddNewPropertyDialog({ userType, houseTypes, houseLocations }) {
   const isAddNewPropertyDialogOpen = useDialogsState(
     (state: DialogsStore) => state.isAddNewPropertyDialogOpen
   );
-  const [localIsAddNewPropertyDialogOpen, setLocalIsAddNewPropertyDialogOpen] =
-    useState<boolean>(isAddNewPropertyDialogOpen);
 
-  useEffect(() => {
-    setLocalIsAddNewPropertyDialogOpen(isAddNewPropertyDialogOpen);
-  }, [isAddNewPropertyDialogOpen]);
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      updateAddNewPropertyDialogOpen();
+    }
+  };
 
   const scrollableContentStyle =
     "overflow-y-auto max-h-[calc(100vh-200px)] scrollbar-hide";
 
   if (isDesktop) {
     return (
-      <Dialog
-        open={isAddNewPropertyDialogOpen}
-        onOpenChange={updateAddNewPropertyDialogOpen}
-      >
+      <Dialog open={isAddNewPropertyDialogOpen} onOpenChange={handleOpenChange}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Add Property</DialogTitle>
@@ -85,10 +74,7 @@ export function AddNewPropertyDialog({ userType, houseTypes, houseLocations }) {
   }
 
   return (
-    <Drawer
-      open={isAddNewPropertyDialogOpen}
-      onOpenChange={updateAddNewPropertyDialogOpen}
-    >
+    <Drawer open={isAddNewPropertyDialogOpen} onOpenChange={handleOpenChange}>
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>Add Property</DrawerTitle>
@@ -101,9 +87,9 @@ export function AddNewPropertyDialog({ userType, houseTypes, houseLocations }) {
           />
         </div>
         <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
+          {/* <Button variant="outline" onClick={() => handleOpenChange(false)}>
+            Cancel
+          </Button> */}
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

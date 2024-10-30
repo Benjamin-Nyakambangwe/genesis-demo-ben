@@ -1,15 +1,17 @@
 const Footer = () => {
   return (
-    <div className="block md:flex justify-between items-center p-5 text-[#DAD7CD] bg-[#344E41]">
-      <div className="block md:flex container">
-        <h5 className="mr-3">&copy; {new Date().getFullYear()} ROJA </h5>
-        <h5>All Rights Reserved </h5>
+    <footer className="bg-[#344E41] text-[#DAD7CD] p-4 md:p-5">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <div className="flex flex-col md:flex-row items-center md:items-start space-y-2 md:space-y-0">
+          <h5 className="md:mr-3">&copy; {new Date().getFullYear()} ROJA</h5>
+          <h5>All Rights Reserved</h5>
+        </div>
+        <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0">
+          <h5 className="md:mr-3">Privacy Policy</h5>
+          <h5>Terms Of Service</h5>
+        </div>
       </div>
-      <div className="block md:flex">
-        <h5 className="mr-3">Privacy Policy</h5>
-        <h5>Terms Of Service</h5>
-      </div>
-    </div>
+    </footer>
   );
 };
 

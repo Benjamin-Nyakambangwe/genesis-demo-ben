@@ -199,7 +199,7 @@ const ProfilePage = async () => {
   return (
     <div className=" container mt-24 mb-24">
       <div className="flex flex-col sm:flex-row justify-between max-w-[100vw]">
-        <Card className="">
+        <Card className="mb-4">
           <CardContent>
             <div className=" mt-7 flex flex-col justify-center items-center">
               <Image
@@ -229,7 +229,7 @@ const ProfilePage = async () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-4 mt-4">
+              <div className="grid grid-cols-1 gap-4 mt-4 ">
                 <EditProfileButton />
                 {userType?.includes("landlord") ? (
                   <>

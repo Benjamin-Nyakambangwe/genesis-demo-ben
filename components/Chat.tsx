@@ -51,7 +51,7 @@ export default function Chat({
   const socketRef = useRef<WebSocket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -169,27 +169,38 @@ export default function Chat({
 
   return (
     <div className="flex h-[600px] sm:h-[600px] w-full mt-12 mx-auto border rounded-lg overflow-hidden">
-      {/* Sidebar */}
+      {/* Sidebar - Updated with better mobile containment */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-10 sm:hidden"
+          onClick={toggleSidebar}
+        />
+      )}
       <div
         className={`
-        ${isSidebarOpen ? "w-full sm:w-64" : "hidden"} 
-        border-r bg-background 
-        absolute sm:relative 
-        h-full 
-        z-20
-      `}
+          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
+          ${isSidebarOpen ? "w-[85%] sm:w-64" : "w-0"} 
+          fixed sm:relative 
+          left-0 top-0 
+          h-full sm:h-auto
+          bg-background 
+          border-r
+          transition-all duration-300
+          z-20
+          sm:translate-x-0
+        `}
       >
-        <div className="p-4 border-b flex justify-between items-center">
-          <Button className="w-full justify-start" variant="outline">
+        <div className="xs:hidden md:block p-4 border-b flex justify-between items-center bg-white">
+          {/* <Button className="w-full justify-start" variant="outline">
             <Plus className="mr-2 h-4 w-4" />
             New Chat
           </Button>
           <Button variant="ghost" className="sm:hidden" onClick={toggleSidebar}>
             <MoveLeft className="h-4 w-4" />
-          </Button>
+          </Button> */}
         </div>
 
-        <ScrollArea className="h-[calc(600px-8rem)]">
+        <ScrollArea className="h-[calc(100vh-5rem)] sm:h-[calc(600px-8rem)]">
           {chats.map((chat) => (
             <div
               key={chat.chat_id}
@@ -225,12 +236,14 @@ export default function Chat({
         </ScrollArea>
       </div>
 
-      {/* Chat Area */}
+      {/* Chat Area - Updated to handle mobile view better */}
       <div
         className={`
-        flex-1 flex flex-col 
-        ${isSidebarOpen ? "hidden sm:flex" : "flex"}
-      `}
+          flex-1 flex flex-col 
+          ${isSidebarOpen ? "hidden sm:flex" : "flex"}
+          w-full
+          transition-all duration-300
+        `}
       >
         <div className="bg-[#344E41] p-4 text-primary-foreground flex items-center">
           <Button

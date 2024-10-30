@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
@@ -22,7 +21,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -32,8 +30,9 @@ import { useDialogsState } from "@/store/dialogs";
 import Link from "next/link";
 import { setCurrentTenantAction } from "@/lib/setCurrentTenant";
 import { revokeCurrentTenantAction } from "@/lib/revokeCurrentTenant";
+
 interface DialogsStore {
-  propertyToEdit: any; // Replace 'any' with your property type
+  propertyToEdit: any;
   isPropertyTenantsDrawerOpen: boolean;
   updatePropertyTenantsDrawerOpen: () => void;
 }
@@ -50,7 +49,11 @@ export default function PropertyTenantsDrawer() {
     (state: DialogsStore) => state.propertyToEdit
   );
 
-  console.log("PROPERTY TO EDIT", propertyToEdit);
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      updatePropertyTenantsDrawerOpen();
+    }
+  };
 
   const scrollableContentStyle =
     "overflow-y-auto max-h-[calc(100vh-200px)] scrollbar-hide";
@@ -76,7 +79,7 @@ export default function PropertyTenantsDrawer() {
               <TableCell className="font-medium">{tenant.first_name}</TableCell>
               <TableCell>{tenant.last_name}</TableCell>
               <TableCell>
-                <Button variant="outline">
+                <Button className="bg-[#344E41] hover:bg-[#A3B18A]">
                   <Link href={`/tenant-profile/${tenant.id}`}>
                     View Profile
                   </Link>
@@ -85,7 +88,7 @@ export default function PropertyTenantsDrawer() {
               {propertyToEdit.current_tenant?.id != tenant.id ? (
                 <TableCell>
                   <Button
-                    variant="outline"
+                    className="bg-[#344E41] hover:bg-[#A3B18A]"
                     onClick={async () =>
                       await setCurrentTenantAction(tenant.id, propertyToEdit.id)
                     }
@@ -96,7 +99,7 @@ export default function PropertyTenantsDrawer() {
               ) : (
                 <TableCell>
                   <Button
-                    variant="outline"
+                    className="bg-[#344E41] hover:bg-[#A3B18A]"
                     onClick={async () =>
                       await revokeCurrentTenantAction(
                         tenant.id,
@@ -119,7 +122,7 @@ export default function PropertyTenantsDrawer() {
     return (
       <Dialog
         open={isPropertyTenantsDrawerOpen}
-        onOpenChange={updatePropertyTenantsDrawerOpen}
+        onOpenChange={handleOpenChange}
       >
         <DialogContent className="sm:max-w-[675px]">
           <DialogHeader>
@@ -132,19 +135,19 @@ export default function PropertyTenantsDrawer() {
   }
 
   return (
-    <Drawer
-      open={isPropertyTenantsDrawerOpen}
-      onOpenChange={updatePropertyTenantsDrawerOpen}
-    >
+    <Drawer open={isPropertyTenantsDrawerOpen} onOpenChange={handleOpenChange}>
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>View Property Tenants</DrawerTitle>
         </DrawerHeader>
         <div className={cn(scrollableContentStyle, "px-4")}>{content}</div>
         <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Close</Button>
-          </DrawerClose>
+          {/* <Button 
+            variant="outline" 
+            onClick={() => handleOpenChange(false)}
+          >
+            Close
+          </Button> */}
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

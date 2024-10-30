@@ -23,7 +23,7 @@ const LogoutButton = () => {
         variant="outline"
       >
         Logout{" "}
-        <CircleUserRound className="ml-2 h-4 w-4 text-[#344E41] font-bold" />
+        {/* <CircleUserRound className="ml-2 h-4 w-4 text-[#344E41] font-bold" /> */}
       </Button>
     </form>
   );

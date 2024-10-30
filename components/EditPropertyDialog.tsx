@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerFooter,
   DrawerHeader,
@@ -28,7 +26,15 @@ interface DialogsStore {
   propertyToEdit: any; // Replace 'any' with your property type
 }
 
-export function EditPropertyDialog({ houseTypes, houseLocations }) {
+interface EditPropertyDialogProps {
+  houseTypes: Array<{ id: string; name: string }>;
+  houseLocations: Array<{ id: string; name: string }>;
+}
+
+export function EditPropertyDialog({
+  houseTypes,
+  houseLocations,
+}: EditPropertyDialogProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const updateEditPropertyDialogOpen = useDialogsState(
     (state: DialogsStore) => state.updateEditPropertyDialogOpen
@@ -40,15 +46,18 @@ export function EditPropertyDialog({ houseTypes, houseLocations }) {
     (state: DialogsStore) => state.propertyToEdit
   );
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      updateEditPropertyDialogOpen();
+    }
+  };
+
   const scrollableContentStyle =
     "overflow-y-auto max-h-[calc(100vh-200px)] scrollbar-hide";
 
   if (isDesktop) {
     return (
-      <Dialog
-        open={isEditPropertyDialogOpen}
-        onOpenChange={updateEditPropertyDialogOpen}
-      >
+      <Dialog open={isEditPropertyDialogOpen} onOpenChange={handleOpenChange}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit Property</DialogTitle>
@@ -57,7 +66,7 @@ export function EditPropertyDialog({ houseTypes, houseLocations }) {
             <EditPropertyForm
               houseTypes={houseTypes}
               houseLocations={houseLocations}
-              propertyData={propertyToEdit}
+              propertyToEdit={propertyToEdit}
             />
           </div>
         </DialogContent>
@@ -66,10 +75,7 @@ export function EditPropertyDialog({ houseTypes, houseLocations }) {
   }
 
   return (
-    <Drawer
-      open={isEditPropertyDialogOpen}
-      onOpenChange={updateEditPropertyDialogOpen}
-    >
+    <Drawer open={isEditPropertyDialogOpen} onOpenChange={handleOpenChange}>
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>Edit Property</DrawerTitle>
@@ -79,13 +85,13 @@ export function EditPropertyDialog({ houseTypes, houseLocations }) {
             className="px-4"
             houseTypes={houseTypes}
             houseLocations={houseLocations}
-            propertyData={propertyToEdit}
+            propertyToEdit={propertyToEdit}
           />
         </div>
         <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
+          {/* <Button variant="outline" onClick={() => handleOpenChange(false)}>
+            Cancel
+          </Button> */}
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

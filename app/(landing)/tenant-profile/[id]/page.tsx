@@ -39,22 +39,23 @@ export default async function TenantProfilePage({
   }
 
   return (
-    <div className="container mx-auto mt-36 my-10">
+    <div className="container mx-auto px-4 mt-24 sm:mt-36 my-6 sm:my-10">
       {userToken && userType?.includes("landlord") ? (
         error ? (
           <div className="text-center text-red-500">{error}</div>
         ) : tenantData ? (
-          <div className="flex justify-center">
-            <TenantDetailsCard initialTenantDetails={tenantData} />
-            <Card className="w-full md:w-[350px]">
+          <div className="flex flex-col lg:flex-row gap-6 justify-center items-start">
+            <div className="w-full lg:w-2/3">
+              <TenantDetailsCard initialTenantDetails={tenantData} />
+            </div>
+            <Card className="w-full lg:w-1/3 min-w-[300px] max-w-[450px] mx-auto">
               <CardHeader>
-                <CardTitle className="text-center p-4">
+                <CardTitle className="text-center p-2 sm:p-4">
                   Quick Message Tenant
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <form action={submitMessageAction}>
-                  {/* <input type="hidden" name="listingId" value={listingId} /> */}
                   <input
                     type="hidden"
                     name="receiver"
@@ -67,6 +68,7 @@ export default async function TenantProfilePage({
                         name="message"
                         placeholder="Type your message here."
                         required
+                        className="min-h-[120px]"
                       />
                     </div>
                   </div>

@@ -118,7 +118,7 @@ export default function EditPropertyForm({
           type="text"
           required
           defaultValue={propertyToEdit?.title}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -128,7 +128,7 @@ export default function EditPropertyForm({
           name="description"
           required
           defaultValue={propertyToEdit?.description}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="flex justify-between">
@@ -140,7 +140,7 @@ export default function EditPropertyForm({
             type="text"
             required
             defaultValue={propertyToEdit?.address}
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
         <div className="m-1">
@@ -152,7 +152,7 @@ export default function EditPropertyForm({
             step="0.01"
             required
             defaultValue={propertyToEdit?.price}
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
       </div>
@@ -165,7 +165,7 @@ export default function EditPropertyForm({
             type="number"
             required
             defaultValue={propertyToEdit?.bedrooms}
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
         <div className="m-1">
@@ -176,7 +176,7 @@ export default function EditPropertyForm({
             type="number"
             required
             defaultValue={propertyToEdit?.bathrooms}
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
       </div>
@@ -187,7 +187,7 @@ export default function EditPropertyForm({
             id="accepts_pets"
             name="accepts_pets"
             defaultChecked={propertyToEdit?.accepts_pets}
-            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="accepts_pets">Accepts Pets</Label>
         </div>
@@ -196,7 +196,7 @@ export default function EditPropertyForm({
             id="accepts_smokers"
             name="accepts_smokers"
             defaultChecked={propertyToEdit?.accepts_smokers}
-            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="accepts_smokers">Accepts Smokers</Label>
         </div>
@@ -205,7 +205,7 @@ export default function EditPropertyForm({
             id="pool"
             name="pool"
             defaultChecked={propertyToEdit?.pool}
-            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="pool">Pool Available</Label>
         </div>
@@ -214,7 +214,7 @@ export default function EditPropertyForm({
             id="garden"
             name="garden"
             defaultChecked={propertyToEdit?.garden}
-            className="data-[state=checked]:bg-red-600 border-red-600 border-2"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="garden">Garden Available</Label>
         </div>
@@ -228,7 +228,7 @@ export default function EditPropertyForm({
             type="number"
             required
             defaultValue={propertyToEdit?.area}
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
         <div className="m-1">
@@ -239,7 +239,7 @@ export default function EditPropertyForm({
             type="number"
             step="0.01"
             defaultValue={propertyToEdit?.pet_deposit}
-            className="focus-visible:ring-red-600 focus:border-0"
+            className="focus-visible:ring-[#344E41] focus:border-0"
           />
         </div>
       </div>
@@ -308,7 +308,7 @@ export default function EditPropertyForm({
           step="0.01"
           required
           defaultValue={propertyToEdit?.deposit}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
@@ -320,7 +320,7 @@ export default function EditPropertyForm({
           multiple
           accept="image/*"
           onChange={handleImageChange}
-          className="focus-visible:ring-red-600 focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0"
         />
         <div className="flex flex-wrap gap-2 mt-2">
           {previewUrls.map((url, index) => (
@@ -333,7 +333,7 @@ export default function EditPropertyForm({
               <button
                 type="button"
                 onClick={() => removeImage(index)}
-                className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1"
+                className="absolute top-0 right-0 bg-[#344E41] text-white rounded-full p-1 hover:bg-[#A3B18A]"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -341,7 +341,7 @@ export default function EditPropertyForm({
           ))}
         </div>
       </div>
-      <Button type="submit" className="bg-red-600">
+      <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
         Update Property
       </Button>
     </form>
