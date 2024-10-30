@@ -204,7 +204,7 @@ const HomePage = async () => {
         </Card>
       </div>
       <Testimonials />
-      <HomeServicesSection />
+      {/* <HomeServicesSection /> */}
     </div>
   );
 };

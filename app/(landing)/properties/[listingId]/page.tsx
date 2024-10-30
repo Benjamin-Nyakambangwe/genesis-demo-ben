@@ -361,7 +361,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                 <p className="mb-6">{property?.description}</p>
                 <Separator className="my-6" />
                 <h3 className="text-xl font-semibold mb-4">Property Details</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div className="flex items-center space-x-2">
                     <div className="text-[#344E41]">
                       <Home className="h-5 w-5" />

@@ -14,6 +14,8 @@ interface ImageShowcaseProps {
 const ImageShowcase: React.FC<ImageShowcaseProps> = ({ images }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
+  console.log("images in image showcase", images);
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-4">

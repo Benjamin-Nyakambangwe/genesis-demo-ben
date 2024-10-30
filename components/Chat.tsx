@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Send, Plus, Search } from "lucide-react";
+import { Send, Plus, Search, X, Menu, MoveLeft } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,6 +51,7 @@ export default function Chat({
   const socketRef = useRef<WebSocket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -162,14 +163,29 @@ export default function Chat({
     }
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className="flex h-[600px] w-full mt-12 mx-auto border rounded-lg overflow-hidden">
+    <div className="flex h-[600px] sm:h-[600px] w-full mt-12 mx-auto border rounded-lg overflow-hidden">
       {/* Sidebar */}
-      <div className="w-64 border-r bg-background">
-        <div className="p-4 border-b">
+      <div
+        className={`
+        ${isSidebarOpen ? "w-full sm:w-64" : "hidden"} 
+        border-r bg-background 
+        absolute sm:relative 
+        h-full 
+        z-20
+      `}
+      >
+        <div className="p-4 border-b flex justify-between items-center">
           <Button className="w-full justify-start" variant="outline">
             <Plus className="mr-2 h-4 w-4" />
             New Chat
+          </Button>
+          <Button variant="ghost" className="sm:hidden" onClick={toggleSidebar}>
+            <MoveLeft className="h-4 w-4" />
           </Button>
         </div>
 
@@ -178,7 +194,12 @@ export default function Chat({
             <div
               key={chat.chat_id}
               className="p-4 hover:bg-muted cursor-pointer"
-              onClick={() => handleChatSelect(chat)}
+              onClick={() => {
+                handleChatSelect(chat);
+                if (window.innerWidth < 640) {
+                  setIsSidebarOpen(false);
+                }
+              }}
             >
               <div className="flex items-center space-x-4">
                 <Avatar className="w-10 h-10">
@@ -205,21 +226,28 @@ export default function Chat({
       </div>
 
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col">
-        <div className="bg-[#344E41] p-4 text-primary-foreground">
+      <div
+        className={`
+        flex-1 flex flex-col 
+        ${isSidebarOpen ? "hidden sm:flex" : "flex"}
+      `}
+      >
+        <div className="bg-[#344E41] p-4 text-primary-foreground flex items-center">
+          <Button
+            variant="ghost"
+            className="mr-2 sm:hidden"
+            onClick={toggleSidebar}
+          >
+            <Menu className="h-4 w-4 text-white" />
+          </Button>
           <h2 className="text-xl font-semibold">
             {selectedChat
               ? `${selectedChat.other_user.first_name} ${selectedChat.other_user.last_name}`
               : "Select a chat"}
           </h2>
         </div>
-        <ScrollArea
-          className="flex-grow p-4 space-y-4"
-          ref={scrollAreaRef}
-          onScroll={() => {
-            // Optional: You can add scroll event handling here if needed
-          }}
-        >
+
+        <ScrollArea className="flex-grow p-4 space-y-4" ref={scrollAreaRef}>
           {messages.map((message) => (
             <div
               key={message.id}
@@ -255,8 +283,9 @@ export default function Chat({
               </div>
             </div>
           ))}
-          <div ref={messagesEndRef} /> {/* Add this line */}
+          <div ref={messagesEndRef} />
         </ScrollArea>
+
         <div className="p-4 border-t">
           <form
             onSubmit={(e) => {

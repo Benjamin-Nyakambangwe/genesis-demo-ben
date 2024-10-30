@@ -161,6 +161,21 @@ const PropertiesList: React.FC = () => {
   );
   const acceptsPets = useFilterState((state: FilterStore) => state.acceptsPets);
 
+  const [cardWidth, setCardWidth] = useState(300);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      setCardWidth(window.innerWidth < 640 ? window.innerWidth - 18 : 300);
+    };
+
+    // Initial width
+    updateWidth();
+
+    // Update width on resize
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
   useEffect(() => {
     const fetchProperties = async () => {
       try {
@@ -208,17 +223,18 @@ const PropertiesList: React.FC = () => {
   return (
     <>
       {isGrid ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
           {properties.map((property) => (
-            <PropertyCard
+            <div
               key={property.id}
-              widthVar={300}
-              property={property}
-            />
+              className="w-full flex justify-center sm:block"
+            >
+              <PropertyCard widthVar={cardWidth} property={property} />
+            </div>
           ))}
         </div>
       ) : (
-        <div className="">
+        <div className="w-full space-y-4">
           {properties.map((property) => (
             <PropertyCardWide key={property.id} property={property} />
           ))}

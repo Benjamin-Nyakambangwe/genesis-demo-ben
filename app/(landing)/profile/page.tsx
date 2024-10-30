@@ -198,7 +198,7 @@ const ProfilePage = async () => {
   console.log("landloard", data);
   return (
     <div className=" container mt-24 mb-24">
-      <div className="flex justify-between max-w-[100vw]">
+      <div className="flex flex-col sm:flex-row justify-between max-w-[100vw]">
         <Card className="">
           <CardContent>
             <div className=" mt-7 flex flex-col justify-center items-center">
@@ -209,14 +209,7 @@ const ProfilePage = async () => {
                 height={150}
                 className="rounded-3xl"
               />
-              {/* <Avatar>
-          <AvatarImage
-            src="https://github.com/shadcn.png"
-            alt="@shadcn"
-            className="w-36 h-36 rounded-3xl"
-          />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar> */}
+
               <div className="flex flex-col items-start mt-4">
                 <div className="flex justify-between">
                   <User className="h-4 w-4 text-[#344E41] mr-2" />
@@ -257,12 +250,12 @@ const ProfilePage = async () => {
           </CardContent>
         </Card>
         {userType?.includes("landlord") ? (
-          <div className="w-[70%]">
+          <div className="w-full sm:w-[70%]">
             <ProfilePropertySlider initialData={properties} />
             {/* <TenantDetailsCard tenantDetails={data} /> */}
           </div>
         ) : (
-          <div className="w-[90%]">
+          <div className="w-full sm:w-[70%]">
             {/* <ProfilePropertySlider data={properties} /> */}
             <TenantDetailsCard initialTenantDetails={data} />
           </div>

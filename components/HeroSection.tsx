@@ -27,7 +27,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
       <div className="relative z-10 flex flex-col items-center">
-        <p className=" text-xs sm:text-base mb-4 text-[#A3B18A]">
+        <p className=" text-md sm:text-lg mb-4 text-[#A3B18A]">
           The road to freedom starts from here
         </p>
         <TypewriterEffectSmooth words={words} />
