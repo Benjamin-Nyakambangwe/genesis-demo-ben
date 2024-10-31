@@ -270,6 +270,79 @@ async function getCurrentUser() {
   }
 }
 
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: { listingId: string } 
+}): Promise<Metadata> {
+  // Fetch property data
+  const property = await getProperty(params.listingId);
+
+  return {
+    title: `${property.title} | RO-JA Properties`,
+    description: `${property.description.slice(0, 155)}...`,
+    keywords: [
+      property.property_type,
+      "rental property",
+      property.location?.name,
+      `${property.bedrooms} bedroom`,
+      `${property.bathrooms} bathroom`,
+      property.city,
+      "Zimbabwe property",
+      "property for rent",
+    ],
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      url: `https://beta.ro-ja.com/properties/${property.id}`,
+      title: property.title,
+      description: property.description,
+      siteName: "RO-JA Properties",
+      images: [
+        {
+          url: property.images[0]?.image || "/img/default-property.jpg",
+          width: 1200,
+          height: 630,
+          alt: property.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${property.title} | RO-JA Properties`,
+      description: property.description,
+      images: [property.images[0]?.image || "/img/default-property.jpg"],
+      creator: "@roja_zw",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
+    alternates: {
+      canonical: `https://beta.ro-ja.com/properties/${property.id}`,
+    },
+    authors: [{ name: "RO-JA" }],
+    verification: {
+      google: "your-google-verification-code",
+    },
+    other: {
+      "price": property.price,
+      "availability": "for rent",
+      "propertyType": property.property_type,
+      "location": property.location?.name,
+      "bedrooms": property.bedrooms,
+      "bathrooms": property.bathrooms,
+    },
+  };
+}
+
 const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
   const property = await getProperty(params.listingId);
   const landlord = await getLandlord(property.owner.id);

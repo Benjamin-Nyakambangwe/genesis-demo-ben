@@ -19,6 +19,62 @@ import { Testimonials } from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+export const metadata: Metadata = {
+  title: "RO-JA | Find Your Perfect Home",
+  description:
+    "Discover a wide range of rental properties in Zimbabwe. From full houses to single rooms, find your ideal living space with RO-JA.",
+  keywords: [
+    "rental properties",
+    "Zimbabwe housing",
+    "property rentals",
+    "houses for rent",
+    "student accommodation",
+    "gated clusters",
+    "cottages",
+    "single rooms",
+  ],
+  authors: [{ name: "RO-JA" }],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://beta.ro-ja.com",
+    siteName: "RO-JA",
+    title: "RO-JA | Zimbabwe's Premier Property Rental Platform",
+    description:
+      "Find your perfect rental property in Zimbabwe. Browse through our extensive collection of houses, clusters, cottages, and rooms.",
+    images: [
+      {
+        url: "/img/RO-JA.svg", // Update with your actual OG image path
+        width: 1200,
+        height: 630,
+        alt: "RO-JA Property Rentals",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RO-JA | Find Your Perfect Home",
+    description:
+      "Discover your ideal rental property in Zimbabwe with RO-JA. From full houses to student accommodation.",
+    images: ["/img/RO-JA.svg"], // Update with your actual Twitter card image
+    creator: "@roja_zw", // Update with your actual Twitter handle
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code", // Add your Google verification code
+  },
+};
+
 async function getFullHousesList() {
   const myHeaders = new Headers();
 

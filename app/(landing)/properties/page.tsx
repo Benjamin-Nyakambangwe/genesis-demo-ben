@@ -5,36 +5,64 @@ import PropertiesList from "@/components/PropertiesList";
 import { Property } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Available Properties | FSBO Africa",
-  description:
-    "Browse our list of available properties for sale and rent across Africa.",
+  title: "Property Listings | RO-JA Properties",
+  description: "Browse our extensive collection of rental properties in Zimbabwe. Find houses, apartments, rooms, and more with detailed filters for location, price, and amenities.",
+  keywords: [
+    "Zimbabwe rentals",
+    "property listings",
+    "houses for rent",
+    "apartments for rent",
+    "rental properties Zimbabwe",
+    "student accommodation",
+    "property search",
+    "RO-JA properties"
+  ],
   openGraph: {
-    title: "Available Properties | FSBO Africa",
-    description:
-      "Browse our list of available properties for sale and rent across Africa.",
-    url: "https://fsboafrica.com/properties",
-    siteName: "FSBO Africa",
+    title: "Find Your Perfect Rental Property | RO-JA Properties",
+    description: "Discover a wide range of rental properties in Zimbabwe. Use our advanced filters to find your ideal home based on location, price, size, and amenities.",
+    url: "https://beta.ro-ja.com/properties",
+    siteName: "RO-JA Properties",
     images: [
       {
-        url: "https://fsboafrica.com/og-image.jpg",
+        url: "/img/RO-JA.svg",
         width: 1200,
         height: 630,
-      },
+        alt: "RO-JA Property Listings"
+      }
     ],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Available Properties | FSBO Africa",
-    description:
-      "Browse our list of available properties for sale and rent across Africa.",
-    images: ["https://fsboafrica.com/twitter-image.jpg"],
+    title: "Browse Rental Properties | RO-JA",
+    description: "Find your next home in Zimbabwe. Browse our curated list of rental properties with advanced search and filtering options.",
+    images: ["/img/RO-JA.svg"],
+    creator: "@roja_zw",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
+  alternates: {
+    canonical: "https://beta.ro-ja.com/properties",
+  },
+  authors: [{ name: "RO-JA" }],
+  verification: {
+    google: "your-google-verification-code",
+  },
+  other: {
+    "pageType": "propertyListing",
+    "country": "Zimbabwe",
+    "platform": "RO-JA Properties",
+  }
 };
 
 interface PropertiesResponse {
