@@ -25,7 +25,7 @@ const LandingScroll = () => {
                     <p className="font-semibold text-xl text-gray-100">
                       Student Accommodation
                     </p>
-                    <p className="text-gray-300">ROJA </p>
+                    <p className="text-gray-300">RO-JA </p>
                   </div>
                 </div>
               </div>
@@ -52,7 +52,7 @@ const LandingScroll = () => {
                     <p className="font-semibold text-xl text-gray-100">
                       Gated Cluster
                     </p>
-                    <p className="text-gray-300">ROJA</p>
+                    <p className="text-gray-300">RO-JA</p>
                   </div>
                 </div>
               </div>
@@ -79,7 +79,7 @@ const LandingScroll = () => {
                     <p className="font-semibold text-xl text-gray-100">
                       Full House
                     </p>
-                    <p className="text-gray-300">ROJA</p>
+                    <p className="text-gray-300">RO-JA</p>
                   </div>
                 </div>
               </div>
@@ -87,7 +87,7 @@ const LandingScroll = () => {
           </div>
 
           {/* Fourth Image */}
-          <div className="group relative w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
+          {/* <div className="group relative w-16 cursor-pointer overflow-hidden shadow-lg shadow-black/30 transition-all duration-200">
             <img
               className="h-full w-full object-cover transition-all  group-hover:scale-125"
               src="https://cdn.pixabay.com/photo/2021/09/17/15/17/fruit-6633086_960_720.jpg"
@@ -111,7 +111,7 @@ const LandingScroll = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Footer */}

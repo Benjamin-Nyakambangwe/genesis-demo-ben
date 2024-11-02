@@ -100,7 +100,8 @@ export async function register(formData: FormData) {
       // Handle error cases
       const errorData = await res.json();
       console.error("Registration error:", errorData);
-      throw new Error(errorData.detail || "Registration failed");
+      // throw new Error(errorData.detail || "Registration failed");
+      return { success: false, error: errorData || "Registration failed test" };
     }
 
     const data = await res.json();

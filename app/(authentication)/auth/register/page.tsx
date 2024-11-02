@@ -2,7 +2,11 @@ import { RegisterForm } from "@/components/forms/Register";
 import Image from "next/image";
 import Link from "next/link";
 
-const RegisterPage = () => {
+interface RegisterPageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+const RegisterPage = ({ searchParams }: RegisterPageProps) => {
   return (
     <div className="flex items-center">
       <div className="w-[10vh] sm:w-[50vw] h-[100vh] bg-[#344E41] flex items-center justify-center">
@@ -10,16 +14,16 @@ const RegisterPage = () => {
           <Link href="/">
             <Image
               src="/img/roja-white.svg"
-            alt="logo"
-            width={650}
-            height={250}
+              alt="logo"
+              width={650}
+              height={250}
               className="w-auto h-auto"
-              />
+            />
           </Link>
         </div>
       </div>
       <div className="mx-auto my-auto">
-        <RegisterForm />
+        <RegisterForm searchParams={searchParams} />
       </div>
     </div>
   );

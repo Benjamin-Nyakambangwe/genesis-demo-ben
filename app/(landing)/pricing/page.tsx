@@ -157,8 +157,10 @@ export default function PricingPage() {
                     features
                   </li>
                   <li className="flex items-center">
-                    <Check className="mr-2 h-4 w-4" /> Up to $
-                    {tier.maxValue.toLocaleString()} in value
+                    <Check className="mr-2 h-4 w-4" />
+                    {tier.maxValue === 100000
+                      ? "Unlimited Value"
+                      : `Up to $${tier.maxValue.toLocaleString()} in value`}
                   </li>
                   <li className="flex items-center">
                     <Check className="mr-2 h-4 w-4" /> {tier.audience}
@@ -197,7 +199,7 @@ export default function PricingPage() {
             </TableHeader>
             <TableBody>
               <TableRow>
-                <TableCell>Number of Features</TableCell>
+                <TableCell>Number of House Views</TableCell>
                 {tiers.map((tier) => (
                   <TableCell key={tier.name}>{tier.features}</TableCell>
                 ))}
@@ -206,7 +208,9 @@ export default function PricingPage() {
                 <TableCell>Max Property Value</TableCell>
                 {tiers.map((tier) => (
                   <TableCell key={tier.name}>
-                    ${tier.maxValue.toLocaleString()}
+                    {tier.maxValue === 100000
+                      ? "Unlimited"
+                      : `$${tier.maxValue.toLocaleString()}`}
                   </TableCell>
                 ))}
               </TableRow>
@@ -231,7 +235,7 @@ export default function PricingPage() {
         </div>
 
         {/* Money-back Guarantee */}
-        <div className="mt-16 text-center">
+        {/* <div className="mt-16 text-center">
           <h2 className="text-2xl font-bold mb-4">
             30-Day Money-Back Guarantee
           </h2>
@@ -239,7 +243,7 @@ export default function PricingPage() {
             Try our service risk-free. If you're not satisfied within 30 days,
             we'll refund your payment.
           </p>
-        </div>
+        </div> */}
 
         {/* Contact Information */}
         <div className="mt-16 text-center">
@@ -250,7 +254,7 @@ export default function PricingPage() {
               href="mailto:sales@example.com"
               className="text-primary hover:underline"
             >
-              sales@example.com
+              sales@ro-ja.com
             </a>{" "}
             or call us at{" "}
             <a href="tel:+1234567890" className="text-primary hover:underline">

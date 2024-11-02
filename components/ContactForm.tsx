@@ -13,6 +13,7 @@ import { cookies } from "next/headers";
 import RevealPropertyDetailsButton from "./RevealPropertyDetailsButton";
 import CopyProtectedContent from "./CopyProtectedContent";
 import { submitMessageAction } from "@/lib/submitMessage";
+import ContactClientForm from "./ContactClientForm";
 
 interface ContactFormProps {
   listingId: string;
@@ -70,32 +71,7 @@ export default function ContactForm({
             name="receiver"
             value={landlord?.user.email || ""}
           />
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Textarea
-                id="message"
-                name="message"
-                placeholder="Type your message here."
-                required
-              />
-            </div>
-          </div>
-          <CardFooter className="flex flex-col items-center mt-4">
-            <Button
-              className="w-full bg-[#344E41] text-[#DAD7CD] hover:bg-[#A3B18A] rounded-full"
-              type="submit"
-            >
-              Send Message
-            </Button>
-            <div>
-              <p className="text-xs text-center mt-2">
-                By sending inquiry messages, you agree to our{" "}
-                <span className="text-[#344E41] font-bold">
-                  <Link href="/terms-of-service">Terms and Conditions.</Link>
-                </span>
-              </p>
-            </div>
-          </CardFooter>
+          <ContactClientForm />
         </form>
       </CardContent>
     </Card>

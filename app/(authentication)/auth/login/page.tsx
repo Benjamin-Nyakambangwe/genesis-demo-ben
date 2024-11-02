@@ -1,10 +1,16 @@
 import { LoginForm } from "@/components/forms/Login";
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
 interface LoginPageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
+
+export const metadata: Metadata = {
+  title: "Login | RO-JA Properties",
+  description: "Login to your RO-JA Properties account.",
+};
 
 const LoginPage = ({ searchParams }: LoginPageProps) => {
   return (

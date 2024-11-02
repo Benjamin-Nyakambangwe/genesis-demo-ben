@@ -28,12 +28,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ConsentCheckbox } from "@/components/ConsentCheckbox";
+import RegisterClientForm from "./RegisterClientForm";
 
-export function RegisterForm() {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Form submitted");
-  };
+export const RegisterForm = async ({
+  searchParams,
+}: {
+  searchParams?: { email_error?: string };
+}) => {
+  const email_error = searchParams?.email_error;
 
   return (
     <>
@@ -42,6 +44,11 @@ export function RegisterForm() {
           <CardTitle className="text-xl">Sign Up</CardTitle>
           <CardDescription>
             Enter your information to create an account
+            {email_error && (
+              <div className=" text-red-700 py-3 rounded relative">
+                {decodeURIComponent(email_error)}
+              </div>
+            )}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -49,85 +56,22 @@ export function RegisterForm() {
             className="my-8"
             action={async (formData) => {
               "use server";
+
               const result = await register(formData);
               if (result.success) {
                 redirect("/registration-success");
               } else {
-                // Handle login failure (e.g., show an error message)
-                console.error(result.error);
+                console.error("Registration error:", result.error);
+                return redirect(
+                  `/auth/register?email_error=${encodeURIComponent(
+                    result.error.email[0]
+                  )}`
+                );
               }
             }}
           >
             <div className="grid gap-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="first_name">First name</Label>
-                  <Input
-                    id="first_name"
-                    name="first_name"
-                    placeholder=""
-                    required
-                    className="focus-visible:ring-[#344E41] focus:border-0"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="last_name">Last name</Label>
-                  <Input
-                    id="last_name"
-                    name="last_name"
-                    placeholder=""
-                    required
-                    className="focus-visible:ring-[#344E41] focus:border-0"
-                  />
-                </div>
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder=""
-                  required
-                  className="focus-visible:ring-[#344E41] focus:border-0"
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  className="focus-visible:ring-[#344E41] focus:border-0"
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="re_password">Repeat Password</Label>
-                <Input
-                  id="re_password"
-                  name="re_password"
-                  type="password"
-                  className="focus-visible:ring-[#344E41] focus:border-0"
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="userType">Where Do You Fit</Label>
-                <Select name="user_type">
-                  <SelectTrigger
-                    className="w-fullfocus:ring-2 focus:ring-[#344E41] focus-visible:ring-2 focus-visible:ring-[#344E41] focus:outline-none border-input
-"
-                  >
-                    <SelectValue placeholder="Please Choose" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {/* <SelectLabel>Where Do You Fit</SelectLabel> */}
-                      <SelectItem value="landlord">Landlord</SelectItem>
-                      <SelectItem value="tenant">Tenant</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
+              <RegisterClientForm />
               <ConsentCheckbox />
               <Button
                 type="submit"
@@ -137,9 +81,6 @@ export function RegisterForm() {
               >
                 Create an account
               </Button>
-              {/* <Button variant="outline" className="w-full">
-                Sign up with GitHub
-              </Button> */}
             </div>
           </form>
           <div className="mt-4 text-center text-sm">
@@ -155,4 +96,4 @@ export function RegisterForm() {
       </Card>
     </>
   );
-}
+};

@@ -5,6 +5,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { formatRelativeTime } from "@/utils/dateFormatter";
 import { Star } from "lucide-react";
 import { submitReviewAction } from "@/lib/submitReview";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
+
 interface Review {
   id: number;
   reviewer: string;
@@ -95,9 +98,11 @@ export default function ReviewSection({
     (tenant: { id: number }) => tenant.id === user?.user_id
   );
 
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     const result = await submitReviewAction(
       comment,
       rating,
@@ -106,7 +111,12 @@ export default function ReviewSection({
     );
 
     if (result.success) {
-      alert("Review submitted successfully");
+      // alert("Review submitted successfully");
+      toast.success("Review submitted successfully", {
+        // description: "Please try again or contact support",
+        duration: 5000,
+        position: "top-right",
+      });
 
       const newReview: Review = {
         id: Date.now(),
@@ -121,8 +131,14 @@ export default function ReviewSection({
       setComment("");
       setRating(0);
     } else {
-      alert("Review submission failed");
+      // alert("Review submission failed");
+      toast.error("Review submission failed", {
+        description: "Please try again or contact support",
+        duration: 5000,
+        position: "top-right",
+      });
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -166,7 +182,10 @@ export default function ReviewSection({
         </div>
       </div>
       {canAddReview && (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 border-t-4 pt-2 border-[#344E41]"
+        >
           <StarRating rating={rating} onRatingChange={setRating} />
           <Textarea
             name="comment"
@@ -175,9 +194,16 @@ export default function ReviewSection({
             placeholder="Add a comment....."
             className="focus-visible:ring-[#344E41] focus:border-0"
           />
-          <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
-            Add Review
-          </Button>
+          {loading ? (
+            <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
+              <Loader2 className="animate-spin mr-2" />
+              Submitting...
+            </Button>
+          ) : (
+            <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
+              Add Review
+            </Button>
+          )}
         </form>
       )}
     </div>

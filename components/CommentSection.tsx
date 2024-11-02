@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { formatRelativeTime } from "@/utils/dateFormatter";
 import { Badge } from "@/components/ui/badge";
-import { BadgeCheck, BadgeBadgeCheck } from "lucide-react";
+import { BadgeCheck, BadgeBadgeCheck, Loader2 } from "lucide-react";
 import CommentsLikeDislike from "./CommentsLikeDislike";
+import { toast } from "sonner";
 
 interface Comment {
   id: number;
@@ -40,6 +41,7 @@ export default function CommentSection({
 }: CommentSectionProps) {
   const [comments, setComments] = useState<Comment[]>(initialComments);
   const [content, setContent] = useState("");
+  const [loading, setLoading] = useState(false);
 
   console.log("TENANT IN COMMENT SECTION", tenant);
   console.log("USER IN COMMENT SECTION", user);
@@ -48,12 +50,20 @@ export default function CommentSection({
   const isLandlord = user?.user_id === property.owner.id;
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     if (!tenant && !isLandlord) return;
 
     const formData = new FormData();
     formData.append("content", content);
 
-    await createComment(formData, propertyId, isLandlord);
+   await createComment(formData, propertyId, isLandlord);
+
+    // if (result.success) {
+    //   toast.success("Comment submitted successfully", {
+    //     duration: 5000,
+    //     position: "top-right",
+    //   });
+    // }
 
     const newComment: Comment = {
       id: Date.now(),
@@ -67,6 +77,7 @@ export default function CommentSection({
     };
     setComments([...comments, newComment]);
     setContent("");
+    setLoading(false);
   };
 
   return (
@@ -109,9 +120,16 @@ export default function CommentSection({
           className="focus-visible:ring-[#344E41] focus:border-0"
         />
         {tenant || isLandlord ? (
-          <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
-            Post Comment
-          </Button>
+            loading ? (
+            <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
+              <Loader2 className="animate-spin mr-2" />
+              Submitting...
+            </Button>
+          ) : (
+            <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
+              Add Comment
+            </Button>
+          )
         ) : (
           <Button disabled className="bg-gray-400 cursor-not-allowed">
             You must be the owner or a registered tenant to comment

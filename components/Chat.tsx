@@ -169,17 +169,19 @@ export default function Chat({
 
   return (
     <div className="flex h-[600px] sm:h-[600px] w-full mt-12 mx-auto border rounded-lg overflow-hidden">
-      {/* Sidebar - Updated with better mobile containment */}
+      {/* Overlay - only show on mobile when sidebar is open */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-10 sm:hidden"
           onClick={toggleSidebar}
         />
       )}
+
+      {/* Sidebar - Updated visibility logic */}
       <div
         className={`
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} 
-          ${isSidebarOpen ? "w-[85%] sm:w-64" : "w-0"} 
+          w-[85%] sm:w-64
           fixed sm:relative 
           left-0 top-0 
           h-full sm:h-auto
@@ -190,15 +192,7 @@ export default function Chat({
           sm:translate-x-0
         `}
       >
-        <div className="xs:hidden md:block p-4 border-b flex justify-between items-center bg-white">
-          {/* <Button className="w-full justify-start" variant="outline">
-            <Plus className="mr-2 h-4 w-4" />
-            New Chat
-          </Button>
-          <Button variant="ghost" className="sm:hidden" onClick={toggleSidebar}>
-            <MoveLeft className="h-4 w-4" />
-          </Button> */}
-        </div>
+        <div className="xs:hidden md:block p-4 border-b flex justify-between items-center bg-white"></div>
 
         <ScrollArea className="h-[calc(100vh-5rem)] sm:h-[calc(600px-8rem)]">
           {chats.map((chat) => (
@@ -236,7 +230,7 @@ export default function Chat({
         </ScrollArea>
       </div>
 
-      {/* Chat Area - Updated to handle mobile view better */}
+      {/* Chat Area - Updated visibility logic */}
       <div
         className={`
           flex-1 flex flex-col 

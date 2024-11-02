@@ -33,6 +33,7 @@ import CommentSection from "@/components/CommentSection";
 import ReviewSection from "@/components/ReviewSection";
 import { ConfirmPropertyDetailsDialog } from "@/components/ConfirmPropertyDetailsRevealDialog";
 import { Star } from "lucide-react";
+import { toast } from "sonner";
 const AverageRatingStars = ({ rating }: { rating: number }) => {
   return (
     <div className="flex items-center">
@@ -132,6 +133,11 @@ async function createComment(
       error instanceof Error ? error.message : "Unknown error occurred";
     throw new Error(`Network error: ${message}`);
   }
+
+  // if (response.ok) {
+  //   console.log("COMMENT ADDED SUCCESSFULLY");
+  //   return { success: true };
+  // }
 
   if (!response.ok) {
     const errorText = await response.text();
@@ -270,10 +276,10 @@ async function getCurrentUser() {
   }
 }
 
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: { listingId: string } 
+export async function generateMetadata({
+  params,
+}: {
+  params: { listingId: string };
 }): Promise<Metadata> {
   // Fetch property data
   const property = await getProperty(params.listingId);
@@ -312,7 +318,7 @@ export async function generateMetadata({
       title: `${property.title} | RO-JA Properties`,
       description: property.description,
       images: [property.images[0]?.image || "/img/default-property.jpg"],
-      creator: "@roja_zw",
+      creator: "@ro-ja_zw",
     },
     robots: {
       index: true,
@@ -320,9 +326,9 @@ export async function generateMetadata({
       googleBot: {
         index: true,
         follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
       },
     },
     alternates: {
@@ -333,12 +339,12 @@ export async function generateMetadata({
       google: "your-google-verification-code",
     },
     other: {
-      "price": property.price,
-      "availability": "for rent",
-      "propertyType": property.property_type,
-      "location": property.location?.name,
-      "bedrooms": property.bedrooms,
-      "bathrooms": property.bathrooms,
+      price: property.price,
+      availability: "for rent",
+      propertyType: property.property_type,
+      location: property.location?.name,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
     },
   };
 }

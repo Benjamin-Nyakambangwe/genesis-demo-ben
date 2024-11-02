@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import LoginClientForm from "./LoginClientForm";
 
 export const LoginForm = async ({
   searchParams,
@@ -50,36 +51,7 @@ export const LoginForm = async ({
         )}
         <form action={handleSubmit} className="my-8">
           <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                name="email"
-                placeholder="m@example.com"
-                required
-                className="focus-visible:ring-[#344E41] focus:border-0"
-              />
-            </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href="/forgot-password"
-                  className="ml-auto inline-block text-sm underline text-[#344E41]"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="focus-visible:ring-[#344E41] focus:border-0"
-              />
-            </div>
-
+            <LoginClientForm />
             <Button
               type="submit"
               className="w-full bg-[#344E41] hover:bg-[#A3B18A]"

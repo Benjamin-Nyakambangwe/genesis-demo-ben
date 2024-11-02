@@ -2,8 +2,9 @@
 import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { submitEditTenantProfileFormAction } from "@/lib/submitEditTenantProfileFormAction";
+import { FileDown } from "lucide-react";
 
-const IdUploadButton = () => {
+const IdUploadButton = ({ idImage }: { idImage: string }) => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -35,22 +36,54 @@ const IdUploadButton = () => {
     fileInputRef.current?.click();
   };
 
+  const handleDownload = async () => {
+    if (!idImage) {
+      alert("No ID image available to download");
+      return;
+    }
+
+    try {
+      const response = await fetch(idImage);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "id-image" + idImage.split(".").pop(); // Gets the file extension
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error("Error downloading ID image:", error);
+      alert("An error occurred while downloading the ID image");
+    }
+  };
+
   return (
-    <div>
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleUpload}
-        accept="image/*"
-        style={{ display: "none" }}
-      />
-      <Button
-        onClick={triggerFileInput}
-        disabled={isUploading}
-        className="w-full rounded-full bg-[#344E41] hover:bg-[#A3B18A]"
+    <div className="flex items-center gap-2">
+      <div>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleUpload}
+          accept="image/*"
+          style={{ display: "none" }}
+        />
+        <Button
+          onClick={triggerFileInput}
+          disabled={isUploading}
+          className="w-full rounded-full bg-[#344E41] hover:bg-[#A3B18A]"
+        >
+          {isUploading ? "Uploading..." : "Upload ID Image"}
+        </Button>
+      </div>
+      <div
+        className="p-2 rounded-full border-2 border-[#344E41] flex items-center justify-center cursor-pointer hover:bg-[#A3B18A] hover:border-[#A3B18A] hover:text-white transition-colors"
+        onClick={handleDownload}
+        title={idImage ? "Download ID Image" : "No ID image available"}
       >
-        {isUploading ? "Uploading..." : "Upload ID Image"}
-      </Button>
+        <FileDown className="text-[#344E41] h-6 w-6 hover:text-white" />
+      </div>
     </div>
   );
 };

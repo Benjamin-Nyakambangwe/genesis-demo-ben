@@ -21,6 +21,8 @@ import PaymentStatus from "@/components/PaymentStatus";
 import PaymentForm from "@/components/forms/PaymentForm";
 import Chat from "@/components/Chat";
 import PropertyTenantsDrawer from "@/components/PropertyTenantsDrawer";
+import TenantProfileCompletion from "@/components/TenantProfileCompletion";
+import LandlordProfileCompletion from "@/components/LandlordProfileCompletion";
 
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
@@ -234,14 +236,18 @@ const ProfilePage = async () => {
                 {userType?.includes("landlord") ? (
                   <>
                     <AddNewPropertyButton />
-                    <LandlordIdUploadButton />
-                    <ProofOfResidenceUploadButton />
+                    <LandlordIdUploadButton idImage={data?.id_image} />
+                    <ProofOfResidenceUploadButton
+                      proof_of_residence={data?.proof_of_residence}
+                    />
                     <LandlordProfileImageUploadButton />
                   </>
                 ) : (
                   <>
-                    <IdUploadButton />
-                    <ProofOfEmploymentUploadButton />
+                    <IdUploadButton idImage={data?.id_image} />
+                    <ProofOfEmploymentUploadButton
+                      proof_of_employment={data?.proof_of_employment}
+                    />
                     <TenantProfileImageUploadButton />
                   </>
                 )}
@@ -261,6 +267,14 @@ const ProfilePage = async () => {
           </div>
         )}
       </div>
+
+      {userType?.includes("tenant") && (
+        <TenantProfileCompletion tenantData={data} />
+      )}
+      {userType?.includes("landlord") && (
+        <LandlordProfileCompletion landlordData={data} />
+      )}
+
 
       {chats.length > 0 && (
         <Chat

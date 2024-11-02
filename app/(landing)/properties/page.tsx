@@ -6,7 +6,8 @@ import { Property } from "@/types";
 
 export const metadata: Metadata = {
   title: "Property Listings | RO-JA Properties",
-  description: "Browse our extensive collection of rental properties in Zimbabwe. Find houses, apartments, rooms, and more with detailed filters for location, price, and amenities.",
+  description:
+    "Browse our extensive collection of rental properties in Zimbabwe. Find houses, apartments, rooms, and more with detailed filters for location, price, and amenities.",
   keywords: [
     "Zimbabwe rentals",
     "property listings",
@@ -15,11 +16,12 @@ export const metadata: Metadata = {
     "rental properties Zimbabwe",
     "student accommodation",
     "property search",
-    "RO-JA properties"
+    "RO-JA properties",
   ],
   openGraph: {
     title: "Find Your Perfect Rental Property | RO-JA Properties",
-    description: "Discover a wide range of rental properties in Zimbabwe. Use our advanced filters to find your ideal home based on location, price, size, and amenities.",
+    description:
+      "Discover a wide range of rental properties in Zimbabwe. Use our advanced filters to find your ideal home based on location, price, size, and amenities.",
     url: "https://beta.ro-ja.com/properties",
     siteName: "RO-JA Properties",
     images: [
@@ -27,8 +29,8 @@ export const metadata: Metadata = {
         url: "/img/RO-JA.svg",
         width: 1200,
         height: 630,
-        alt: "RO-JA Property Listings"
-      }
+        alt: "RO-JA Property Listings",
+      },
     ],
     locale: "en_US",
     type: "website",
@@ -36,9 +38,10 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Browse Rental Properties | RO-JA",
-    description: "Find your next home in Zimbabwe. Browse our curated list of rental properties with advanced search and filtering options.",
+    description:
+      "Find your next home in Zimbabwe. Browse our curated list of rental properties with advanced search and filtering options.",
     images: ["/img/RO-JA.svg"],
-    creator: "@roja_zw",
+    creator: "@ro-ja_zw",
   },
   robots: {
     index: true,
@@ -46,9 +49,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   alternates: {
@@ -59,10 +62,10 @@ export const metadata: Metadata = {
     google: "your-google-verification-code",
   },
   other: {
-    "pageType": "propertyListing",
-    "country": "Zimbabwe",
-    "platform": "RO-JA Properties",
-  }
+    pageType: "propertyListing",
+    country: "Zimbabwe",
+    platform: "RO-JA Properties",
+  },
 };
 
 interface PropertiesResponse {

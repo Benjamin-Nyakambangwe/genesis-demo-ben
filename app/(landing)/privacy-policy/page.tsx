@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "Privacy Policy | RO-JA Properties",
     description:
       "Our commitment to protecting your privacy and personal information.",
-    url: "https://roja.co.zw/privacy-policy",
+    url: "https://ro-ja.com/privacy-policy",
     siteName: "RO-JA Properties",
   },
 };
@@ -23,11 +23,11 @@ const PrivacyPolicyPage = () => {
 
         <div className="prose prose-lg max-w-none text-gray-700">
           <p className="mb-6">
-            At Roja, we respect your privacy and are committed to protecting the
-            personal information you share with us. This Privacy Policy explains
-            how we collect, use, and protect your data in accordance with
-            Zimbabwean law, including the Cyber and Data Protection Act [Chapter
-            12:07].
+            At Ro-ja, we respect your privacy and are committed to protecting
+            the personal information you share with us. This Privacy Policy
+            explains how we collect, use, and protect your data in accordance
+            with Zimbabwean law, including the Cyber and Data Protection Act
+            [Chapter 12:07].
           </p>
 
           <section className="mb-8">
