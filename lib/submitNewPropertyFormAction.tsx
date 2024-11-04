@@ -3,15 +3,14 @@
 import { cookies } from "next/headers";
 
 export async function submitNewPropertyForm(formData: FormData) {
+  console.log("formData", formData);
   const token = cookies().get("access")?.value;
 
   const myHeaders = new Headers();
   myHeaders.append("Cookie", `access=${token}`);
 
-  // Do not manually append owner or main_image
-  // The backend should handle these based on the authenticated user and uploaded images
+
   formData.append("owner", "1");
-  //   formData.append("main_image", formData.get("image_1"));
   const requestOptions = {
     method: "POST",
     headers: myHeaders,

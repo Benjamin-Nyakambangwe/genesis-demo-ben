@@ -257,7 +257,14 @@ const ProfilePage = async () => {
         </Card>
         {userType?.includes("landlord") ? (
           <div className="w-full sm:w-[70%]">
-            <ProfilePropertySlider initialData={properties} />
+
+            {properties.length > 0 ? (
+              <ProfilePropertySlider initialData={properties} />
+            ) : (
+              <p className="text-center text-lg">
+                You Have Not Listed Any Properties Yet
+              </p>
+            )}
             {/* <TenantDetailsCard tenantDetails={data} /> */}
           </div>
         ) : (

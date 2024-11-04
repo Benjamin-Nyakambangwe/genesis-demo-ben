@@ -28,19 +28,134 @@ export default function AddNewPropertyForm({
 }) {
   const [images, setImages] = React.useState<File[]>([]);
   const [previewUrls, setPreviewUrls] = React.useState<string[]>([]);
-  const [selectedType, setSelectedType] = React.useState<string>("test");
-  const [selectedLocation, setSelectedLocation] =
-    React.useState<string>("test");
+  const [selectedType, setSelectedType] = React.useState<string>("");
+  const [selectedLocation, setSelectedLocation] = React.useState<string>("");
+  const formRef = React.useRef<HTMLFormElement>(null);
+  const [errors, setErrors] = React.useState({
+    title: "",
+    description: "",
+    address: "",
+    price: "",
+    bedrooms: "",
+    bathrooms: "",
+    area: "",
+    deposit: "",
+    type: "",
+    location: "",
+    image_files: "",
+  });
   const addProperty = usePropertiesStore((state) => state.addProperty);
+
+  const validateField = (name: string, value: string | number) => {
+    switch (name) {
+      case "title":
+        if (value.toString().length < 5) {
+          setErrors((prev) => ({
+            ...prev,
+            title: "Title must be at least 5 characters",
+          }));
+          return false;
+        }
+        break;
+
+      case "description":
+        if (value.toString().length < 20) {
+          setErrors((prev) => ({
+            ...prev,
+            description: "Description must be at least 20 characters",
+          }));
+          return false;
+        }
+        break;
+
+      case "price":
+      case "deposit":
+        if (Number(value) <= 0) {
+          setErrors((prev) => ({
+            ...prev,
+            [name]: `${
+              name.charAt(0).toUpperCase() + name.slice(1)
+            } must be greater than 0`,
+          }));
+          return false;
+        }
+        break;
+
+      case "bedrooms":
+      case "bathrooms":
+      case "area":
+        if (Number(value) <= 0) {
+          setErrors((prev) => ({
+            ...prev,
+            [name]: `${
+              name.charAt(0).toUpperCase() + name.slice(1)
+            } must be greater than 0`,
+          }));
+          return false;
+        }
+        break;
+
+      case "type":
+      case "location":
+        if (!value) {
+          setErrors((prev) => ({ ...prev, [name]: `Please select a ${name}` }));
+          return false;
+        }
+        break;
+    }
+    setErrors((prev) => ({ ...prev, [name]: "" }));
+    return true;
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
+    // Validate all fields
+    let isValid = true;
+    const fields = [
+      "title",
+      "description",
+      "address",
+      "price",
+      "bedrooms",
+      "bathrooms",
+      "area",
+      "deposit",
+      "type",
+      "location",
+    ];
+
+    fields.forEach((field) => {
+      const value = formData.get(field);
+      if (!validateField(field, value as string)) {
+        isValid = false;
+      }
+    });
+
+    if (images.length === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        image_files: "Please upload at least one image",
+      }));
+      isValid = false;
+    }
+
+    if (!isValid) {
+      return;
+    }
+
+    // Convert type and location back to numbers
+    formData.set("type", selectedType ? parseInt(selectedType).toString() : "");
+    formData.set(
+      "location",
+      selectedLocation ? parseInt(selectedLocation).toString() : ""
+    );
+
     // Remove any existing image_files entries
     formData.delete("image_files");
 
-    // Append each image file to formData with the correct field name
+    // Append each image file to formData
     images.forEach((image) => {
       formData.append("image_files", image);
     });
@@ -48,14 +163,14 @@ export default function AddNewPropertyForm({
     const result = await submitNewPropertyForm(formData);
     if (result.success) {
       alert(result.message);
-      // Add the new property to the store
       if (result.property) {
         addProperty(result.property);
       }
-      // Reset form and images
-      // event.currentTarget.reset();
       setImages([]);
       setPreviewUrls([]);
+      setSelectedType("");
+      setSelectedLocation("");
+      formRef.current?.reset();
     } else {
       alert(result.message);
     }
@@ -65,11 +180,18 @@ export default function AddNewPropertyForm({
     if (event.target.files) {
       const fileList = Array.from(event.target.files);
       setImages(fileList);
+      setErrors((prev) => ({ ...prev, image_files: "" }));
 
       // Create preview URLs
       const urls = fileList.map((file) => URL.createObjectURL(file));
       setPreviewUrls(urls);
     }
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    validateField(e.target.name, e.target.value);
   };
 
   React.useEffect(() => {
@@ -81,6 +203,7 @@ export default function AddNewPropertyForm({
 
   return (
     <form
+      ref={formRef}
       className={cn("grid items-start ml-2 gap-4 w-[95%]", className)}
       onSubmit={handleSubmit}
     >
@@ -92,8 +215,13 @@ export default function AddNewPropertyForm({
           type="text"
           required
           className="focus-visible:ring-[#344E41] focus:border-0"
+          onChange={handleInputChange}
         />
+        {errors.title && (
+          <span className="text-red-500 text-sm">{errors.title}</span>
+        )}
       </div>
+
       <div className="grid gap-2">
         <Label htmlFor="description">Description</Label>
         <Textarea
@@ -101,8 +229,13 @@ export default function AddNewPropertyForm({
           name="description"
           required
           className="focus-visible:ring-[#344E41] focus:border-0"
+          onChange={handleInputChange}
         />
+        {errors.description && (
+          <span className="text-red-500 text-sm">{errors.description}</span>
+        )}
       </div>
+
       <div className="flex justify-between">
         <div className="m-1">
           <Label htmlFor="address">Address</Label>
@@ -112,7 +245,11 @@ export default function AddNewPropertyForm({
             type="text"
             required
             className="focus-visible:ring-[#344E41] focus:border-0"
+            onChange={handleInputChange}
           />
+          {errors.address && (
+            <span className="text-red-500 text-sm">{errors.address}</span>
+          )}
         </div>
         <div className="m-1">
           <Label htmlFor="price">Price</Label>
@@ -123,9 +260,14 @@ export default function AddNewPropertyForm({
             step="0.01"
             required
             className="focus-visible:ring-[#344E41] focus:border-0"
+            onChange={handleInputChange}
           />
+          {errors.price && (
+            <span className="text-red-500 text-sm">{errors.price}</span>
+          )}
         </div>
       </div>
+
       <div className="flex justify-between">
         <div className="m-1">
           <Label htmlFor="bedrooms">Bedrooms</Label>
@@ -135,7 +277,11 @@ export default function AddNewPropertyForm({
             type="number"
             required
             className="focus-visible:ring-[#344E41] focus:border-0"
+            onChange={handleInputChange}
           />
+          {errors.bedrooms && (
+            <span className="text-red-500 text-sm">{errors.bedrooms}</span>
+          )}
         </div>
         <div className="m-1">
           <Label htmlFor="bathrooms">Bathrooms</Label>
@@ -145,7 +291,11 @@ export default function AddNewPropertyForm({
             type="number"
             required
             className="focus-visible:ring-[#344E41] focus:border-0"
+            onChange={handleInputChange}
           />
+          {errors.bathrooms && (
+            <span className="text-red-500 text-sm">{errors.bathrooms}</span>
+          )}
         </div>
       </div>
 
@@ -183,6 +333,7 @@ export default function AddNewPropertyForm({
           <Label htmlFor="garden">Garden Available</Label>
         </div>
       </div>
+
       <div className="flex justify-between">
         <div className="m-1">
           <Label htmlFor="area">Area (sq ft)</Label>
@@ -192,7 +343,11 @@ export default function AddNewPropertyForm({
             type="number"
             required
             className="focus-visible:ring-[#344E41] focus:border-0"
+            onChange={handleInputChange}
           />
+          {errors.area && (
+            <span className="text-red-500 text-sm">{errors.area}</span>
+          )}
         </div>
         <div className="m-1">
           <Label htmlFor="pet_deposit">Pet Deposit</Label>
@@ -202,56 +357,77 @@ export default function AddNewPropertyForm({
             type="number"
             step="0.01"
             className="focus-visible:ring-[#344E41] focus:border-0"
+            onChange={handleInputChange}
           />
+          {errors.pet_deposit && (
+            <span className="text-red-500 text-sm">{errors.pet_deposit}</span>
+          )}
         </div>
       </div>
 
       <div className="grid gap-2">
         <Label htmlFor="type">Type</Label>
-        <Select name="type" onValueChange={setSelectedType}>
+        <Select
+          name="type"
+          value={selectedType}
+          onValueChange={(value) => {
+            setSelectedType(value);
+            validateField("type", value);
+          }}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Please Choose">
-              {
-                houseTypes.find((type) => type.id === parseInt(selectedType))
-                  ?.name
-              }
-              {/* {typeof selectedType} */}
+              {selectedType &&
+                houseTypes.find((type) => type.id.toString() === selectedType)
+                  ?.name}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               {houseTypes?.map((type) => (
-                <SelectItem key={type.id} value={type.id}>
+                <SelectItem key={type.id} value={type.id.toString()}>
                   {type.name}
                 </SelectItem>
               ))}
             </SelectGroup>
           </SelectContent>
         </Select>
+        {errors.type && (
+          <span className="text-red-500 text-sm">{errors.type}</span>
+        )}
       </div>
 
       <div className="grid gap-2">
         <Label htmlFor="location">Location</Label>
-        <Select name="location" onValueChange={setSelectedLocation}>
+        <Select
+          name="location"
+          value={selectedLocation}
+          onValueChange={(value) => {
+            setSelectedLocation(value);
+            validateField("location", value);
+          }}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Please Choose">
-              {
+              {selectedLocation &&
                 houseLocations.find(
-                  (type) => type.id === parseInt(selectedLocation)
-                )?.name
-              }
+                  (loc) => loc.id.toString() === selectedLocation
+                )?.name}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
               {houseLocations?.map((location) => (
-                <SelectItem key={location.id} value={location.id}>
+                <SelectItem key={location.id} value={location.id.toString()}>
                   {location.name}
                 </SelectItem>
               ))}
             </SelectGroup>
           </SelectContent>
         </Select>
+        {errors.location && (
+          <span className="text-red-500 text-sm">{errors.location}</span>
+        )}
       </div>
 
       <div className="grid gap-2">
@@ -263,8 +439,13 @@ export default function AddNewPropertyForm({
           step="0.01"
           required
           className="focus-visible:ring-[#344E41] focus:border-0"
+          onChange={handleInputChange}
         />
+        {errors.deposit && (
+          <span className="text-red-500 text-sm">{errors.deposit}</span>
+        )}
       </div>
+
       <div className="grid gap-2">
         <Label htmlFor="image_files">Property Images</Label>
         <Input
@@ -276,6 +457,9 @@ export default function AddNewPropertyForm({
           onChange={handleImageChange}
           className="focus-visible:ring-[#344E41] focus:border-0"
         />
+        {errors.image_files && (
+          <span className="text-red-500 text-sm">{errors.image_files}</span>
+        )}
         <div className="flex flex-wrap gap-2 mt-2">
           {previewUrls.map((url, index) => (
             <img
@@ -287,6 +471,7 @@ export default function AddNewPropertyForm({
           ))}
         </div>
       </div>
+
       <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
         Submit
       </Button>

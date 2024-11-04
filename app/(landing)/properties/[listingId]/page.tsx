@@ -342,7 +342,7 @@ export async function generateMetadata({
       price: property.price,
       availability: "for rent",
       propertyType: property.property_type,
-      location: property.location?.name,
+      location: property.location_detail?.name,
       bedrooms: property.bedrooms,
       bathrooms: property.bathrooms,
     },
@@ -399,9 +399,9 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
             <h1 className="text-3xl font-bold mb-2">{property?.title}</h1>
             <div className="flex items-center gap-2">
               <h5 className="text-xl text-gray-600">
-                {property?.location?.name || "Location not available"}{" "}
-                {property?.location?.city
-                  ? `| ${property?.location?.city}`
+                {property?.location_detail?.name || "Location not available"}{" "}
+                {property?.location_detail?.city
+                  ? `| ${property?.location_detail?.city}`
                   : ""}
               </h5>
             </div>
