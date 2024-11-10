@@ -1,16 +1,18 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { CircleUserRound } from "lucide-react";
-import Link from "next/link";
 import { logout } from "@/lib/logout";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const LogoutButton = () => {
+  const router = useRouter();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const result = await logout();
     if (result.success) {
-      alert(result.message);
+      router.push("/");
+      router.refresh();
     } else {
       alert(result.message);
     }
@@ -23,7 +25,6 @@ const LogoutButton = () => {
         variant="outline"
       >
         Logout{" "}
-        {/* <CircleUserRound className="ml-2 h-4 w-4 text-[#344E41] font-bold" /> */}
       </Button>
     </form>
   );

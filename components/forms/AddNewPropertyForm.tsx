@@ -17,6 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { usePropertiesStore } from "@/store/properties";
+import Link from "next/link";
 
 export default function AddNewPropertyForm({
   className,
@@ -43,6 +44,7 @@ export default function AddNewPropertyForm({
     type: "",
     location: "",
     image_files: "",
+    pet_deposit: "",
   });
   const addProperty = usePropertiesStore((state) => state.addProperty);
 
@@ -188,6 +190,29 @@ export default function AddNewPropertyForm({
     }
   };
 
+  const removeImage = (index: number) => {
+    const newImages = [...images];
+    const newPreviewUrls = [...previewUrls];
+
+    // Revoke the URL to prevent memory leaks
+    URL.revokeObjectURL(newPreviewUrls[index]);
+
+    // Remove the image and its preview
+    newImages.splice(index, 1);
+    newPreviewUrls.splice(index, 1);
+
+    setImages(newImages);
+    setPreviewUrls(newPreviewUrls);
+
+    // Show error if no images left
+    if (newImages.length === 0) {
+      setErrors((prev) => ({
+        ...prev,
+        image_files: "Please upload at least one image",
+      }));
+    }
+  };
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -308,14 +333,23 @@ export default function AddNewPropertyForm({
           />
           <Label htmlFor="accepts_pets">Accepts Pets</Label>
         </div>
-        <div className="flex items-center space-x-2">
+        {/* <div className="flex items-center space-x-2">
           <Checkbox
             id="accepts_smokers"
             name="accepts_smokers"
             className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="accepts_smokers">Accepts Smokers</Label>
+        </div> */}
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="accepts_in_app_payment"
+            name="accepts_in_app_payment"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
+          />
+          <Label htmlFor="accepts_in_app_payment">Payment Via App</Label>
         </div>
+        
         <div className="flex items-center space-x-2">
           <Checkbox
             id="pool"
@@ -448,6 +482,12 @@ export default function AddNewPropertyForm({
 
       <div className="grid gap-2">
         <Label htmlFor="image_files">Property Images</Label>
+        <Link
+          href="/image-upload-tips"
+          className="text-sm text-[#344E41] hover:text-[#A3B18A]"
+        >
+          Learn more about capturing the best images
+        </Link>
         <Input
           id="image_files"
           name="image_files"
@@ -462,12 +502,21 @@ export default function AddNewPropertyForm({
         )}
         <div className="flex flex-wrap gap-2 mt-2">
           {previewUrls.map((url, index) => (
-            <img
-              key={index}
-              src={url}
-              alt={`Preview ${index + 1}`}
-              className="w-24 h-24 object-cover rounded"
-            />
+            <div key={index} className="relative">
+              <img
+                src={url}
+                alt={`Preview ${index + 1}`}
+                className="w-24 h-24 object-cover rounded"
+              />
+              <button
+                type="button"
+                onClick={() => removeImage(index)}
+                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
+                aria-label="Remove image"
+              >
+                ×
+              </button>
+            </div>
           ))}
         </div>
       </div>
@@ -475,6 +524,22 @@ export default function AddNewPropertyForm({
       <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
         Submit
       </Button>
+
+      <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-md">
+        <p className="text-sm text-amber-800">
+          <span className="font-semibold">Disclaimer:</span>
+          <br />
+          Landlords who are not the legal owners of the property must provide a
+          signed affidavit from the rightful owner, granting explicit
+          authorization to list and upload images of the property on Ro-ja for
+          rental purposes.
+          <br />
+          <br />
+          Failure to provide such documentation will result in the removal of
+          the listing and may be subject to further review to ensure compliance
+          with property listing standards and legal requirements.
+        </p>
+      </div>
     </form>
   );
 }

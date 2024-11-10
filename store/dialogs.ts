@@ -38,6 +38,8 @@ interface DialogsState {
   updateConfirmPropertyDetailsDialogOpen: () => void;
   isPropertyTenantsDrawerOpen: boolean;
   updatePropertyTenantsDrawerOpen: () => void;
+  isRentPaymentDialogOpen: boolean;
+  updateRentPaymentDialogOpen: () => void;
 }
 
 export const useDialogsState = create<DialogsState>((set) => ({
@@ -49,6 +51,11 @@ export const useDialogsState = create<DialogsState>((set) => ({
   isEcocashPaymentDialogOpen: false,
   isConfirmPropertyDetailsDialogOpen: false,
   isPropertyTenantsDrawerOpen: false,
+  isRentPaymentDialogOpen: false,
+  updateRentPaymentDialogOpen: () =>
+    set((state) => ({
+      isRentPaymentDialogOpen: !state.isRentPaymentDialogOpen,
+    })),
   updateEcocashPaymentDialogOpen: () =>
     set((state) => ({
       isEcocashPaymentDialogOpen: !state.isEcocashPaymentDialogOpen,

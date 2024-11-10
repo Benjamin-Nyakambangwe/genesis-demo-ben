@@ -191,7 +191,7 @@ export default function EditPropertyForm({
           />
           <Label htmlFor="accepts_pets">Accepts Pets</Label>
         </div>
-        <div className="flex items-center space-x-2">
+        {/* <div className="flex items-center space-x-2">
           <Checkbox
             id="accepts_smokers"
             name="accepts_smokers"
@@ -199,7 +199,7 @@ export default function EditPropertyForm({
             className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="accepts_smokers">Accepts Smokers</Label>
-        </div>
+        </div> */}
         <div className="flex items-center space-x-2">
           <Checkbox
             id="pool"

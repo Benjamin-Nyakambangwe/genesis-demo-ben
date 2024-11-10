@@ -46,7 +46,10 @@ export default async function TenantProfilePage({
         ) : tenantData ? (
           <div className="flex flex-col lg:flex-row gap-6 justify-center items-start">
             <div className="w-full lg:w-2/3">
-              <TenantDetailsCard initialTenantDetails={tenantData} />
+              <TenantDetailsCard
+                initialTenantDetails={tenantData}
+                isLandlord={true}
+              />
             </div>
             <Card className="w-full lg:w-1/3 min-w-[300px] max-w-[450px] mx-auto">
               <CardHeader>

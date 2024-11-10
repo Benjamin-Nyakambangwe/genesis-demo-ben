@@ -153,8 +153,8 @@ export default function PricingPage() {
                 </div>
                 <ul className="grid gap-2 text-sm text-gray-500">
                   <li className="flex items-center">
-                    <Check className="mr-2 h-4 w-4" /> {tier.features} key
-                    features
+                    <Check className="mr-2 h-4 w-4" /> {tier.features} House
+                    Views
                   </li>
                   <li className="flex items-center">
                     <Check className="mr-2 h-4 w-4" />

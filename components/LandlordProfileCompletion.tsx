@@ -110,8 +110,8 @@ export default function LandlordProfileCompletion({
               </span>
             </div>
             <div className="relative">
-              <Progress 
-                value={completionPercentage} 
+              <Progress
+                value={completionPercentage}
                 className="w-full [&>div]:bg-[#344E41]"
               />
               <Button
@@ -141,7 +141,10 @@ export default function LandlordProfileCompletion({
           >
             <div className="overflow-y-auto pr-2 space-y-4 max-h-[300px] scrollbar-thin scrollbar-thumb-[#344E41] scrollbar-track-gray-100">
               {tasks.map((task) => (
-                <div key={task.id} className="flex items-center gap-3 text-[#344E41]">
+                <div
+                  key={task.id}
+                  className="flex items-center gap-3 text-[#344E41]"
+                >
                   {task.completed ? (
                     <CheckCircle2 className="h-5 w-5 text-[#344E41] flex-shrink-0" />
                   ) : (

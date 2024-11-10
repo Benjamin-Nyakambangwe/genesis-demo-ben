@@ -237,7 +237,7 @@ export default function PropertiesFilter({
                   />
                   <Label htmlFor="accepts_pets">Accepts Pets</Label>
                 </div>
-                <div className="flex items-center space-x-2">
+                {/* <div className="flex items-center space-x-2">
                   <Checkbox
                     id="accepts_smokers"
                     checked={acceptsSmokers}
@@ -245,7 +245,7 @@ export default function PropertiesFilter({
                     className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
                   />
                   <Label htmlFor="accepts_smokers">Accepts Smokers</Label>
-                </div>
+                </div> */}
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="pool"
@@ -292,10 +292,10 @@ export default function PropertiesFilter({
         </CardContent>
       </Card>
 
-      {/* Toggle Button - Always visible */}
+      {/* Toggle Button - Only visible on mobile */}
       <Button
         onClick={() => setIsFilterVisible(!isFilterVisible)}
-        className="fixed bottom-4 right-4 z-50 rounded-full bg-[#344E41] hover:bg-[#A3B18A] shadow-lg"
+        className="fixed bottom-4 right-4 z-50 rounded-full bg-[#344E41] hover:bg-[#A3B18A] shadow-lg md:hidden"
         size="icon"
       >
         <SlidersHorizontal className="h-5 w-5 text-white" />

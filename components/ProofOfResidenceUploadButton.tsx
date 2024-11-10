@@ -11,6 +11,15 @@ const ProofOfResidenceUploadButton = ({
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+
+   // Function to ensure HTTPS URL
+   const getSecureUrl = (url: string) => {
+    if (url && url.startsWith("http://")) {
+      return url.replace("http://", "https://");
+    }
+    return url;
+  };
+
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -40,18 +49,22 @@ const ProofOfResidenceUploadButton = ({
   };
 
   const handleDownload = async () => {
-    if (!proof_of_residence) {
+    const secureImageUrl = getSecureUrl(proof_of_residence);
+
+    if (!secureImageUrl) {
       alert("No proof of residence available to download");
       return;
     }
 
+    console.log("PROOF OF RESIDENCE URL", secureImageUrl);
+
     try {
-      const response = await fetch(proof_of_residence);
+      const response = await fetch(secureImageUrl);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "proof_of_residence" + proof_of_residence.split(".").pop(); // Gets the file extension
+        a.download = "proof_of_residence" + secureImageUrl.split(".").pop(); // Gets the file extension
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

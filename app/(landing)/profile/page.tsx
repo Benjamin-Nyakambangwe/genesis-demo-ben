@@ -23,7 +23,7 @@ import Chat from "@/components/Chat";
 import PropertyTenantsDrawer from "@/components/PropertyTenantsDrawer";
 import TenantProfileCompletion from "@/components/TenantProfileCompletion";
 import LandlordProfileCompletion from "@/components/LandlordProfileCompletion";
-
+import RentPaymentsTable from "@/components/RentPaymentsTable";
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
   console.log(token);
@@ -257,13 +257,21 @@ const ProfilePage = async () => {
         </Card>
         {userType?.includes("landlord") ? (
           <div className="w-full sm:w-[70%]">
-
             {properties.length > 0 ? (
               <ProfilePropertySlider initialData={properties} />
             ) : (
-              <p className="text-center text-lg">
-                You Have Not Listed Any Properties Yet
-              </p>
+              <div className="flex flex-col items-center justify-center">
+                <p className="text-center text-lg">
+                  You Have Not Listed Any Properties Yet
+                </p>
+                <Image
+                  src="/img/roja-watermark.svg"
+                  alt="No Properties"
+                  className="mt-5 w-[200px] h-[133px] sm:w-[300px] sm:h-[200px] md:w-[600px] md:h-[267px] lg:w-[800px] lg:h-[533px]"
+                  width={400}
+                  height={267}
+                />
+              </div>
             )}
             {/* <TenantDetailsCard tenantDetails={data} /> */}
           </div>
@@ -282,7 +290,6 @@ const ProfilePage = async () => {
         <LandlordProfileCompletion landlordData={data} />
       )}
 
-
       {chats.length > 0 && (
         <Chat
           initialChats={chats}
@@ -292,6 +299,8 @@ const ProfilePage = async () => {
           userData={data}
         />
       )}
+
+      {userType?.includes("tenant") && <RentPaymentsTable />}
 
       {/* <PaymentStatus /> */}
       {/* <PaymentForm /> */}

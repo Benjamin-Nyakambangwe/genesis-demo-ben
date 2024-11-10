@@ -45,8 +45,11 @@ export const LoginForm = async ({
       </CardHeader>
       <CardContent>
         {error && (
-          <p className="text-[#344E41] mb-4 text-sm">
-            {decodeURIComponent(error)}
+          <p className="text-red-500 mb-4 text-sm">
+            {decodeURIComponent(error) ===
+            "No active account found with the given credentials"
+              ? "Invalid email or password"
+              : decodeURIComponent(error)}
           </p>
         )}
         <form action={handleSubmit} className="my-8">

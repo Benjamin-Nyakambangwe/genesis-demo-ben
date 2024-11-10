@@ -46,13 +46,19 @@ export default function EditTenantProfileForm({
     switch (name) {
       case "date_of_birth":
         if (!value) {
-          setErrors(prev => ({ ...prev, date_of_birth: "Date of birth is required" }));
+          setErrors((prev) => ({
+            ...prev,
+            date_of_birth: "Date of birth is required",
+          }));
           return false;
         }
         const date = new Date(value);
         const today = new Date();
         if (date > today) {
-          setErrors(prev => ({ ...prev, date_of_birth: "Date cannot be in the future" }));
+          setErrors((prev) => ({
+            ...prev,
+            date_of_birth: "Date cannot be in the future",
+          }));
           return false;
         }
         break;
@@ -62,14 +68,20 @@ export default function EditTenantProfileForm({
       case "emergency_contact_phone":
         const phoneRegex = /^\+?[\d\s-]{10,}$/;
         if (value && !phoneRegex.test(value)) {
-          setErrors(prev => ({ ...prev, [name]: "Please enter a valid phone number" }));
+          setErrors((prev) => ({
+            ...prev,
+            [name]: "Please enter a valid phone number",
+          }));
           return false;
         }
         break;
 
       case "emergency_contact_name":
         if (value && value.length < 2) {
-          setErrors(prev => ({ ...prev, emergency_contact_name: "Name must be at least 2 characters" }));
+          setErrors((prev) => ({
+            ...prev,
+            emergency_contact_name: "Name must be at least 2 characters",
+          }));
           return false;
         }
         break;
@@ -77,19 +89,22 @@ export default function EditTenantProfileForm({
       case "id_number":
         const idRegex = /^[A-Za-z0-9]{5,}$/;
         if (value && !idRegex.test(value)) {
-          setErrors(prev => ({ ...prev, id_number: "Please enter a valid ID number" }));
+          setErrors((prev) => ({
+            ...prev,
+            id_number: "Please enter a valid ID number",
+          }));
           return false;
         }
         break;
     }
-    setErrors(prev => ({ ...prev, [name]: "" }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
     return true;
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    
+
     // Validate all fields
     let isValid = true;
     const fields = [
@@ -101,7 +116,7 @@ export default function EditTenantProfileForm({
       "id_number",
     ];
 
-    fields.forEach(field => {
+    fields.forEach((field) => {
       const value = formData.get(field) as string;
       if (!validateField(field, value)) {
         isValid = false;
@@ -120,7 +135,9 @@ export default function EditTenantProfileForm({
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     validateField(e.target.name, e.target.value);
   };
 
@@ -178,8 +195,8 @@ export default function EditTenantProfileForm({
 
       <div className="grid gap-2">
         <Label htmlFor="marital_status">Marital Status</Label>
-        <Select 
-          name="marital_status" 
+        <Select
+          name="marital_status"
           defaultValue={data.marital_status}
           required
         >
@@ -223,7 +240,9 @@ export default function EditTenantProfileForm({
           required
         />
         {errors.emergency_contact_name && (
-          <span className="text-red-500 text-sm">{errors.emergency_contact_name}</span>
+          <span className="text-red-500 text-sm">
+            {errors.emergency_contact_name}
+          </span>
         )}
       </div>
 
@@ -239,7 +258,9 @@ export default function EditTenantProfileForm({
           required
         />
         {errors.emergency_contact_phone && (
-          <span className="text-red-500 text-sm">{errors.emergency_contact_phone}</span>
+          <span className="text-red-500 text-sm">
+            {errors.emergency_contact_phone}
+          </span>
         )}
       </div>
 

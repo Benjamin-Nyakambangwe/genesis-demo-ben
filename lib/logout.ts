@@ -1,18 +1,19 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function logout() {
-  // const token = cookies().get("access")?.value;
-
   try {
+    // Clear all auth-related cookies
     cookies().set("session", "", { expires: new Date(0) });
     cookies().set("access", "", { expires: new Date(0) });
     cookies().set("refresh", "", { expires: new Date(0) });
     cookies().set("user_details", "", { expires: new Date(0) });
-    return { success: true, message: "Logout successful" };
+
+    return { success: true };
   } catch (error) {
-    console.error("Error:", error);
-    return { success: false, message: "An error occurred" };
+    console.error("Error during logout:", error);
+    return { success: false, message: "An error occurred during logout" };
   }
 }

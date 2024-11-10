@@ -8,6 +8,14 @@ const IdUploadButton = ({ idImage }: { idImage: string }) => {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Function to ensure HTTPS URL
+  const getSecureUrl = (url: string) => {
+    if (url && url.startsWith("http://")) {
+      return url.replace("http://", "https://");
+    }
+    return url;
+  };
+
   const handleUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -22,7 +30,7 @@ const IdUploadButton = ({ idImage }: { idImage: string }) => {
       if (result.success) {
         alert("ID image uploaded successfully");
       } else {
-        alert();
+        alert(result.message || "Upload failed");
       }
     } catch (error) {
       console.error("Error uploading ID image:", error);
@@ -37,18 +45,22 @@ const IdUploadButton = ({ idImage }: { idImage: string }) => {
   };
 
   const handleDownload = async () => {
-    if (!idImage) {
+    const secureImageUrl = getSecureUrl(idImage);
+
+    if (!secureImageUrl) {
       alert("No ID image available to download");
       return;
     }
 
+    console.log("ID UPLOAD URL", secureImageUrl);
+
     try {
-      const response = await fetch(idImage);
+      const response = await fetch(secureImageUrl);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "id-image" + idImage.split(".").pop(); // Gets the file extension
+      a.download = "id-image" + secureImageUrl.split(".").pop(); // Gets the file extension
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

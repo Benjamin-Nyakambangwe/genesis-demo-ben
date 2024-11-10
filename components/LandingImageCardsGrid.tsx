@@ -66,7 +66,7 @@ const cards: Card[] = [
   },
   {
     title: "Food",
-    src: "/img/four.jpg",
+    src: "/img/four.webp",
   },
   {
     title: "Travel",

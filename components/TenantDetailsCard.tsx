@@ -4,7 +4,13 @@ import { useTenantDetailsStore } from "@/store/tenantDetails";
 import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function TenantDetailsCard({ initialTenantDetails }) {
+export default function TenantDetailsCard({
+  initialTenantDetails,
+  isLandlord,
+}: {
+  initialTenantDetails: any;
+  isLandlord: boolean;
+}) {
   const { tenantDetails, updateTenantDetails } = useTenantDetailsStore();
 
   useEffect(() => {
@@ -12,6 +18,12 @@ export default function TenantDetailsCard({ initialTenantDetails }) {
   }, [initialTenantDetails, updateTenantDetails]);
 
   const displayDetails = tenantDetails || initialTenantDetails;
+
+  // Function to mask all characters
+  const maskData = (value: string) => {
+    if (!value) return "";
+    return "•".repeat(value.length);
+  };
 
   return (
     <Card className="w-full">
@@ -24,7 +36,10 @@ export default function TenantDetailsCard({ initialTenantDetails }) {
               {displayDetails?.user.last_name}
             </p>
             <p>
-              <strong>National ID:</strong> {displayDetails?.id_number}
+              <strong>National ID:</strong>{" "}
+              {isLandlord
+                ? maskData(displayDetails?.id_number)
+                : displayDetails?.id_number}
             </p>
             <p>
               <strong>Email:</strong> {displayDetails?.user.email}
@@ -45,10 +60,16 @@ export default function TenantDetailsCard({ initialTenantDetails }) {
               <strong>Occupation:</strong> {displayDetails?.occupation}
             </p>
             <p>
-              <strong>Employer:</strong> {displayDetails?.employer}
+              <strong>Employer:</strong>{" "}
+              {isLandlord
+                ? maskData(displayDetails?.employer)
+                : displayDetails?.employer}
             </p>
             <p>
-              <strong>Work Phone:</strong> {displayDetails?.work_phone}
+              <strong>Work Phone:</strong>{" "}
+              {isLandlord
+                ? maskData(displayDetails?.work_phone)
+                : displayDetails?.work_phone}
             </p>
           </div>
           <div>
