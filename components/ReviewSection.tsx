@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { formatRelativeTime } from "@/utils/dateFormatter";
-import { Star } from "lucide-react";
+import { SquarePlus, Star } from "lucide-react";
 import { submitReviewAction } from "@/lib/submitReview";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
@@ -163,9 +163,28 @@ export default function ReviewSection({
   console.log("Property Owner in Review Section:", propertyOwner);
   console.log("Property in Review Section:", property);
 
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  if (reviews.length == 0 && !isExpanded) {
+    return (
+      <div className="flex items-center justify-between p-4 ">
+        <p className="text-gray-600">No comments available</p>
+        <button
+          onClick={() => setIsExpanded(true)}
+          className="text-[#344E41] flex items-center gap-2"
+        >
+          Add New
+          <SquarePlus className="h-6 w-6 hover:text-[#A3B18A] transition-colors" />
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-[400px]">
-      <div className="flex-grow overflow-y-auto pr-2 mb-4">
+      {(isExpanded || reviews.length > 0) && (
+        <>
+          <div className="flex-grow overflow-y-auto pr-2 mb-4">
         <div className="space-y-4">
           {reviews.map((review) => (
             <div key={review.id} className="border-b pb-2 border-[#344E41]">
@@ -205,6 +224,8 @@ export default function ReviewSection({
             </Button>
           )}
         </form>
+      )}
+        </>
       )}
     </div>
   );

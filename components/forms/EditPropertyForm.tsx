@@ -17,7 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { X } from "lucide-react"; // Import the X icon for remove button
+import { X, Loader2 } from "lucide-react"; // Import the X icon for remove button
+import { useFormStatus } from "react-dom";
+
 
 export default function EditPropertyForm({
   className,
@@ -40,6 +42,9 @@ export default function EditPropertyForm({
   const [selectedLocation, setSelectedLocation] = React.useState<string>(
     propertyToEdit?.location?.id.toString() || ""
   );
+
+  const { pending } = useFormStatus();
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -341,9 +346,16 @@ export default function EditPropertyForm({
           ))}
         </div>
       </div>
-      <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
-        Update Property
-      </Button>
+      {pending ? (
+        <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Updating...
+        </Button>
+      ) : (
+        <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
+          Update Property
+        </Button>
+      )}
     </form>
   );
 }

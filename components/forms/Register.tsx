@@ -29,6 +29,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ConsentCheckbox } from "@/components/ConsentCheckbox";
 import RegisterClientForm from "./RegisterClientForm";
+import RegisterSubmit from "../submitButtons/RegisterSubmit";
 
 export const RegisterForm = async ({
   searchParams,
@@ -73,14 +74,7 @@ export const RegisterForm = async ({
             <div className="grid gap-4">
               <RegisterClientForm />
               <ConsentCheckbox />
-              <Button
-                type="submit"
-                className="w-full bg-[#344E41] hover:bg-[#A3B18A]"
-                id="submit-button"
-                disabled
-              >
-                Create an account
-              </Button>
+              <RegisterSubmit />
             </div>
           </form>
           <div className="mt-4 text-center text-sm">

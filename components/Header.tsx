@@ -79,6 +79,11 @@ const Header: React.FC<HeaderProps> = ({ token }) => {
               </Link>
             </li>
             <li>
+              <Link href="/my-listings" className={linkStyle("/my-listings")}>
+                My Listings
+              </Link>
+            </li>
+            <li>
               <Link href="/pricing" className={linkStyle("/pricing")}>
                 Pricing
               </Link>

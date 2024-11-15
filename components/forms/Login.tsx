@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import LoginClientForm from "./LoginClientForm";
+import LoginSubmit from "../submitButtons/LoginSubmit";
 
 export const LoginForm = async ({
   searchParams,
@@ -55,13 +56,7 @@ export const LoginForm = async ({
         <form action={handleSubmit} className="my-8">
           <div className="grid gap-4">
             <LoginClientForm />
-            <Button
-              type="submit"
-              className="w-full bg-[#344E41] hover:bg-[#A3B18A]"
-              id="submit-button"
-            >
-              Login
-            </Button>
+            <LoginSubmit />
           </div>
 
           <div className="mt-4 text-center text-sm">

@@ -18,6 +18,10 @@ import {
 } from "@/components/ui/select";
 import { usePropertiesStore } from "@/store/properties";
 import Link from "next/link";
+import NewPropertySubmit from "../submitButtons/NewPropertySubmit";
+import { BotIcon, Loader2 } from "lucide-react";
+import { generatePropertyDescriptionAction } from "@/lib/generatePropertyDescription";
+import { useState } from "react";
 
 export default function AddNewPropertyForm({
   className,
@@ -47,6 +51,7 @@ export default function AddNewPropertyForm({
     pet_deposit: "",
   });
   const addProperty = usePropertiesStore((state) => state.addProperty);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const validateField = (name: string, value: string | number) => {
     switch (name) {
@@ -226,6 +231,28 @@ export default function AddNewPropertyForm({
     };
   }, [previewUrls]);
 
+  const generateDescription = async () => {
+    setIsGenerating(true);
+    try {
+      const formData = new FormData(formRef.current!);
+      const result = await generatePropertyDescriptionAction(formData);
+
+      if (result.success) {
+        const descriptionElement = document.getElementById(
+          "description"
+        ) as HTMLTextAreaElement;
+        if (descriptionElement) {
+          descriptionElement.value = result.message;
+          validateField("description", result.message);
+        }
+      }
+    } catch (error) {
+      console.error("Error generating description:", error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   return (
     <form
       ref={formRef}
@@ -248,12 +275,23 @@ export default function AddNewPropertyForm({
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="description" className="flex items-center gap-2">
+          Description{" "}
+          {isGenerating ? (
+            <Loader2 className="h-6 w-6 animate-spin text-[#344E41]" />
+          ) : (
+            <BotIcon
+              onClick={generateDescription}
+              className="text-[#344E41] w-6 h-6 cursor-pointer"
+            />
+          )}
+        </Label>
         <Textarea
           id="description"
           name="description"
+          placeholder="Add Description Or Generate One By Clicking The Bot Icon"
           required
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className="focus-visible:ring-[#344E41] focus:border-0 min-h-[400px]"
           onChange={handleInputChange}
         />
         {errors.description && (
@@ -349,7 +387,7 @@ export default function AddNewPropertyForm({
           />
           <Label htmlFor="accepts_in_app_payment">Payment Via App</Label>
         </div>
-        
+
         <div className="flex items-center space-x-2">
           <Checkbox
             id="pool"
@@ -521,9 +559,7 @@ export default function AddNewPropertyForm({
         </div>
       </div>
 
-      <Button type="submit" className="bg-[#344E41] hover:bg-[#A3B18A]">
-        Submit
-      </Button>
+      <NewPropertySubmit />
 
       <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-md">
         <p className="text-sm text-amber-800">

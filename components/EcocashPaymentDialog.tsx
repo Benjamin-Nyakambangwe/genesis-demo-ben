@@ -26,13 +26,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useDialogsState } from "@/store/dialogs";
 import { submitPaymentAction } from "@/lib/submitPayment";
+import { Loader2 } from "lucide-react";
+
+interface Plan {
+  id: number;
+  name: string;
+  cost: string;
+}
 
 interface DialogsStore {
   isEcocashPaymentDialogOpen: boolean;
   updateEcocashPaymentDialogOpen: () => void;
 }
 
-export function EcocashPaymentDialog({ plan }) {
+export function EcocashPaymentDialog({ plan }: { plan: Plan }) {
+  const [isLoading, setIsLoading] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const updateEcocashPaymentDialogOpen = useDialogsState(
     (state: DialogsStore) => state.updateEcocashPaymentDialogOpen
@@ -54,6 +62,7 @@ export function EcocashPaymentDialog({ plan }) {
 
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const result = await submitPaymentAction({ plan, phone });
       setPaymentStatus(result);
@@ -67,6 +76,8 @@ export function EcocashPaymentDialog({ plan }) {
         success: false,
         message: "Payment failed. Please try again.",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -99,8 +110,16 @@ export function EcocashPaymentDialog({ plan }) {
         <Button
           type="submit"
           className="bg-[#344E41] text-white hover:bg-[#A3B18A] mt-4 w-full rounded-full"
+          disabled={isLoading}
         >
-          Pay
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Paying...
+            </>
+          ) : (
+            "Pay"
+          )}
         </Button>
       </div>
     </form>
