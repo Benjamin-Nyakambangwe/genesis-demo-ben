@@ -1,23 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+"use client";
+import { Card, CardContent, CardFooter } from "./ui/card";
+import { Badge } from "./ui/badge";
 import { Separator } from "./ui/separator";
+import { Button } from "./ui/button";
 import {
+  Heart,
+  ChevronLeft,
+  ChevronRight,
+  Settings,
+  Trash2,
   Bath,
   Bed,
   Square,
   Dog,
-  Vegan,
   Droplets,
+  Vegan,
   DollarSign,
-  Heart,
-  Settings,
-  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { useDialogsState } from "@/store/dialogs";
 import { DeletePropertyDialog } from "./DeletePropertyDialog";
 import PropertyTenantsDrawer from "./PropertyTenantsDrawer";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+
 interface PropertyImage {
   filePath: string;
 }
@@ -55,36 +61,38 @@ interface DialogsStore {
   updatePropertyTenantsDrawerOpen: () => void;
 }
 
-export default function CardWithForm({
+export default function PropertyCard({
   widthVar,
   property,
   edit,
 }: CardWithFormProps) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
 
-  const slides = property.images.map((image) => ({
-    url: image.image.includes("http://")
-      ? image.image
-      : `${process.env.NEXT_PUBLIC_BACKEND_URL}${image.image}`,
-  }));
+  // Get the current image URL with fallback
+  const currentImageUrl =
+    property.images?.[currentIndex]?.image || "/placeholder-image.jpg";
+  const hasMultipleImages = property.images?.length > 1;
 
-  const nextSlide = () => {
-    const isLastSlide = currentIndex === slides.length - 1;
-    const newIndex = isLastSlide ? 0 : currentIndex + 1;
-    setCurrentIndex(newIndex);
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!property.images?.length) return;
+
+    setCurrentIndex((prev) =>
+      prev === 0 ? property.images.length - 1 : prev - 1
+    );
   };
 
-  useEffect(() => {
-    let interval;
-    if (isHovered) {
-      interval = setInterval(() => {
-        nextSlide();
-      }, 2500);
-    }
-    return () => clearInterval(interval);
-  }, [isHovered, currentIndex]);
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!property.images?.length) return;
+
+    setCurrentIndex((prev) =>
+      prev === property.images.length - 1 ? 0 : prev + 1
+    );
+  };
 
   const updateEditPropertyDialogOpen = useDialogsState(
     (state: DialogsStore) => state.updateEditPropertyDialogOpen
@@ -137,15 +145,42 @@ export default function CardWithForm({
         className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-2xl"
         style={{ width: `${widthVar}px` }}
       >
-        <div
-          className="relative h-48"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <div
-            style={{ backgroundImage: `url(${slides[currentIndex]?.url})` }}
-            className="w-full h-full rounded-2xl bg-center bg-cover duration-800"
-          ></div>
+        <div className="relative h-48">
+          <div className="relative aspect-[16/9] group">
+            <Image
+              src={currentImageUrl}
+              alt={property.title}
+              fill
+              className="object-cover rounded-t-lg"
+              priority
+            />
+
+            {hasMultipleImages && (
+              <>
+                <button
+                  onClick={handlePrevImage}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </button>
+
+                <button
+                  onClick={handleNextImage}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </button>
+
+                <div className="absolute bottom-2 right-2">
+                  <Badge variant="secondary" className="bg-black/50 text-white">
+                    {currentIndex + 1}/{property.images.length}
+                  </Badge>
+                </div>
+              </>
+            )}
+          </div>{" "}
           {edit && (
             <div className="absolute top-2 left-2 flex space-x-2">
               <div className="bg-[#344E41] text-white px-2 py-1 text-xs rounded cursor-pointer">
@@ -174,14 +209,14 @@ export default function CardWithForm({
           </button>
         </div>
 
-        <CardContent className="pt-2">
+        <CardContent className="pt-3">
           <div className="mb-4">
             <Link href={`/properties/${property.id}`}>
               <h4 className="text-xl font-bold mt-1 line-clamp-2">
                 {property.title}
               </h4>
             </Link>
-            <h5 className="text-sm text-gray-600 mt-1">{property.address}</h5>
+            <h5 className="text-sm text-gray-600 mt-1">{property?.location_detail?.name}</h5>
           </div>
 
           <div className="flex justify-between text-sm">

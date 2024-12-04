@@ -6,6 +6,10 @@ import PropertiesHeader from "@/components/PropertiesHeader";
 import PropertyCardWide from "@/components/PropertyCardWide";
 import { Property } from "@/types";
 import MyPropertiesList from "@/components/MyPropertiesList";
+import { Crown } from "lucide-react";
+import { Home } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
   title: "Property Listings | RO-JA Properties",
@@ -109,6 +113,32 @@ const getMyListings = async () => {
   }
 };
 
+const getTenantSubscriptionDetails = async () => {
+  const cookiesStore = cookies();
+  const accessToken = cookiesStore.get("access")?.value;
+
+  const myHeaders = new Headers();
+  myHeaders.append("Cookie", `access=${accessToken}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow" as RequestRedirect,
+  };
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/tenant-profile-limited/`,
+      requestOptions
+    );
+    const data = await res.text();
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
+};
+
 const MyListingsPage = async () => {
   const cookiesStore = cookies();
   const accessToken = cookiesStore.get("access")?.value;
@@ -137,6 +167,11 @@ const MyListingsPage = async () => {
   }
 
   const myListings = await getMyListings();
+  const tenantSubscriptionDetails = await getTenantSubscriptionDetails();
+
+  const parsedTenantSubscriptionDetails = JSON.parse(tenantSubscriptionDetails);
+
+  console.log("tenantSubscriptionDetails", parsedTenantSubscriptionDetails);
 
   if (!myListings) {
     return (
@@ -157,9 +192,31 @@ const MyListingsPage = async () => {
 
   return (
     <div className="bg-gray-100 mt-16 pt-8 min-h-screen">
+      <Card className="w-full bg-[#344E41] text-white container mx-auto my-4">
+        <CardContent className="flex flex-col sm:flex-row items-center justify-between p-4">
+          <div className="flex items-center space-x-4 mb-2 sm:mb-0">
+            <Home className="h-6 w-6" />
+            <span className="text-lg font-semibold">
+              {parsedTenantSubscriptionDetails?.num_properties} Property Views
+              Left
+            </span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Crown className="h-6 w-6" />
+            <div className="flex flex-col">
+              <span className="text-sm font-semibold">
+                {parsedTenantSubscriptionDetails?.subscription_plan} Plan
+              </span>
+              <Badge variant="secondary" className="mt-1">
+                {parsedTenantSubscriptionDetails?.subscription_status?.toUpperCase()}
+              </Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
       <div className="block md:flex w-full container">
         <div className="w-full">
-          <PropertiesHeader numOfHouses={myListings.length} />
+          {/* <PropertiesHeader numOfHouses={myListings.length} /> */}
           {myListings.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-600">

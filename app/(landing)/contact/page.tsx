@@ -39,7 +39,9 @@ export default function ContactPage() {
         <div className="grid md:grid-cols-2 gap-8">
           <Card className="md:mx-auto w-full">
             <CardHeader>
-              <CardTitle className="text-[#344E41]">Get in Touch</CardTitle>
+              <CardTitle className="text-[#344E41]">
+                Get in Touch With Us!
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">

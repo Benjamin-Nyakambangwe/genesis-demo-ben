@@ -24,6 +24,8 @@ import PropertyTenantsDrawer from "@/components/PropertyTenantsDrawer";
 import TenantProfileCompletion from "@/components/TenantProfileCompletion";
 import LandlordProfileCompletion from "@/components/LandlordProfileCompletion";
 import RentPaymentsTable from "@/components/RentPaymentsTable";
+import MyPropertiesList from "@/components/MyPropertiesList";
+import ProfileCard from "@/components/ProfileCard";
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
   console.log(token);
@@ -59,6 +61,28 @@ async function getCurrentTenant() {
   };
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/tenant-profile/`,
+    requestOptions
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+
+  return res.json();
+}
+
+async function getCurrentTenantProperties() {
+  const token = cookies().get("access")?.value;
+  console.log(token);
+  const myHeaders = new Headers();
+  myHeaders.append("Cookie", `access=${token}`);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow" as RequestRedirect,
+  };
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tenant-current-property/`,
     requestOptions
   );
   if (!res.ok) {
@@ -176,6 +200,7 @@ const ProfilePage = async () => {
   let properties;
   let houseTypes;
   let houseLocations;
+  let tenantCurrentProperty;
 
   if (userType?.includes("landlord")) {
     data = await getCurrentLandlord();
@@ -187,6 +212,7 @@ const ProfilePage = async () => {
     usePropertiesStore.getState().setProperties(properties);
   } else if (userType?.includes("tenant")) {
     data = await getCurrentTenant();
+    tenantCurrentProperty = await getCurrentTenantProperties();
   }
 
   let chats = [];
@@ -201,60 +227,11 @@ const ProfilePage = async () => {
   return (
     <div className=" container mt-24 mb-24">
       <div className="flex flex-col sm:flex-row justify-between max-w-[100vw]">
-        <Card className="mb-4">
-          <CardContent>
-            <div className=" mt-7 flex flex-col justify-center items-center">
-              <Image
-                src={data?.profile_image || "/img/avatar.png"}
-                alt="@shadcn"
-                width={150}
-                height={150}
-                className="rounded-3xl"
-              />
-
-              <div className="flex flex-col items-start mt-4">
-                <div className="flex justify-between">
-                  <User className="h-4 w-4 text-[#344E41] mr-2" />
-                  <h2>
-                    {data?.user.first_name} {data?.user.last_name}
-                  </h2>
-                </div>
-
-                <div className="flex justify-between">
-                  <Mail className="h-4 w-4 text-[#344E41] mr-2" />
-
-                  <h3>{data?.user.email}</h3>
-                </div>
-                <div className="flex justify-between">
-                  <Phone className="h-4 w-4 text-[#344E41] mr-2" />
-                  <h3>{data?.phone}</h3>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 gap-4 mt-4 ">
-                <EditProfileButton />
-                {userType?.includes("landlord") ? (
-                  <>
-                    <AddNewPropertyButton />
-                    <LandlordIdUploadButton idImage={data?.id_image} />
-                    <ProofOfResidenceUploadButton
-                      proof_of_residence={data?.proof_of_residence}
-                    />
-                    <LandlordProfileImageUploadButton />
-                  </>
-                ) : (
-                  <>
-                    <IdUploadButton idImage={data?.id_image} />
-                    <ProofOfEmploymentUploadButton
-                      proof_of_employment={data?.proof_of_employment}
-                    />
-                    <TenantProfileImageUploadButton />
-                  </>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <ProfileCard
+          data={data}
+          userType={userType || ""}
+          token={userToken || ""}
+        />
         {userType?.includes("landlord") ? (
           <div className="w-full sm:w-[70%]">
             {properties.length > 0 ? (
@@ -300,6 +277,15 @@ const ProfilePage = async () => {
         />
       )}
 
+      {userType?.includes("tenant") && (
+        <div className="w-full space-y-4">
+          <h2 className="text-lg font-semibold mt-8">
+            Your Current Won Property
+          </h2>
+          <MyPropertiesList properties={tenantCurrentProperty} />
+        </div>
+      )}
+
       {userType?.includes("tenant") && <RentPaymentsTable />}
 
       {/* <PaymentStatus /> */}
@@ -309,6 +295,7 @@ const ProfilePage = async () => {
         userType={userType}
         houseTypes={houseTypes}
         houseLocations={houseLocations}
+        userToken={userToken}
       />
       <EditProfileDialog data={data} userType={userType} />
       <EditPropertyDialog

@@ -1,45 +1,57 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 const ForgotPasswordPage = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email") as string;
-
     formData.append("email", email);
 
-    const requestOptions = {
-      method: "POST",
-      body: formData,
-      redirect: "follow" as const,
-    };
+    try {
+      const requestOptions = {
+        method: "POST",
+        body: formData,
+        redirect: "follow" as const,
+      };
 
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/users/reset_password/`,
-      requestOptions
-    );
-    // const data = await res.json();
-    // console.log(data);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/users/reset_password/`,
+        requestOptions
+      );
 
-    if (res.status === 204) {
-      toast.success("Email sent successfully", {
-        description: "Please check your email for the reset password link",
-        duration: 5000,
-        position: "top-right",
-      });
-    } else {
+      if (res.status === 204) {
+        toast.success("Email sent successfully", {
+          description: "Please check your email for the reset password link",
+          duration: 5000,
+          position: "top-right",
+        });
+      } else {
+        toast.error("Failed to send email", {
+          description: "Something went wrong please try again",
+          duration: 5000,
+          position: "top-right",
+        });
+      }
+    } catch (error) {
       toast.error("Failed to send email", {
         description: "Something went wrong please try again",
         duration: 5000,
         position: "top-right",
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -63,9 +75,21 @@ const ForgotPasswordPage = () => {
               name="email"
               placeholder="Enter your email"
               className="mb-4"
+              required
             />
-            <Button type="submit" className="w-full mt-4 bg-red-600">
-              Reset Password
+            <Button
+              type="submit"
+              className="w-full mt-4 bg-[#344E41] hover:bg-[#A3B18A]"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                "Reset Password"
+              )}
             </Button>
           </form>
         </CardContent>

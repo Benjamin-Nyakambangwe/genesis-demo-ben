@@ -126,24 +126,28 @@ export default function TenantDetailsCard({
             </p>
           </div>
         </div>
-        <div className="mt-4">
-          <h3 className="text-xl font-semibold mb-2">Personal References</h3>
+        <div className="mt-1">
+          <h3 className="text-xl font-semibold mb-2">Next Of Kin</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p>
-                <strong>Reference 1 Name:</strong>{" "}
-                {displayDetails?.personal_reference_1_name}
+                <strong>Next Of Kin Name:</strong>{" "}
+                {displayDetails?.next_of_kin_name}
               </p>
               <p>
-                <strong>Reference 1 Phone:</strong>{" "}
-                {displayDetails?.personal_reference_1_phone}
+                <strong>Next Of Kin Email:</strong>{" "}
+                {displayDetails?.next_of_kin_email}
+              </p>
+              <p>
+                <strong>Next Of Kin Phone:</strong>{" "}
+                {displayDetails?.next_of_kin_phone}
               </p>
               <p>
                 <strong>Reference 1 Relation:</strong>{" "}
                 {displayDetails?.personal_reference_1_relation}
               </p>
             </div>
-            <div>
+            {/* <div>
               <p>
                 <strong>Reference 2 Name:</strong>{" "}
                 {displayDetails?.personal_reference_2_name}
@@ -156,7 +160,7 @@ export default function TenantDetailsCard({
                 <strong>Reference 2 Relation:</strong>{" "}
                 {displayDetails?.personal_reference_2_relation}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
         {displayDetails?.additional_notes && (

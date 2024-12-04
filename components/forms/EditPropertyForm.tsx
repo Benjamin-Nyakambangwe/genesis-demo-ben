@@ -20,7 +20,6 @@ import {
 import { X, Loader2 } from "lucide-react"; // Import the X icon for remove button
 import { useFormStatus } from "react-dom";
 
-
 export default function EditPropertyForm({
   className,
   houseTypes,
@@ -44,7 +43,6 @@ export default function EditPropertyForm({
   );
 
   const { pending } = useFormStatus();
-
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

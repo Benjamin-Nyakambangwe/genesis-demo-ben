@@ -31,12 +31,14 @@ interface AddNewPropertyDialogProps {
   userType: string;
   houseTypes: Array<{ id: string; name: string }>;
   houseLocations: Array<{ id: string; name: string }>;
+  userToken: string;
 }
 
 export function AddNewPropertyDialog({
   userType,
   houseTypes,
   houseLocations,
+  userToken,
 }: AddNewPropertyDialogProps) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const updateAddNewPropertyDialogOpen = useDialogsState(
@@ -66,6 +68,7 @@ export function AddNewPropertyDialog({
             <AddNewPropertyForm
               houseTypes={houseTypes}
               houseLocations={houseLocations}
+              userToken={userToken}
             />
           </div>
         </DialogContent>

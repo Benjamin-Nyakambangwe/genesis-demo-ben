@@ -25,10 +25,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import { cn } from "@/lib/utils";
 import { useDialogsState } from "@/store/dialogs";
 import Link from "next/link";
 import { setCurrentTenantAction } from "@/lib/setCurrentTenant";
+import { setCurrentTenantWithLeaseDocAction } from "@/lib/setCurrentTenantWithLeaseDoc";
 import { revokeCurrentTenantAction } from "@/lib/revokeCurrentTenant";
 
 interface DialogsStore {
@@ -79,22 +89,66 @@ export default function PropertyTenantsDrawer() {
               <TableCell className="font-medium">{tenant.first_name}</TableCell>
               <TableCell>{tenant.last_name}</TableCell>
               <TableCell>
-                <Button className="bg-[#344E41] hover:bg-[#A3B18A]">
+                <Button className="bg-[#344E41] hover:bg-[#A3B18A] rounded-full">
                   <Link href={`/tenant-profile/${tenant.id}`}>
                     View Profile
                   </Link>
                 </Button>
               </TableCell>
               {propertyToEdit.current_tenant?.id != tenant.id ? (
+                // <TableCell>
+                //   <Button
+                //     className="bg-[#344E41] hover:bg-[#A3B18A]"
+                //     onClick={async () =>
+                //       await setCurrentTenantAction(tenant.id, propertyToEdit.id)
+                //     }
+                //   >
+                //     Assign To Property
+                //   </Button>
+                // </TableCell>
                 <TableCell>
-                  <Button
-                    className="bg-[#344E41] hover:bg-[#A3B18A]"
-                    onClick={async () =>
-                      await setCurrentTenantAction(tenant.id, propertyToEdit.id)
-                    }
-                  >
-                    Assign To Property
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className="border-[#344E41] text-[#344E41] hover:bg-[#A3B18A] hover:text-white font-medium border rounded-full"
+                      >
+                        Assign Tenant
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56 bg-white shadow-lg rounded-lg border border-gray-100">
+                      <DropdownMenuLabel className="text-[#344E41] font-semibold">
+                        Assign To Property
+                      </DropdownMenuLabel>
+                      <DropdownMenuSeparator className="bg-gray-200" />
+                      <DropdownMenuItem
+                        className="hover:bg-[#A3B18A] hover:text-white cursor-pointer"
+                        onClick={async () =>
+                          await setCurrentTenantWithLeaseDocAction(
+                            tenant.id,
+                            propertyToEdit.id
+                          )
+                        }
+                      >
+                        <span>With Automatic Lease</span>
+                        <span className="ml-2 text-sm text-gray-500">
+                          ($20)
+                        </span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="hover:bg-[#A3B18A] hover:text-white cursor-pointer"
+                        onClick={async () =>
+                          await setCurrentTenantAction(
+                            tenant.id,
+                            propertyToEdit.id
+                          )
+                        }
+                      >
+                        <span>No Automatic Lease</span>
+                        <span className="ml-2 text-sm text-gray-500">($0)</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               ) : (
                 <TableCell>

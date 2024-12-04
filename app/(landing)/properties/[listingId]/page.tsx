@@ -443,11 +443,37 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                 <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div className="flex items-center space-x-2">
                     <div className="text-[#344E41]">
-                      <Home className="h-5 w-5" />
+                      <DollarSign className="h-5 w-5" />
                     </div>
                     <div>
-                      <p className="font-semibold">Property ID</p>
-                      <p>{property?.id}</p>
+                      <p className="font-semibold">Monthly Rent</p>
+                      <p>${property?.price}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="text-[#344E41]">
+                      <DollarSign className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Deposit</p>
+                      <p>
+                        {property?.deposit && property.deposit > 0
+                          ? `$${property.deposit}`
+                          : "Not Required"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="text-[#344E41]">
+                      <DollarSign className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Pet Deposit</p>
+                      <p>
+                        {property?.pet_deposit && property.pet_deposit > 0
+                          ? `$${property.pet_deposit}`
+                          : "Not Required"}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -478,15 +504,6 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                       <p>{property?.bathrooms}</p>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="text-[#344E41]">
-                      <DollarSign className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <p className="font-semibold">Price</p>
-                      <p>${property?.price}</p>
-                    </div>
-                  </div>
 
                   <div className="flex items-center space-x-2">
                     <div className="text-[#344E41]">
@@ -495,15 +512,6 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     <div>
                       <p className="font-semibold">Pet Friendly</p>
                       <p>{property?.petFriendly ? "Yes" : "No"}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="text-[#344E41]">
-                      <Cigarette className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <p className="font-semibold">Smoking Allowed</p>
-                      <p>{property?.smokingAllowed ? "Yes" : "No"}</p>
                     </div>
                   </div>
 

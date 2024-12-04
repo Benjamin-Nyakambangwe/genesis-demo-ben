@@ -52,6 +52,7 @@ export default function AddNewPropertyForm({
   });
   const addProperty = usePropertiesStore((state) => state.addProperty);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isLegalOwner, setIsLegalOwner] = useState(false);
 
   const validateField = (name: string, value: string | number) => {
     switch (name) {
@@ -557,6 +558,55 @@ export default function AddNewPropertyForm({
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="grid gap-4">
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="is_legal_owner"
+            name="is_legal_owner"
+            checked={isLegalOwner}
+            onCheckedChange={(checked: boolean) => setIsLegalOwner(checked)}
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
+          />
+          <Label htmlFor="is_legal_owner">
+            I am the legal owner of this property
+          </Label>
+        </div>
+
+        {isLegalOwner ? (
+          <div className="grid gap-2">
+            <Label htmlFor="proof_of_residence">Proof of Residence</Label>
+            <Input
+              id="proof_of_residence"
+              name="proof_of_residence"
+              type="file"
+              accept=".pdf,.doc,.docx,image/*"
+              required
+              className="focus-visible:ring-[#344E41] focus:border-0"
+            />
+            <p className="text-sm text-gray-500">
+              Please upload a document proving your residence (utility bill,
+              bank statement, etc.)
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-2">
+            <Label htmlFor="affidavit">Owner's Affidavit</Label>
+            <Input
+              id="affidavit"
+              name="affidavit"
+              type="file"
+              accept=".pdf,.doc,.docx,image/*"
+              required
+              className="focus-visible:ring-[#344E41] focus:border-0"
+            />
+            <p className="text-sm text-gray-500">
+              Please upload a signed affidavit from the property owner granting
+              you permission to list this property
+            </p>
+          </div>
+        )}
       </div>
 
       <NewPropertySubmit />
