@@ -268,77 +268,56 @@ export default function EditTenantProfileForm({
         <Label htmlFor="criminal_record">Criminal Record</Label>
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="personal_reference_1_name">
-          Personal Reference 1 Name
-        </Label>
+        <Label htmlFor="next_of_kin_name">Next of Kin Name</Label>
         <Input
-          id="personal_reference_1_name"
-          name="personal_reference_1_name"
+          id="next_of_kin_name"
+          name="next_of_kin_name"
           type="text"
-          defaultValue={initialData?.personal_reference_1_name}
+          defaultValue={initialData?.next_of_kin_name}
           className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="personal_reference_1_phone">
-          Personal Reference 1 Phone
-        </Label>
+        <Label htmlFor="next_of_kin_phone">Next of Kin Phone</Label>
         <Input
-          id="personal_reference_1_phone"
-          name="personal_reference_1_phone"
-          type="tel"
-          defaultValue={initialData?.personal_reference_1_phone}
-          className="focus-visible:ring-[#344E41] focus:border-0"
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="personal_reference_1_relation">
-          Personal Reference 1 Relation
-        </Label>
-        <Input
-          id="personal_reference_1_relation"
-          name="personal_reference_1_relation"
+          id="next_of_kin_phone"
+          name="next_of_kin_phone"
           type="text"
-          defaultValue={initialData?.personal_reference_1_relation}
+          defaultValue={initialData?.next_of_kin_phone}
           className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="personal_reference_2_name">
-          Personal Reference 2 Name
-        </Label>
+        <Label htmlFor="next_of_kin_email">Next of Kin Email</Label>
         <Input
-          id="personal_reference_2_name"
-          name="personal_reference_2_name"
+          id="next_of_kin_email"
+          name="next_of_kin_email"
+          type="email"
+          defaultValue={initialData?.next_of_kin_email}
+          className="focus-visible:ring-[#344E41] focus:border-0"
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="next_of_kin_address">Next of Kin Address</Label>
+        <Input
+          id="next_of_kin_address"
+          name="next_of_kin_address"
           type="text"
-          defaultValue={initialData?.personal_reference_2_name}
+          defaultValue={initialData?.next_of_kin_address}
           className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="personal_reference_2_phone">
-          Personal Reference 2 Phone
-        </Label>
+        <Label htmlFor="next_of_kin_relation">Next of Kin Relation</Label>
         <Input
-          id="personal_reference_2_phone"
-          name="personal_reference_2_phone"
-          type="tel"
-          defaultValue={initialData?.personal_reference_2_phone}
-          className="focus-visible:ring-[#344E41] focus:border-0"
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="personal_reference_2_relation">
-          Personal Reference 2 Relation
-        </Label>
-        <Input
-          id="personal_reference_2_relation"
-          name="personal_reference_2_relation"
+          id="next_of_kin_relation"
+          name="next_of_kin_relation"
           type="text"
-          defaultValue={initialData?.personal_reference_2_relation}
+          defaultValue={initialData?.next_of_kin_relation}
           className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
+
       <div className="grid gap-2">
         <Label htmlFor="additional_notes">Additional Notes</Label>
         <Textarea

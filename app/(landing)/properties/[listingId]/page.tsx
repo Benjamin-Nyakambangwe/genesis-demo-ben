@@ -149,6 +149,84 @@ async function createComment(
   revalidatePath(`/properties/${listingId}`);
 }
 
+async function createReply(
+  replyContent: string,
+  commentId: number,
+  listingId: string,
+  isLandlord: boolean
+) {
+  "use server";
+
+  const content = replyContent;
+
+  if (!content || typeof content !== "string") {
+    throw new Error("Content is required and must be a string");
+  }
+
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get("access")?.value;
+  const userDetails = cookieStore.get("user_details")?.value;
+
+  if (!userDetails) {
+    throw new Error("User details not found in cookies");
+  }
+
+  let user;
+  try {
+    user = JSON.parse(userDetails);
+  } catch (error) {
+    throw new Error("Failed to parse user details");
+  }
+
+  console.log("Comment User", user);
+
+  if (!user || !user.user_id) {
+    throw new Error("User ID not found in user details");
+  }
+
+  const userID = user.user_id;
+
+  if (!accessToken) {
+    throw new Error("User not authenticated");
+  }
+
+  const myHeaders = new Headers();
+  myHeaders.append("Cookie", `access=${accessToken}`);
+  // myHeaders.append("Content-Type", "application/json");
+
+  const formdata = new FormData();
+
+  formdata.append("content", content);
+
+  let response;
+  try {
+    response = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments/${commentId}/reply/`,
+      {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+      }
+    );
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "Unknown error occurred";
+    throw new Error(`Network error: ${message}`);
+  }
+
+  // if (response.ok) {
+  //   console.log("COMMENT ADDED SUCCESSFULLY");
+  //   return { success: true };
+  // }
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Failed to create reply: ${response.status} ${errorText}`);
+  }
+
+  revalidatePath(`/properties/${listingId}`);
+}
+
 export async function generateStaticParams() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/properties`
@@ -577,6 +655,7 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     user={user}
                     property={property}
                     createComment={createComment}
+                    createReply={createReply}
                     currentUser={currentUser}
                     userToken={userToken}
                   />
