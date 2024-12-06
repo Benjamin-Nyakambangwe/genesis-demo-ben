@@ -18,32 +18,153 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
+
+interface FormErrors {
+  [key: string]: string;
+  phone?: string;
+  work_phone?: string;
+  emergency_contact_phone?: string;
+  next_of_kin_phone?: string;
+  email?: string;
+  date_of_birth?: string;
+  id_number?: string;
+  max_rent?: string;
+  number_of_occupants?: string;
+  num_of_vehicles?: string;
+}
+
+const PhoneInput = ({
+  id,
+  name,
+  defaultValue,
+  error,
+  label,
+}: {
+  id: string;
+  name: string;
+  defaultValue?: string;
+  error?: string;
+  label: string;
+}) => (
+  <div className="grid gap-2">
+    <Label htmlFor={id}>{label}</Label>
+    <Input
+      id={id}
+      name={name}
+      type="tel"
+      placeholder="+263 71 234 5678"
+      defaultValue={defaultValue}
+      pattern="^\+[1-9]\d{1,14}$"
+      className={cn(
+        "focus-visible:ring-[#344E41] focus:border-0",
+        error && "border-red-500"
+      )}
+    />
+    {error && <span className="text-sm text-red-500">{error}</span>}
+    <span className="text-xs text-gray-500">
+      Format: +263 followed by phone number
+    </span>
+  </div>
+);
 
 export default function EditTenantProfileForm({
   initialData,
   className,
 }: React.ComponentProps<"form"> & { initialData?: any }) {
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const updateTenantDetails = useTenantDetailsStore(
     (state) => state.updateTenantDetails
   );
   const updateEditProfileDialogOpen = useDialogsState(
     (state) => state.updateEditProfileDialogOpen
   );
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const validateForm = (formData: FormData): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Phone number validations
+    const phoneFields = [
+      "phone",
+      "work_phone",
+      "emergency_contact_phone",
+      "next_of_kin_phone",
+    ];
+    phoneFields.forEach((field) => {
+      const phone = formData.get(field) as string;
+      if (phone && !isValidPhoneNumber(phone)) {
+        newErrors[field] =
+          "Please enter a valid phone number with country code (e.g., +263...)";
+      }
+    });
+
+    // Date of birth validation
+    const dob = new Date(formData.get("date_of_birth") as string);
+    const today = new Date();
+    const age = today.getFullYear() - dob.getFullYear();
+    if (age < 18) {
+      newErrors.date_of_birth = "You must be at least 18 years old";
+    }
+
+    // ID number validation
+    const idNumber = formData.get("id_number") as string;
+    if (idNumber && !/^\d{8,}$/.test(idNumber)) {
+      newErrors.id_number = "Please enter a valid ID number (minimum 8 digits)";
+    }
+
+    // Numeric validations
+    const maxRent = Number(formData.get("max_rent"));
+    if (maxRent <= 0) {
+      newErrors.max_rent = "Max rent must be greater than 0";
+    }
+
+    const occupants = Number(formData.get("number_of_occupants"));
+    if (occupants <= 0 || !Number.isInteger(occupants)) {
+      newErrors.number_of_occupants =
+        "Number of occupants must be a positive whole number";
+    }
+
+    const vehicles = Number(formData.get("num_of_vehicles"));
+    if (
+      formData.get("has_vehicle") === "true" &&
+      (vehicles <= 0 || !Number.isInteger(vehicles))
+    ) {
+      newErrors.num_of_vehicles =
+        "Number of vehicles must be a positive whole number";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
-    const formData = new FormData(event.currentTarget);
-    const result = await submitEditTenantProfileFormAction(formData);
-    setIsSubmitting(false);
 
-    if (result.success) {
-      updateTenantDetails(result.data);
-      toast.success("Profile updated successfully");
-      updateEditProfileDialogOpen(); // Close the dialog
-    } else {
-      toast.error(result.message || "Failed to update profile");
+    const formData = new FormData(event.currentTarget);
+
+    if (!validateForm(formData)) {
+      setIsSubmitting(false);
+      toast.error("Please fix the errors in the form");
+      return;
+    }
+
+    try {
+      const result = await submitEditTenantProfileFormAction(formData);
+
+      if (result.success) {
+        updateTenantDetails(result.data);
+        toast.success("Profile updated successfully");
+        updateEditProfileDialogOpen();
+      } else {
+        toast.error(result.message || "Failed to update profile");
+      }
+    } catch (error) {
+      toast.error("An error occurred while updating profile");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -75,16 +196,13 @@ export default function EditTenantProfileForm({
           </SelectContent>
         </Select>
       </div>
-      <div className="grid gap-2">
-        <Label htmlFor="phone">Phone</Label>
-        <Input
-          id="phone"
-          name="phone"
-          type="tel"
-          defaultValue={initialData?.phone}
-          className="focus-visible:ring-[#344E41] focus:border-0"
-        />
-      </div>
+      <PhoneInput
+        id="phone"
+        name="phone"
+        label="Phone Number"
+        defaultValue={initialData?.phone}
+        error={errors.phone}
+      />
       <div className="grid gap-2">
         <Label htmlFor="id_number">National ID</Label>
         <Input
@@ -120,16 +238,13 @@ export default function EditTenantProfileForm({
           className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
-      <div className="grid gap-2">
-        <Label htmlFor="emergency_contact_phone">Emergency Contact Phone</Label>
-        <Input
-          id="emergency_contact_phone"
-          name="emergency_contact_phone"
-          type="tel"
-          defaultValue={initialData?.emergency_contact_phone}
-          className="focus-visible:ring-[#344E41] focus:border-0"
-        />
-      </div>
+      <PhoneInput
+        id="emergency_contact_phone"
+        name="emergency_contact_phone"
+        label="Emergency Contact Phone"
+        defaultValue={initialData?.emergency_contact_phone}
+        error={errors.emergency_contact_phone}
+      />
       <div className="grid gap-2">
         <Label htmlFor="occupation">Occupation</Label>
         <Input
@@ -150,16 +265,13 @@ export default function EditTenantProfileForm({
           className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
-      <div className="grid gap-2">
-        <Label htmlFor="work_phone">Work Phone</Label>
-        <Input
-          id="work_phone"
-          name="work_phone"
-          type="tel"
-          defaultValue={initialData?.work_phone}
-          className="focus-visible:ring-[#344E41] focus:border-0"
-        />
-      </div>
+      <PhoneInput
+        id="work_phone"
+        name="work_phone"
+        label="Work Phone"
+        defaultValue={initialData?.work_phone}
+        error={errors.work_phone}
+      />
       <div className="grid gap-2">
         <Label htmlFor="preferred_lease_term">
           Preferred Lease Term (months)
@@ -277,16 +389,13 @@ export default function EditTenantProfileForm({
           className="focus-visible:ring-[#344E41] focus:border-0"
         />
       </div>
-      <div className="grid gap-2">
-        <Label htmlFor="next_of_kin_phone">Next of Kin Phone</Label>
-        <Input
-          id="next_of_kin_phone"
-          name="next_of_kin_phone"
-          type="text"
-          defaultValue={initialData?.next_of_kin_phone}
-          className="focus-visible:ring-[#344E41] focus:border-0"
-        />
-      </div>
+      <PhoneInput
+        id="next_of_kin_phone"
+        name="next_of_kin_phone"
+        label="Next of Kin Phone"
+        defaultValue={initialData?.next_of_kin_phone}
+        error={errors.next_of_kin_phone}
+      />
       <div className="grid gap-2">
         <Label htmlFor="next_of_kin_email">Next of Kin Email</Label>
         <Input
@@ -328,10 +437,11 @@ export default function EditTenantProfileForm({
         />
       </div>
       <Button
-        className="w-full bg-[#344E41] text-white hover:bg-[#344E41]"
+        className="w-full bg-[#344E41] text-white hover:bg-[#A3B18A]"
         type="submit"
+        disabled={isSubmitting}
       >
-        Update Profile
+        {isSubmitting ? "Updating..." : "Update Profile"}
       </Button>
     </form>
   );

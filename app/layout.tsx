@@ -2,6 +2,7 @@
 import { useUpdateAccess } from "@/hooks/useUpdateAccess";
 import { Toaster } from "sonner";
 import { ReactNode } from "react";
+import CookieConsentBanner from "@/components/CookieConsent";
 
 interface RootLayoutProps {
   children: ReactNode;
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <body>
         {children}
         <Toaster />
+        <CookieConsentBanner />
       </body>
     </html>
   );

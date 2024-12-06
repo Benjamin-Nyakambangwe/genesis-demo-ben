@@ -41,7 +41,7 @@ const ApprovePage = ({ params }: Props) => {
             position: "top-right",
           });
 
-          router.push("/properties");
+          router.push("/");
         } else {
           const data = await res.json();
           console.error("Approval failed:", data);

@@ -53,6 +53,7 @@ export default function AddNewPropertyForm({
   const addProperty = usePropertiesStore((state) => state.addProperty);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isLegalOwner, setIsLegalOwner] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateField = (name: string, value: string | number) => {
     switch (name) {
@@ -117,6 +118,7 @@ export default function AddNewPropertyForm({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsSubmitting(true);
     const formData = new FormData(event.currentTarget);
 
     // Validate all fields
@@ -182,6 +184,7 @@ export default function AddNewPropertyForm({
     } else {
       alert(result.message);
     }
+    setIsSubmitting(false);
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -609,21 +612,36 @@ export default function AddNewPropertyForm({
         )}
       </div>
 
-      <NewPropertySubmit />
+      {/* <NewPropertySubmit /> */}
+      <Button 
+  type="submit" 
+  className="w-full bg-[#344E41] hover:bg-[#A3B18A]"
+  disabled={isSubmitting}
+>
+  {isSubmitting ? (
+    <>
+      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+      Adding Property...
+    </>
+  ) : (
+    "Add Property"
+  )}
+</Button>
 
       <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-md">
         <p className="text-sm text-amber-800">
           <span className="font-semibold">Disclaimer:</span>
           <br />
-          Landlords who are not the legal owners of the property must provide a
-          signed affidavit from the rightful owner, granting explicit
-          authorization to list and upload images of the property on Ro-ja for
-          rental purposes.
+          Kindly ensure that all information provided regarding this property is
+          accurate and truthful. Please note that due diligence will be
+          conducted during the review of your listing, and any inaccuracies or
+          false information may result in the disqualification of the listing at
+          any time.
           <br />
-          <br />
+          {/* <br />
           Failure to provide such documentation will result in the removal of
           the listing and may be subject to further review to ensure compliance
-          with property listing standards and legal requirements.
+          with property listing standards and legal requirements. */}
         </p>
       </div>
     </form>
