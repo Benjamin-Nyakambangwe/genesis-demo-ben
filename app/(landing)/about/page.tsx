@@ -31,7 +31,7 @@ export default function AboutPage() {
 
       <div className="flex justify-center my-4">
         <Image
-          src="/img/about.png"
+          src="/img/roja-about.png"
           alt="About Ro-ja"
           width={500}
           height={500}
@@ -44,7 +44,7 @@ export default function AboutPage() {
             Our Key Competencies
           </h2>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 [&>*:last-child:nth-child(odd)]:md:col-span-2">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">

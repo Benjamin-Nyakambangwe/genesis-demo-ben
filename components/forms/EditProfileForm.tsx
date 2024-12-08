@@ -28,36 +28,30 @@ interface EditProfileFormProps extends React.ComponentProps<"form"> {
   };
 }
 
+interface FormErrors {
+  [key: string]: string | undefined;
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  // Add other fields as needed
+}
+
 export default function EditTenantProfileForm({
   className,
   data,
 }: EditProfileFormProps) {
-  const [errors, setErrors] = React.useState({
-    date_of_birth: "",
-    phone: "",
-    alternate_phone: "",
-    emergency_contact_name: "",
-    emergency_contact_phone: "",
-    id_number: "",
-    marital_status: "",
-  });
+  const [errors, setErrors] = React.useState<FormErrors>({});
 
   const validateField = (name: string, value: string) => {
     switch (name) {
       case "date_of_birth":
-        if (!value) {
+        const dobDate = new Date(value);
+        const todayDate = new Date();
+        const userAge = todayDate.getFullYear() - dobDate.getFullYear();
+        if (userAge < 18) {
           setErrors((prev) => ({
             ...prev,
-            date_of_birth: "Date of birth is required",
-          }));
-          return false;
-        }
-        const date = new Date(value);
-        const today = new Date();
-        if (date > today) {
-          setErrors((prev) => ({
-            ...prev,
-            date_of_birth: "Date cannot be in the future",
+            date_of_birth: "You must be at least 18 years old",
           }));
           return false;
         }
@@ -87,11 +81,10 @@ export default function EditTenantProfileForm({
         break;
 
       case "id_number":
-        const idRegex = /^[A-Za-z0-9]{5,}$/;
-        if (value && !idRegex.test(value)) {
+        if (value && !/^\d{7,8}[A-Z]\d{2}$/.test(value)) {
           setErrors((prev) => ({
             ...prev,
-            id_number: "Please enter a valid ID number",
+            id_number: "Please enter a valid ID number (e.g., 12345678F55)",
           }));
           return false;
         }
@@ -101,29 +94,51 @@ export default function EditTenantProfileForm({
     return true;
   };
 
+  const validateForm = (formData: FormData): boolean => {
+    const newErrors: FormErrors = {};
+
+    // Phone validation
+    const phone = formData.get("phone") as string;
+    if (phone && !phone.startsWith("+")) {
+      newErrors.phone =
+        "Please enter a valid phone number with country code (e.g., +263...)";
+    }
+
+    // First name validation
+    const firstName = formData.get("first_name") as string;
+    if (!firstName || firstName.trim().length < 2) {
+      newErrors.first_name = "First name must be at least 2 characters";
+    }
+
+    // Last name validation
+    const lastName = formData.get("last_name") as string;
+    if (!lastName || lastName.trim().length < 2) {
+      newErrors.last_name = "Last name must be at least 2 characters";
+    }
+
+    const idNumber = formData.get("id_number") as string;
+    if (idNumber && !/^\d{7,8}[A-Z]\d{2}$/.test(idNumber)) {
+      newErrors.id_number =
+        "Please enter a valid ID number (e.g., 12345678F55)";
+    }
+
+    // Date of birth validation
+    const dob = new Date(formData.get("date_of_birth") as string);
+    const today = new Date();
+    const age = today.getFullYear() - dob.getFullYear();
+    if (age < 18) {
+      newErrors.date_of_birth = "You must be at least 18 years old";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
-    // Validate all fields
-    let isValid = true;
-    const fields = [
-      "date_of_birth",
-      "phone",
-      "alternate_phone",
-      "emergency_contact_name",
-      "emergency_contact_phone",
-      "id_number",
-    ];
-
-    fields.forEach((field) => {
-      const value = formData.get(field) as string;
-      if (!validateField(field, value)) {
-        isValid = false;
-      }
-    });
-
-    if (!isValid) {
+    if (!validateForm(formData)) {
       return;
     }
 
@@ -169,7 +184,10 @@ export default function EditTenantProfileForm({
           name="phone"
           type="tel"
           defaultValue={data.phone}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.phone && "border-red-500"
+          )}
           onChange={handleInputChange}
           required
         />

@@ -3,7 +3,7 @@
 import { useTenantDetailsStore } from "@/store/tenantDetails";
 import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-
+import Image from "next/image";
 export default function TenantDetailsCard({
   initialTenantDetails,
   isLandlord,
@@ -19,6 +19,7 @@ export default function TenantDetailsCard({
 
   const displayDetails = tenantDetails || initialTenantDetails;
 
+  console.log("display details", displayDetails);
   // Function to mask all characters
   const maskData = (value: string) => {
     if (!value) return "";
@@ -143,10 +144,24 @@ export default function TenantDetailsCard({
                 {displayDetails?.next_of_kin_phone}
               </p>
               <p>
-                <strong>Reference 1 Relation:</strong>{" "}
-                {displayDetails?.personal_reference_1_relation}
+                <strong>Next Of Kin Relation:</strong>{" "}
+                {displayDetails?.next_of_kin_relation}
               </p>
             </div>
+            {isLandlord && (
+              <div>
+                <Image
+                  src={
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}${displayDetails?.profile_image}` ||
+                    "/img/avatar.png"
+                  }
+                  alt="@shadcn"
+                  width={250}
+                  height={250}
+                  className="rounded"
+                />
+              </div>
+            )}
             {/* <div>
               <p>
                 <strong>Reference 2 Name:</strong>{" "}

@@ -590,7 +590,7 @@ export default function AddNewPropertyForm({
             />
             <p className="text-sm text-gray-500">
               Please upload a document proving your residence (utility bill,
-              bank statement, etc.)
+              etc.)
             </p>
           </div>
         ) : (
@@ -613,20 +613,20 @@ export default function AddNewPropertyForm({
       </div>
 
       {/* <NewPropertySubmit /> */}
-      <Button 
-  type="submit" 
-  className="w-full bg-[#344E41] hover:bg-[#A3B18A]"
-  disabled={isSubmitting}
->
-  {isSubmitting ? (
-    <>
-      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-      Adding Property...
-    </>
-  ) : (
-    "Add Property"
-  )}
-</Button>
+      <Button
+        type="submit"
+        className="w-full bg-[#344E41] hover:bg-[#A3B18A]"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Adding Property...
+          </>
+        ) : (
+          "Add Property"
+        )}
+      </Button>
 
       <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-md">
         <p className="text-sm text-amber-800">

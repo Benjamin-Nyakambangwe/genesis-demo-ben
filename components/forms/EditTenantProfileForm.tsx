@@ -21,7 +21,7 @@ import { toast } from "sonner";
 import { parsePhoneNumber, isValidPhoneNumber } from "libphonenumber-js";
 
 interface FormErrors {
-  [key: string]: string;
+  [key: string]: string | undefined;
   phone?: string;
   work_phone?: string;
   emergency_contact_phone?: string;
@@ -110,8 +110,9 @@ export default function EditTenantProfileForm({
 
     // ID number validation
     const idNumber = formData.get("id_number") as string;
-    if (idNumber && !/^\d{8,}$/.test(idNumber)) {
-      newErrors.id_number = "Please enter a valid ID number (minimum 8 digits)";
+    if (idNumber && !/^\d{7,8}[A-Z]\d{2}$/.test(idNumber)) {
+      newErrors.id_number =
+        "Please enter a valid ID number (e.g., 12345678F55)";
     }
 
     // Numeric validations
@@ -180,8 +181,14 @@ export default function EditTenantProfileForm({
           name="date_of_birth"
           type="date"
           defaultValue={initialData?.date_of_birth}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.date_of_birth && "border-red-500"
+          )}
         />
+        {errors.date_of_birth && (
+          <span className="text-sm text-red-500">{errors.date_of_birth}</span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="gender">Gender</Label>
@@ -210,8 +217,14 @@ export default function EditTenantProfileForm({
           name="id_number"
           type="text"
           defaultValue={initialData?.id_number}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.id_number && "border-red-500"
+          )}
         />
+        {errors.id_number && (
+          <span className="text-sm text-red-500">{errors.id_number}</span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="marital_status">Marital Status</Label>
@@ -235,8 +248,16 @@ export default function EditTenantProfileForm({
           name="emergency_contact_name"
           type="text"
           defaultValue={initialData?.emergency_contact_name}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.emergency_contact_name && "border-red-500"
+          )}
         />
+        {errors.emergency_contact_name && (
+          <span className="text-sm text-red-500">
+            {errors.emergency_contact_name}
+          </span>
+        )}
       </div>
       <PhoneInput
         id="emergency_contact_phone"
@@ -252,8 +273,14 @@ export default function EditTenantProfileForm({
           name="occupation"
           type="text"
           defaultValue={initialData?.occupation}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.occupation && "border-red-500"
+          )}
         />
+        {errors.occupation && (
+          <span className="text-sm text-red-500">{errors.occupation}</span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="employer">Employer</Label>
@@ -262,8 +289,14 @@ export default function EditTenantProfileForm({
           name="employer"
           type="text"
           defaultValue={initialData?.employer}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.employer && "border-red-500"
+          )}
         />
+        {errors.employer && (
+          <span className="text-sm text-red-500">{errors.employer}</span>
+        )}
       </div>
       <PhoneInput
         id="work_phone"
@@ -281,8 +314,16 @@ export default function EditTenantProfileForm({
           name="preferred_lease_term"
           type="number"
           defaultValue={initialData?.preferred_lease_term}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.preferred_lease_term && "border-red-500"
+          )}
         />
+        {errors.preferred_lease_term && (
+          <span className="text-sm text-red-500">
+            {errors.preferred_lease_term}
+          </span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="max_rent">Max Rent</Label>
@@ -292,8 +333,14 @@ export default function EditTenantProfileForm({
           type="number"
           step="0.01"
           defaultValue={initialData?.max_rent}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.max_rent && "border-red-500"
+          )}
         />
+        {errors.max_rent && (
+          <span className="text-sm text-red-500">{errors.max_rent}</span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="preferred_move_in_date">Preferred Move-in Date</Label>
@@ -302,8 +349,16 @@ export default function EditTenantProfileForm({
           name="preferred_move_in_date"
           type="date"
           defaultValue={initialData?.preferred_move_in_date}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.preferred_move_in_date && "border-red-500"
+          )}
         />
+        {errors.preferred_move_in_date && (
+          <span className="text-sm text-red-500">
+            {errors.preferred_move_in_date}
+          </span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="preferred_area">Preferred Area</Label>
@@ -311,8 +366,14 @@ export default function EditTenantProfileForm({
           id="preferred_area"
           name="preferred_area"
           defaultValue={initialData?.preferred_area}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.preferred_area && "border-red-500"
+          )}
         />
+        {errors.preferred_area && (
+          <span className="text-sm text-red-500">{errors.preferred_area}</span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="number_of_occupants">Number of Occupants</Label>
@@ -321,8 +382,16 @@ export default function EditTenantProfileForm({
           name="number_of_occupants"
           type="number"
           defaultValue={initialData?.number_of_occupants}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.number_of_occupants && "border-red-500"
+          )}
         />
+        {errors.number_of_occupants && (
+          <span className="text-sm text-red-500">
+            {errors.number_of_occupants}
+          </span>
+        )}
       </div>
       <div className="flex items-center space-x-2">
         <Checkbox
@@ -339,8 +408,14 @@ export default function EditTenantProfileForm({
           id="pet_details"
           name="pet_details"
           defaultValue={initialData?.pet_details}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.pet_details && "border-red-500"
+          )}
         />
+        {errors.pet_details && (
+          <span className="text-sm text-red-500">{errors.pet_details}</span>
+        )}
       </div>
       <div className="flex items-center space-x-2">
         <Checkbox
@@ -367,8 +442,14 @@ export default function EditTenantProfileForm({
           name="num_of_vehicles"
           type="number"
           defaultValue={initialData?.num_of_vehicles}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.num_of_vehicles && "border-red-500"
+          )}
         />
+        {errors.num_of_vehicles && (
+          <span className="text-sm text-red-500">{errors.num_of_vehicles}</span>
+        )}
       </div>
       <div className="flex items-center space-x-2">
         <Checkbox
@@ -386,8 +467,16 @@ export default function EditTenantProfileForm({
           name="next_of_kin_name"
           type="text"
           defaultValue={initialData?.next_of_kin_name}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.next_of_kin_name && "border-red-500"
+          )}
         />
+        {errors.next_of_kin_name && (
+          <span className="text-sm text-red-500">
+            {errors.next_of_kin_name}
+          </span>
+        )}
       </div>
       <PhoneInput
         id="next_of_kin_phone"
@@ -403,8 +492,16 @@ export default function EditTenantProfileForm({
           name="next_of_kin_email"
           type="email"
           defaultValue={initialData?.next_of_kin_email}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.next_of_kin_email && "border-red-500"
+          )}
         />
+        {errors.next_of_kin_email && (
+          <span className="text-sm text-red-500">
+            {errors.next_of_kin_email}
+          </span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="next_of_kin_address">Next of Kin Address</Label>
@@ -413,8 +510,16 @@ export default function EditTenantProfileForm({
           name="next_of_kin_address"
           type="text"
           defaultValue={initialData?.next_of_kin_address}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.next_of_kin_address && "border-red-500"
+          )}
         />
+        {errors.next_of_kin_address && (
+          <span className="text-sm text-red-500">
+            {errors.next_of_kin_address}
+          </span>
+        )}
       </div>
       <div className="grid gap-2">
         <Label htmlFor="next_of_kin_relation">Next of Kin Relation</Label>
@@ -423,8 +528,16 @@ export default function EditTenantProfileForm({
           name="next_of_kin_relation"
           type="text"
           defaultValue={initialData?.next_of_kin_relation}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.next_of_kin_relation && "border-red-500"
+          )}
         />
+        {errors.next_of_kin_relation && (
+          <span className="text-sm text-red-500">
+            {errors.next_of_kin_relation}
+          </span>
+        )}
       </div>
 
       <div className="grid gap-2">
@@ -433,8 +546,16 @@ export default function EditTenantProfileForm({
           id="additional_notes"
           name="additional_notes"
           defaultValue={initialData?.additional_notes}
-          className="focus-visible:ring-[#344E41] focus:border-0"
+          className={cn(
+            "focus-visible:ring-[#344E41] focus:border-0",
+            errors.additional_notes && "border-red-500"
+          )}
         />
+        {errors.additional_notes && (
+          <span className="text-sm text-red-500">
+            {errors.additional_notes}
+          </span>
+        )}
       </div>
       <Button
         className="w-full bg-[#344E41] text-white hover:bg-[#A3B18A]"
