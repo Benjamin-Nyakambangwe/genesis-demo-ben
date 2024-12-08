@@ -15,8 +15,39 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormStatus("submitting");
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setFormStatus("success");
+    const formdata = new FormData();
+    const form = e.currentTarget;
+
+    formdata.append(
+      "email",
+      (form.elements.namedItem("email") as HTMLInputElement).value
+    );
+    formdata.append(
+      "name",
+      (form.elements.namedItem("name") as HTMLInputElement).value
+    );
+    formdata.append(
+      "message",
+      (form.elements.namedItem("message") as HTMLTextAreaElement).value
+    );
+
+    const requestOptions = {
+      method: "POST",
+      body: formdata,
+    };
+
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/contact/`,
+      requestOptions
+    );
+    const data = await res.json();
+    console.log("data", data);
+
+    if (res.ok) {
+      setFormStatus("success");
+    } else {
+      setFormStatus("error");
+    }
   };
 
   return (
@@ -55,6 +86,7 @@ export default function ContactPage() {
                   <Input
                     id="name"
                     name="name"
+                    type="text"
                     required
                     className="focus-visible:ring-[#344E41] focus:border-0"
                   />
@@ -84,6 +116,7 @@ export default function ContactPage() {
                   <Textarea
                     id="message"
                     name="message"
+                    type="text"
                     rows={4}
                     required
                     className="focus-visible:ring-[#344E41] focus:border-0"
@@ -99,7 +132,7 @@ export default function ContactPage() {
                 </Button>
                 {formStatus === "success" && (
                   <p className="text-green-600 text-center">
-                    Message sent successfully!
+                    Message sent successfully! We will get back to you soon.
                   </p>
                 )}
                 {formStatus === "error" && (
