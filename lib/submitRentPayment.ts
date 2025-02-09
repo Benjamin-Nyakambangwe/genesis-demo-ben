@@ -28,8 +28,10 @@ export async function submitRentPaymentAction({
 
   const formData = new FormData();
   formData.append("phone", phone);
-  formData.append("email", "benjaminnyakambangwe@gmail.com");
+  formData.append("email", "nziraian@gmail.com");
+  // formData.append("email", "benjaminnyakambangwe@gmail.com");
   //   formData.append("email", tenantEmail);
+
 
   const requestOptions = {
     method: "POST",

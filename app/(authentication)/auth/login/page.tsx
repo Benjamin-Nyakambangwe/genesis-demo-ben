@@ -15,6 +15,9 @@ export const metadata: Metadata = {
 const LoginPage = ({ searchParams }: LoginPageProps) => {
   return (
     <div className="flex items-center">
+      <div className="mx-auto my-auto">
+        <LoginForm searchParams={searchParams} />
+      </div>
       <div className="w-[10vh] sm:w-[50vw] h-[100vh] bg-[#344E41] flex items-center justify-center">
         <div className="rotate-90 sm:rotate-0 transform transition-transform duration-300">
           <Link href="/">
@@ -27,9 +30,6 @@ const LoginPage = ({ searchParams }: LoginPageProps) => {
             />
           </Link>
         </div>
-      </div>
-      <div className="mx-auto my-auto">
-        <LoginForm searchParams={searchParams} />
       </div>
     </div>
   );

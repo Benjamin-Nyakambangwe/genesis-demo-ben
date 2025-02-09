@@ -152,10 +152,11 @@ export default function TenantDetailsCard({
               <div>
                 <Image
                   src={
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}${displayDetails?.profile_image}` ||
-                    "/img/avatar.png"
+                    displayDetails?.profile_image
+                      ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${displayDetails.profile_image}`
+                      : "/img/avatar.png"
                   }
-                  alt="@shadcn"
+                  alt="Profile"
                   width={250}
                   height={250}
                   className="rounded"

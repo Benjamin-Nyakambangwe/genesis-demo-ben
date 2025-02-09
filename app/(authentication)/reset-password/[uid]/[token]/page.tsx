@@ -54,6 +54,7 @@ const ResetPasswordPage = ({ params }: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErrors({ new_password: "", re_new_password: "" });
+    setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
     const new_password = formData.get("new_password") as string;
@@ -73,20 +74,22 @@ const ResetPasswordPage = ({ params }: Props) => {
       return;
     }
 
-    setIsSubmitting(true);
-
-    // formData.append("new_password", new_password);
-    // formData.append("re_new_password", re_new_password);
-    // formData.append("uid", uid);
-    // formData.append("token", token);
-
-    console.log(formData);
-    console.log(new_password);
+    // Add uid and token to formData
+    formData.append("uid", uid);
+    formData.append("token", token);
 
     try {
       const requestOptions = {
         method: "POST",
-        body: formData,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          uid,
+          token,
+          new_password,
+          re_new_password,
+        }),
         redirect: "follow" as const,
       };
 

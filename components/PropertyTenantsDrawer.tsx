@@ -40,6 +40,7 @@ import Link from "next/link";
 import { setCurrentTenantAction } from "@/lib/setCurrentTenant";
 import { setCurrentTenantWithLeaseDocAction } from "@/lib/setCurrentTenantWithLeaseDoc";
 import { revokeCurrentTenantAction } from "@/lib/revokeCurrentTenant";
+import { useRouter } from "next/navigation";
 
 interface DialogsStore {
   propertyToEdit: any;
@@ -48,6 +49,7 @@ interface DialogsStore {
 }
 
 export default function PropertyTenantsDrawer() {
+  const router = useRouter();
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const isPropertyTenantsDrawerOpen = useDialogsState(
     (state: DialogsStore) => state.isPropertyTenantsDrawerOpen
@@ -123,12 +125,11 @@ export default function PropertyTenantsDrawer() {
                       <DropdownMenuSeparator className="bg-gray-200" />
                       <DropdownMenuItem
                         className="hover:bg-[#A3B18A] hover:text-white cursor-pointer"
-                        onClick={async () =>
-                          await setCurrentTenantWithLeaseDocAction(
-                            tenant.id,
-                            propertyToEdit.id
-                          )
-                        }
+                        onClick={() => {
+                          router.push(
+                            `/confirm-generated-lease-doc-payment?tenantId=${tenant.id}&propertyId=${propertyToEdit.id}`
+                          );
+                        }}
                       >
                         <span>With Automatic Lease</span>
                         <span className="ml-2 text-sm text-gray-500">

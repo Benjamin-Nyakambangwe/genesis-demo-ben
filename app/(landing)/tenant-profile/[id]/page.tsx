@@ -11,6 +11,18 @@ import { Textarea } from "@/components/ui/textarea";
 import Link from "next/link";
 import { submitMessageAction } from "@/lib/submitMessage";
 import { cookies } from "next/headers";
+import { StarIcon } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { submitTenantRatingAction } from "@/lib/submitTenantRating";
+import MessageForm from "./MessageForm";
+import TenantRatingForm from "./TenantRatingForm";
+
+const getTenantRatings = async (id: string) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/tenant-ratings/${id}/`
+  );
+  return response.json();
+};
 
 interface TenantProfilePageProps {
   params: {
@@ -28,11 +40,14 @@ export default async function TenantProfilePage({
 
   let tenantData = null;
   let error = null;
-
+  let tenantRatings = null;
   try {
     // Fetch tenant data using the id
     tenantData = await fetchTenantData(id);
     console.log("TENANT DATA", tenantData);
+
+    tenantRatings = await getTenantRatings(tenantData?.id);
+    console.log("TENANT RATINGS", tenantRatings);
   } catch (err) {
     console.error("Failed to fetch tenant data:", err);
     error = "Failed to load tenant data. Please try again later.";
@@ -44,58 +59,65 @@ export default async function TenantProfilePage({
         error ? (
           <div className="text-center text-red-500">{error}</div>
         ) : tenantData ? (
-          <div className="flex flex-col lg:flex-row gap-6 justify-center items-start">
-            <div className="w-full lg:w-2/3">
-              <TenantDetailsCard
-                initialTenantDetails={tenantData}
-                isLandlord={true}
-              />
+          <div>
+            <div className="flex flex-col lg:flex-row gap-6 justify-center items-start">
+              <div className="w-full lg:w-2/3">
+                <TenantDetailsCard
+                  initialTenantDetails={tenantData}
+                  isLandlord={true}
+                />
+              </div>
+              <div className="flex flex-col gap-6 w-full lg:w-1/3">
+                <MessageForm
+                  tenantEmail={tenantData?.user?.email || ""}
+                  tenantId={tenantData?.id || ""}
+                />
+                <TenantRatingForm tenantId={tenantData?.id || ""} />
+              </div>
             </div>
-            <Card className="w-full lg:w-1/3 min-w-[300px] max-w-[450px] mx-auto">
-              <CardHeader>
-                <CardTitle className="text-center p-2 sm:p-4">
-                  Quick Message Tenant
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form action={submitMessageAction}>
-                  <input
-                    type="hidden"
-                    name="receiver"
-                    value={tenantData?.user?.email || ""}
-                  />
-                  <div className="grid w-full items-center gap-4">
-                    <div className="flex flex-col space-y-1.5">
-                      <Textarea
-                        id="message"
-                        name="message"
-                        placeholder="Type your message here."
-                        required
-                        className="min-h-[120px]"
-                      />
-                    </div>
+            <div className="flex flex-col gap-6 w-full mt-8">
+              <Card className="w-full">
+                <CardHeader>
+                  <CardTitle className="text-center p-2 sm:p-4">
+                    Tenant Ratings
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {tenantRatings.map((review: any, index: any) => (
+                      <div
+                        key={index}
+                        className="border-b border-gray-200 last:border-0 pb-4 last:pb-0"
+                      >
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center space-x-1">
+                            {[...Array(5)].map((_, i) => (
+                              <StarIcon
+                                key={i}
+                                className={`h-4 w-4 ${
+                                  i < review.rating
+                                    ? "text-[#344E41] fill-[#344E41]"
+                                    : "text-gray-300"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          <span className="text-sm text-gray-500">
+                            {new Date(review.created_at).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-700 mb-2">
+                          {review.comment}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Posted by {review.landlord_name}
+                        </p>
+                      </div>
+                    ))}
                   </div>
-                  <CardFooter className="flex flex-col items-center mt-4">
-                    <Button
-                      className="w-full bg-[#344E41] text-[#DAD7CD] hover:bg-[#A3B18A] rounded-full"
-                      type="submit"
-                    >
-                      Send Message
-                    </Button>
-                    <div>
-                      <p className="text-xs text-center mt-2">
-                        By sending inquiry messages, you agree to our{" "}
-                        <span className="text-[#344E41] font-bold">
-                          <Link href="/terms-of-service">
-                            Terms and Conditions.
-                          </Link>
-                        </span>
-                      </p>
-                    </div>
-                  </CardFooter>
-                </form>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         ) : (
           <div className="text-center">Loading tenant data...</div>

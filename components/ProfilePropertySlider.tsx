@@ -51,21 +51,31 @@ const ProfilePropertySlider: React.FC<ProfilePropertySliderProps> = ({
     }
   }, [initialData, setProperties]);
 
+  if (properties.length === 1) {
+    return (
+      <div className="w-full flex justify-center">
+        <div className="w-full max-w-sm px-2">
+          <PropertyCard property={properties[0]} edit={true} />
+        </div>
+      </div>
+    );
+  }
+
   const settings: Settings = {
     dots: true,
-    infinite: true,
+    infinite: properties.length > 3,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: Math.min(3, properties.length),
     slidesToScroll: 1,
-    arrows: true,
+    arrows: properties.length > 1,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
+          slidesToShow: Math.min(2, properties.length),
+          slidesToScroll: 1,
         },
       },
       {
@@ -79,7 +89,7 @@ const ProfilePropertySlider: React.FC<ProfilePropertySliderProps> = ({
   };
 
   return (
-    <div className="w-full text-[#344E41">
+    <div className="w-full text-[#344E41]">
       <Slider {...settings}>
         {properties.map((property) => (
           <div key={property.id} className="px-2">

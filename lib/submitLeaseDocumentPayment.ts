@@ -10,22 +10,31 @@ interface Plan {
 }
 
 interface PaymentData {
-  plan: Plan;
+  landlordEmail: string;
   phone: string;
+  propertyId: number;
 }
 
-export async function submitPaymentAction({ plan, phone }: PaymentData) {
-  console.log(phone, plan.name);
+
+export async function submitLeaseDocumentPaymentAction({
+  landlordEmail,
+  phone,
+  propertyId,
+
+}: PaymentData) {
+  console.log(phone, landlordEmail, propertyId);
   const token = cookies().get("access")?.value;
 
   const myHeaders = new Headers();
   myHeaders.append("Cookie", `access=${token}`);
 
   const formData = new FormData();
-  formData.append("email", "nziraian@gmail.com");
-  // formData.append("email", "benjaminnyakambangwe@gmail.com");
   formData.append("phone", phone);
-  formData.append("plan", plan.name.toLowerCase());
+  formData.append("email", "nziraian@gmail.com");
+  //   formData.append("email", "benjaminnyakambangwe@gmail.com");
+  formData.append("property_id", propertyId.toString());
+  //   formData.append("email", tenantEmail);
+
 
 
   const requestOptions = {
@@ -37,11 +46,12 @@ export async function submitPaymentAction({ plan, phone }: PaymentData) {
 
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/initiate/`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/process-lease-document-payment/`,
       requestOptions
     );
     const data = await res.text();
     console.log(data);
+
     if (res.status === 200) {
       return { success: true, message: "Success" };
     } else {
