@@ -51,6 +51,8 @@ async function getProperties(
   maxArea: number,
   hasPool: boolean,
   hasGarden: boolean,
+  hasSolarPower: boolean,
+  hasBorehole: boolean,
   acceptsSmokers: boolean,
   acceptsPets: boolean
 ) {
@@ -107,6 +109,13 @@ async function getProperties(
     queryParams.push(`garden=${hasGarden}`);
   }
 
+  if (hasSolarPower) {
+    queryParams.push(`has_solar_power=${hasSolarPower}`);
+  }
+
+  if (hasBorehole) {
+    queryParams.push(`has_borehole=${hasBorehole}`);
+  }
   if (acceptsSmokers) {
     queryParams.push(`accepts_smokers=${acceptsSmokers}`);
   }
@@ -160,6 +169,10 @@ const PropertiesList: React.FC = () => {
     (state: FilterStore) => state.acceptsSmokers
   );
   const acceptsPets = useFilterState((state: FilterStore) => state.acceptsPets);
+  const hasSolarPower = useFilterState(
+    (state: FilterStore) => state.hasSolarPower
+  );
+  const hasBorehole = useFilterState((state: FilterStore) => state.hasBorehole);
 
   const [cardWidth, setCardWidth] = useState(300);
 
@@ -192,6 +205,8 @@ const PropertiesList: React.FC = () => {
           maxArea,
           hasPool,
           hasGarden,
+          hasSolarPower,
+          hasBorehole,
           acceptsSmokers,
           acceptsPets
         );
@@ -214,6 +229,8 @@ const PropertiesList: React.FC = () => {
     maxArea,
     hasPool,
     hasGarden,
+    hasSolarPower,
+    hasBorehole,
     acceptsSmokers,
     acceptsPets,
   ]);

@@ -16,6 +16,8 @@ interface FilterState {
   acceptsSmokers: boolean | null;
   hasPool: boolean | null;
   hasGarden: boolean | null;
+  hasSolarPower: boolean | null;
+  hasBorehole: boolean | null;
   updateMinPrice: (num: number) => void;
   updateMaxPrice: (num: number) => void;
   updateMinBedrooms: (num: number) => void;
@@ -31,6 +33,8 @@ interface FilterState {
   updateAcceptsSmokers: (bool: boolean | null) => void;
   updateHasPool: (bool: boolean | null) => void;
   updateHasGarden: (bool: boolean | null) => void;
+  updateHasSolarPower: (bool: boolean | null) => void;
+  updateHasBorehole: (bool: boolean | null) => void;
 }
 
 export const useFilterState = create<FilterState>((set) => ({
@@ -49,8 +53,12 @@ export const useFilterState = create<FilterState>((set) => ({
   acceptsSmokers: null,
   hasPool: null,
   hasGarden: null,
+  hasSolarPower: null,
+  hasBorehole: null,
   updateHasGarden: (bool: boolean | null) => set({ hasGarden: bool }),
   updateHasPool: (bool: boolean | null) => set({ hasPool: bool }),
+  updateHasSolarPower: (bool: boolean | null) => set({ hasSolarPower: bool }),
+  updateHasBorehole: (bool: boolean | null) => set({ hasBorehole: bool }),
   updateMinPrice: (num: number) => set({ minPrice: num }),
   updateMaxPrice: (num: number) => set({ maxPrice: num }),
   updateMinBedrooms: (num: number) => set({ minBedrooms: num }),

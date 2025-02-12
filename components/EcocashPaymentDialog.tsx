@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "usehooks-ts";
@@ -40,6 +41,7 @@ interface DialogsStore {
 }
 
 export function EcocashPaymentDialog({ plan }: { plan: Plan }) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const updateEcocashPaymentDialogOpen = useDialogsState(
@@ -67,8 +69,9 @@ export function EcocashPaymentDialog({ plan }: { plan: Plan }) {
       const result = await submitPaymentAction({ plan, phone });
       setPaymentStatus(result);
       if (result.success) {
-        // Optionally close the dialog or reset the form
-        // updateEcocashPaymentDialogOpen();
+        updateEcocashPaymentDialogOpen();
+        router.push("/my-listings");
+        router.refresh();
       }
     } catch (error) {
       console.error("Payment submission failed:", error);

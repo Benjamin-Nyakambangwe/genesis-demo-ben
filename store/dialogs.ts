@@ -14,6 +14,8 @@ export interface Property {
   price: number;
   accepts_pets: boolean;
   accepts_smokers: boolean;
+  has_solar_power: boolean;
+  has_borehole: boolean;
   pool: boolean;
   garden: boolean;
   description: string;

@@ -30,17 +30,21 @@ interface EditProfileFormProps extends React.ComponentProps<"form"> {
 
 interface FormErrors {
   [key: string]: string | undefined;
-  first_name?: string;
-  last_name?: string;
   phone?: string;
-  // Add other fields as needed
+  date_of_birth?: string;
+  id_number?: string;
 }
 
-export default function EditTenantProfileForm({
+export default function EditProfileForm({
   className,
   data,
 }: EditProfileFormProps) {
   const [errors, setErrors] = React.useState<FormErrors>({});
+
+  // Add log when component mounts
+  React.useEffect(() => {
+    console.log("EditProfileForm mounted");
+  }, []);
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -95,6 +99,7 @@ export default function EditTenantProfileForm({
   };
 
   const validateForm = (formData: FormData): boolean => {
+    console.log("validateForm running", Object.fromEntries(formData));
     const newErrors: FormErrors = {};
 
     // Phone validation
@@ -102,18 +107,6 @@ export default function EditTenantProfileForm({
     if (phone && !phone.startsWith("+")) {
       newErrors.phone =
         "Please enter a valid phone number with country code (e.g., +263...)";
-    }
-
-    // First name validation
-    const firstName = formData.get("first_name") as string;
-    if (!firstName || firstName.trim().length < 2) {
-      newErrors.first_name = "First name must be at least 2 characters";
-    }
-
-    // Last name validation
-    const lastName = formData.get("last_name") as string;
-    if (!lastName || lastName.trim().length < 2) {
-      newErrors.last_name = "Last name must be at least 2 characters";
     }
 
     const idNumber = formData.get("id_number") as string;
@@ -130,23 +123,38 @@ export default function EditTenantProfileForm({
       newErrors.date_of_birth = "You must be at least 18 years old";
     }
 
+    console.log("Validation errors:", newErrors);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    console.log("handleSubmit triggered");
     event.preventDefault();
+
     const formData = new FormData(event.currentTarget);
+    console.log("Form data:", Object.fromEntries(formData));
 
     if (!validateForm(formData)) {
+      console.log("Form validation failed");
       return;
     }
 
-    const result = await submitEditProfileFormAction(formData);
-    if (result.success) {
-      alert(result.message);
-    } else {
-      alert(result.message);
+    try {
+      console.log("Attempting to submit form data");
+      const result = await submitEditProfileFormAction(formData);
+      console.log("Submit result:", result);
+      if (result.success) {
+        // Show success message and refresh the page to show updated data
+        alert(result.message);
+        window.location.reload();
+      } else {
+        alert(result.message || "Failed to update profile");
+      }
+    } catch (error) {
+      console.error("Submit error:", error);
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. Please try again.");
     }
   };
 
@@ -159,7 +167,11 @@ export default function EditTenantProfileForm({
   return (
     <form
       className={cn("grid items-center gap-4 w-[90%] ml-4", className)}
-      onSubmit={handleSubmit}
+      onSubmit={(e) => {
+        console.log("Form onSubmit triggered");
+        handleSubmit(e);
+      }}
+      method="POST"
     >
       <div className="grid gap-2">
         <Label htmlFor="date_of_birth">Date of Birth</Label>

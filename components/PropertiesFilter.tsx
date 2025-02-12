@@ -54,6 +54,8 @@ export default function PropertiesFilter({
   const [acceptsSmokers, setAcceptsSmokers] = useState(false);
   const [hasPool, setHasPool] = useState(false);
   const [hasGarden, setHasGarden] = useState(false);
+  const [hasSolarPower, setHasSolarPower] = useState(false);
+  const [hasBorehole, setHasBorehole] = useState(false);
   const [minArea, setMinArea] = useState("");
   const [maxArea, setMaxArea] = useState("");
 
@@ -70,6 +72,8 @@ export default function PropertiesFilter({
     updateAcceptsSmokers,
     updateHasPool,
     updateHasGarden,
+    updateHasSolarPower,
+    updateHasBorehole,
     updateMinArea,
     updateMaxArea,
   } = useFilterState();
@@ -88,6 +92,8 @@ export default function PropertiesFilter({
     updateAcceptsSmokers(acceptsSmokers);
     updateHasGarden(hasGarden);
     updateHasPool(hasPool);
+    updateHasSolarPower(hasSolarPower);
+    updateHasBorehole(hasBorehole);
     updateMinArea(Number(minArea));
     updateMaxArea(Number(maxArea));
 
@@ -105,6 +111,8 @@ export default function PropertiesFilter({
       acceptsSmokers,
       hasPool,
       hasGarden,
+      hasSolarPower,
+      hasBorehole,
       minArea,
       maxArea,
     });
@@ -263,6 +271,24 @@ export default function PropertiesFilter({
                     className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
                   />
                   <Label htmlFor="garden">Garden</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="has_solar_power"
+                    checked={hasSolarPower}
+                    onCheckedChange={setHasSolarPower}
+                    className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
+                  />
+                  <Label htmlFor="has_solar_power">Solar Power</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="has_borehole"
+                    checked={hasBorehole}
+                    onCheckedChange={setHasBorehole}
+                    className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
+                  />
+                  <Label htmlFor="has_borehole">Borehole</Label>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2">

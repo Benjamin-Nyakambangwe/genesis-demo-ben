@@ -408,6 +408,22 @@ export default function AddNewPropertyForm({
           />
           <Label htmlFor="garden">Garden Available</Label>
         </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="has_solar_power"
+            name="has_solar_power"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
+          />
+          <Label htmlFor="has_solar_power">Solar Power Available</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="has_borehole"
+            name="has_borehole"
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
+          />
+          <Label htmlFor="has_borehole">Borehole Available</Label>
+        </div>
       </div>
 
       <div className="flex justify-between">

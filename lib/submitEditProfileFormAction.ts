@@ -4,6 +4,8 @@
 import { cookies } from "next/headers";
 
 export async function submitEditProfileFormAction(formData: FormData) {
+  console.log("submitEditProfileFormAction");
+  console.log(formData);
   const token = cookies().get("access")?.value;
 
   const myHeaders = new Headers();

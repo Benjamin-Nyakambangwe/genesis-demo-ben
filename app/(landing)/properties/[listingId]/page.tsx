@@ -1,12 +1,5 @@
 import { Metadata } from "next";
-import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Share2,
-  Droplets,
-  Vegan,
-} from "lucide-react";
+import { Droplets, Vegan, Sun, GlassWater } from "lucide-react";
 import {
   Bed,
   Bath,
@@ -609,6 +602,24 @@ const PropertyPage = async ({ params }: { params: { listingId: string } }) => {
                     <div>
                       <p className="font-semibold">Garden</p>
                       <p>{property?.garden ? "Yes" : "No"}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="text-[#344E41]">
+                      <Sun className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Solar Power</p>
+                      <p>{property?.has_solar_power ? "Yes" : "No"}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <div className="text-[#344E41]">
+                      <GlassWater className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="font-semibold">Borehole</p>
+                      <p>{property?.has_borehole ? "Yes" : "No"}</p>
                     </div>
                   </div>
                 </div>
