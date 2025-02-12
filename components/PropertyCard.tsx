@@ -145,69 +145,74 @@ export default function PropertyCard({
         className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative rounded-2xl"
         style={{ width: `${widthVar}px` }}
       >
-        <div className="relative h-48">
-          <div className="relative aspect-[16/9] group">
-            <Image
-              src={currentImageUrl}
-              alt={property.title}
-              fill
-              className="object-cover rounded-t-lg"
-              priority
-            />
+        <Link href={`/properties/${property.id}`}>
+          <div className="relative h-48 cursor-pointer">
+            <div className="relative aspect-[16/9] group">
+              <Image
+                src={currentImageUrl}
+                alt={property.title}
+                fill
+                className="object-cover rounded-t-lg"
+                priority
+              />
 
-            {hasMultipleImages && (
-              <>
-                <button
-                  onClick={handlePrevImage}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
-                  aria-label="Previous image"
-                >
-                  <ChevronLeft className="h-6 w-6" />
-                </button>
+              {hasMultipleImages && (
+                <>
+                  <button
+                    onClick={handlePrevImage}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                    aria-label="Previous image"
+                  >
+                    <ChevronLeft className="h-6 w-6" />
+                  </button>
 
-                <button
-                  onClick={handleNextImage}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
-                  aria-label="Next image"
-                >
-                  <ChevronRight className="h-6 w-6" />
-                </button>
+                  <button
+                    onClick={handleNextImage}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                    aria-label="Next image"
+                  >
+                    <ChevronRight className="h-6 w-6" />
+                  </button>
 
-                <div className="absolute bottom-2 right-2">
-                  <Badge variant="secondary" className="bg-black/50 text-white">
-                    {currentIndex + 1}/{property.images.length}
-                  </Badge>
+                  <div className="absolute bottom-2 right-2">
+                    <Badge
+                      variant="secondary"
+                      className="bg-black/50 text-white"
+                    >
+                      {currentIndex + 1}/{property.images.length}
+                    </Badge>
+                  </div>
+                </>
+              )}
+            </div>{" "}
+            {edit && (
+              <div className="absolute top-2 left-2 flex space-x-2">
+                <div className="bg-[#344E41] text-white px-2 py-1 text-xs rounded cursor-pointer">
+                  <Settings
+                    className="h-4 w-4 text-white"
+                    onClick={editProperty}
+                  />
                 </div>
-              </>
+                <div className="bg-[#344E41] text-white px-2 py-1 text-xs rounded cursor-pointer">
+                  <Trash2
+                    className="h-4 w-4 text-white"
+                    onClick={() => updateDeletePropertyDialogOpen()}
+                  />
+                </div>
+              </div>
             )}
-          </div>{" "}
-          {edit && (
-            <div className="absolute top-2 left-2 flex space-x-2">
-              <div className="bg-[#344E41] text-white px-2 py-1 text-xs rounded cursor-pointer">
-                <Settings
-                  className="h-4 w-4 text-white"
-                  onClick={editProperty}
-                />
-              </div>
-              <div className="bg-[#344E41] text-white px-2 py-1 text-xs rounded cursor-pointer">
-                <Trash2
-                  className="h-4 w-4 text-white"
-                  onClick={() => updateDeletePropertyDialogOpen()}
-                />
-              </div>
-            </div>
-          )}
-          <button
-            className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md"
-            onClick={() => setIsFavorite(!isFavorite)}
-          >
-            <Heart
-              className={`h-5 w-5 ${
-                isFavorite ? "text-[#344E41] fill-[#344E41]" : "text-gray-400"
-              }`}
-            />
-          </button>
-        </div>
+            <button
+              className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md"
+              onClick={() => setIsFavorite(!isFavorite)}
+            >
+              <Heart
+                className={`h-5 w-5 ${
+                  isFavorite ? "text-[#344E41] fill-[#344E41]" : "text-gray-400"
+                }`}
+              />
+            </button>
+          </div>
+        </Link>
 
         <CardContent className="pt-3">
           <div className="mb-4">
@@ -216,7 +221,9 @@ export default function PropertyCard({
                 {property.title}
               </h4>
             </Link>
-            <h5 className="text-sm text-gray-600 mt-1">{property?.location_detail?.name}</h5>
+            <h5 className="text-sm text-gray-600 mt-1">
+              {property?.location_detail?.name}
+            </h5>
           </div>
 
           <div className="flex justify-between text-sm">
