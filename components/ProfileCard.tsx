@@ -31,6 +31,10 @@ const ProfileCard = ({
   const [verificationCode, setVerificationCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isPhoneVerified, setIsPhoneVerified] = useState(
+    data?.is_phone_verified
+  );
+
   const handleSendVerificationCode = async () => {
     setIsLoading(true);
     try {
@@ -53,7 +57,8 @@ const ProfileCard = ({
     try {
       const result = await submitVerificationCode(verificationCode);
       if (result.success) {
-        toast.success("Verification code successfull");
+        toast.success("Verification code successful");
+        setIsPhoneVerified(true);
         setIsSubmitting(false);
         setShowVerification(false);
       } else {
@@ -95,7 +100,7 @@ const ProfileCard = ({
             <div className="flex justify-between">
               <Phone className="h-4 w-4 text-[#344E41] mr-2" />
               <h3>{data?.phone}</h3>
-              {data?.is_phone_verified ? (
+              {isPhoneVerified ? (
                 <div className="flex items-center text-green-600">
                   <BadgeCheck className="h-4 w-4 ml-1 mr-1" />
                   <span className="text-sm">Phone Verified</span>

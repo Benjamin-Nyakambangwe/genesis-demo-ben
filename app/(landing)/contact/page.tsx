@@ -158,7 +158,7 @@ export default function ContactPage() {
                 </div>
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 mr-2 text-[#344E41]" />
-                  <p>+263 77 123 4567</p>
+                  <p>+263 788 288 826</p>
                 </div>
                 <div className="flex items-center">
                   <Mail className="h-5 w-5 mr-2 text-[#344E41]" />

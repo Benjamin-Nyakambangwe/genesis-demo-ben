@@ -251,14 +251,17 @@ export default function PricingPage() {
           <p className="text-gray-600">
             Our sales team is here to assist you. Contact us at{" "}
             <a
-              href="mailto:sales@example.com"
-              className="text-primary hover:underline"
+              href="mailto:support@ro-ja.com"
+              className="text-primary hover:underline font-bold"
             >
-              sales@ro-ja.com
+              support@ro-ja.com
             </a>{" "}
             or call us at{" "}
-            <a href="tel:+1234567890" className="text-primary hover:underline">
-              (123) 456-7890
+            <a
+              href="tel:+263788288826"
+              className="text-primary hover:underline font-bold"
+            >
+              +263 788 288 826
             </a>
           </p>
         </div>

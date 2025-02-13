@@ -16,6 +16,7 @@ import {
   Droplets,
   Vegan,
   DollarSign,
+  Sun,
 } from "lucide-react";
 import Link from "next/link";
 import { useDialogsState } from "@/store/dialogs";
@@ -41,6 +42,8 @@ interface Property {
   accepts_pets: boolean;
   pool: boolean;
   garden: boolean;
+  has_borehole: boolean;
+  has_solar_power: boolean;
   main_image: {
     image: string;
   };
@@ -242,19 +245,33 @@ export default function PropertyCard({
           </div>
 
           <div className="flex justify-between text-sm mt-2">
-            {property.accepts_pets && (
+            {/* {property.accepts_pets && (
               <div className="flex items-center">
                 <Dog className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
                 <span>Pets</span>
               </div>
+            )} */}
+
+            {property.has_borehole && (
+              <div className="flex items-center">
+                <Droplets className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
+                <span>Borehole</span>
+              </div>
             )}
 
-            {property.pool && (
+            {property.has_solar_power && (
+              <div className="flex items-center">
+                <Sun className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
+                <span>Solar Power</span>
+              </div>
+            )}
+
+            {/* {property.pool && (
               <div className="flex items-center">
                 <Droplets className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
                 <span>Pool</span>
               </div>
-            )}
+            )} */}
             {property.garden && (
               <div className="flex items-center">
                 <Vegan className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
