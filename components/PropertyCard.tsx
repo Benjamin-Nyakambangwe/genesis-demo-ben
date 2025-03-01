@@ -262,7 +262,7 @@ export default function PropertyCard({
             {property.has_solar_power && (
               <div className="flex items-center">
                 <Sun className="h-4 w-4 mr-1 hidden md:flex text-[#344E41]" />
-                <span>Solar Power</span>
+                <span>Solar</span>
               </div>
             )}
 

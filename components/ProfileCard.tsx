@@ -1,5 +1,13 @@
 "use client";
-import { Phone, Mail, User, BadgeCheck, Check, Loader2 } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  User,
+  BadgeCheck,
+  Check,
+  Loader2,
+  Settings,
+} from "lucide-react";
 import React, { useState } from "react";
 import { Card, CardContent } from "./ui/card";
 import LandlordProfileImageUploadButton from "./LandloadProfileImageUploadButton";
@@ -17,6 +25,12 @@ import { Badge } from "./ui/badge";
 import { toast } from "sonner";
 import { sendVerificationCode } from "@/lib/sendVerificationCode";
 import { submitVerificationCode } from "@/lib/submitVerificationCode";
+import AccountBalance from "./Balance";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 const ProfileCard = ({
   data,
@@ -34,6 +48,7 @@ const ProfileCard = ({
   const [isPhoneVerified, setIsPhoneVerified] = useState(
     data?.is_phone_verified
   );
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
   const handleSendVerificationCode = async () => {
     setIsLoading(true);
@@ -145,49 +160,51 @@ const ProfileCard = ({
             </div>
           )}
 
-          <div className="grid grid-cols-1 gap-4 mt-4 ">
+          <div className="grid grid-cols-1 gap-4 mt-4 w-full">
             <EditProfileButton />
-            {userType?.includes("landlord") ? (
-              <>
-                <AddNewPropertyButton />
-                <LandlordIdUploadButton idImage={data?.id_image} />
-                <ProofOfResidenceUploadButton
-                  proof_of_residence={data?.proof_of_residence}
-                />
-                <LandlordProfileImageUploadButton />
-              </>
-            ) : (
-              <>
-                <IdUploadButton idImage={data?.id_image} />
-                <ProofOfEmploymentUploadButton
-                  proof_of_employment={data?.proof_of_employment}
-                />
-                <TenantProfileImageUploadButton />
-              </>
-            )}
-          </div>
 
-          <div className="space-y-4">
-            {/* <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <Phone className="h-4 w-4 text-[#344E41] mr-2" />
-                <h3>{data?.phone}</h3>
-              </div>
-              {data?.isPhoneVerified ? (
-                <div className="flex items-center text-green-600">
-                  <BadgeCheck className="h-4 w-4 mr-1" />
-                  <span className="text-sm">Phone Verified</span>
-                </div>
-              ) : (
-                <Badge
-                  variant="outline"
-                  className="cursor-pointer hover:bg-[#344E41] hover:text-white"
-                  onClick={() => setShowVerification(!showVerification)}
+            <Collapsible
+              open={isOptionsOpen}
+              onOpenChange={setIsOptionsOpen}
+              className="w-full border rounded-md border-[#DAD7CD] overflow-hidden"
+            >
+              <CollapsibleTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="flex w-full justify-between p-4 rounded-none border-b border-[#DAD7CD] bg-[#F5F5F5] hover:bg-[#A3B18A]/20"
                 >
-                  Verify
-                </Badge>
-              )}
-            </div> */}
+                  <div className="flex items-center gap-2">
+                    <Settings className="h-4 w-4 text-[#344E41]" />
+                    <span className="font-medium text-[#344E41]">Options</span>
+                  </div>
+                  <div className="text-[#344E41]">
+                    {isOptionsOpen ? "−" : "+"}
+                  </div>
+                </Button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="p-4 space-y-4 bg-white">
+                {userType?.includes("landlord") ? (
+                  <>
+                    <AddNewPropertyButton />
+                    <LandlordIdUploadButton idImage={data?.id_image} />
+                    <ProofOfResidenceUploadButton
+                      proof_of_residence={data?.proof_of_residence}
+                    />
+                    <LandlordProfileImageUploadButton />
+                  </>
+                ) : (
+                  <>
+                    <IdUploadButton idImage={data?.id_image} />
+                    <ProofOfEmploymentUploadButton
+                      proof_of_employment={data?.proof_of_employment}
+                    />
+                    <TenantProfileImageUploadButton />
+                  </>
+                )}
+              </CollapsibleContent>
+            </Collapsible>
+
+            {userType?.includes("landlord") && <AccountBalance />}
           </div>
         </div>
       </CardContent>

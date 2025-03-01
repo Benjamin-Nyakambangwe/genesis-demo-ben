@@ -85,7 +85,7 @@ export default function EditProfileForm({
         break;
 
       case "id_number":
-        if (value && !/^\d{7,8}[A-Z]\d{2}$/.test(value)) {
+        if (value && !/^\d{8,9}[A-Z]\d{2}$/.test(value)) {
           setErrors((prev) => ({
             ...prev,
             id_number: "Please enter a valid ID number (e.g., 12345678F55)",
