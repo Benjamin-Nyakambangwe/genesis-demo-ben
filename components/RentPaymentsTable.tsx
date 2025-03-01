@@ -44,7 +44,7 @@ const getRentPayments = async () => {
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/rent-payments/`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rent-payments/`,
       requestOptions
     );
 
