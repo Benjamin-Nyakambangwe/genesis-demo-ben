@@ -205,7 +205,8 @@ const MyListingsPage = async () => {
             <Crown className="h-6 w-6" />
             <div className="flex flex-col">
               <span className="text-sm font-semibold">
-                {parsedTenantSubscriptionDetails?.subscription_plan} Plan
+                {parsedTenantSubscriptionDetails?.subscription_plan?.toUpperCase()}{" "}
+                PLAN
               </span>
               <Badge variant="secondary" className="mt-1">
                 {parsedTenantSubscriptionDetails?.subscription_status?.toUpperCase()}

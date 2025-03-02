@@ -204,7 +204,7 @@ export default function PropertyCard({
                 </div>
               </div>
             )}
-            <button
+            {/* <button
               className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md"
               onClick={() => setIsFavorite(!isFavorite)}
             >
@@ -213,7 +213,7 @@ export default function PropertyCard({
                   isFavorite ? "text-[#344E41] fill-[#344E41]" : "text-gray-400"
                 }`}
               />
-            </button>
+            </button> */}
           </div>
         </Link>
 

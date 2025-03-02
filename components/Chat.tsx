@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { sendMessageAction } from "@/lib/submitMessage";
+import { markAllUnreadMessagesAsRead } from "@/lib/markMessageAsRead";
 
 type Message = {
   id: number;
@@ -97,6 +98,9 @@ export default function Chat({
           // Update only the current chat's messages
           setMessages((prevMessages) => [...prevMessages, newMessage]);
 
+          console.log("New message:", newMessage);
+          console.log("Current messages:", messages);
+
           // Update the chat list
           updateChatList(newMessage);
         }
@@ -139,9 +143,58 @@ export default function Chat({
     });
   };
 
-  const handleChatSelect = (chat: Chat) => {
+  const handleChatSelect = async (chat: Chat) => {
     setSelectedChat(chat);
     setMessages(chat.messages);
+
+    // Log the participants' emails
+    console.log("Chat participants:");
+    console.log("- Current user:", currentUserEmail);
+    console.log("- Other user:", chat.other_user.email);
+    const otherUserEmail = chat.other_user.email;
+
+    const markAllAsRead = async () => {
+      if (currentUserEmail) {
+        const result = await markAllUnreadMessagesAsRead(
+          currentUserEmail,
+          otherUserEmail
+        );
+        if (result.success) {
+          console.log(
+            `Marked ${result.markedCount} out of ${result.totalUnread} unread messages as read`
+          );
+        } else {
+          console.error("Failed to mark all messages as read:", result.error);
+        }
+      }
+    };
+
+    markAllAsRead();
+
+    // Update local state to reflect messages are read
+    setChats((prevChats) => {
+      return prevChats.map((c) => {
+        if (c.chat_id === chat.chat_id) {
+          return {
+            ...c,
+            unread_count: 0,
+            messages: c.messages.map((msg) =>
+              msg.receiver === currentUserEmail
+                ? { ...msg, is_read: true }
+                : msg
+            ),
+          };
+        }
+        return c;
+      });
+    });
+
+    // Also update the messages array
+    setMessages((prevMessages) =>
+      prevMessages.map((msg) =>
+        msg.receiver === currentUserEmail ? { ...msg, is_read: true } : msg
+      )
+    );
   };
 
   const handleSend = async () => {

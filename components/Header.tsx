@@ -8,6 +8,7 @@ import AuthButton from "./AuthButton";
 import { Button } from "./ui/button";
 import LogoutButton from "./LogoutButton";
 import { Menu, X } from "lucide-react";
+import { getUnreadMessageCount } from "@/lib/getUnreadCount";
 
 interface HeaderProps {
   token?: string;
@@ -16,8 +17,34 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ token }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [unreadCount, setUnreadCount] = useState(0);
 
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+
+  // Fetch unread message count on component mount and periodically
+  useEffect(() => {
+    // if (!token) return; // Only fetch if user is logged in
+
+    const fetchUnreadCount = async () => {
+      try {
+        const result = await getUnreadMessageCount();
+        if (result.success) {
+          setUnreadCount(result.unreadCount);
+        }
+      } catch (error) {
+        console.error("Error fetching unread count:", error);
+      }
+    };
+
+    // Fetch immediately on mount
+    fetchUnreadCount();
+
+    // Set up interval to fetch every 30 seconds
+    const intervalId = setInterval(fetchUnreadCount, 30000);
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [token]);
 
   const linkStyle = (href: string) => {
     const isActive = pathname === href;
@@ -41,8 +68,13 @@ const Header: React.FC<HeaderProps> = ({ token }) => {
           {token ? (
             <div className="flex justify-between">
               <Link href="/profile">
-                <Button className="bg-[#344E41] text-[#DAD7CD] rounded-full hover:bg-[#A3B18A]">
+                <Button className="bg-[#344E41] text-[#DAD7CD] rounded-full hover:bg-[#A3B18A] relative">
                   Profile
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {unreadCount > 9 ? "9+" : unreadCount}
+                    </span>
+                  )}
                 </Button>
               </Link>
               <LogoutButton />

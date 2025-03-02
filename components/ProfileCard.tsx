@@ -31,6 +31,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
 
 const ProfileCard = ({
   data,
@@ -174,7 +175,13 @@ const ProfileCard = ({
                   className="flex w-full justify-between p-4 rounded-none border-b border-[#DAD7CD] bg-[#F5F5F5] hover:bg-[#A3B18A]/20"
                 >
                   <div className="flex items-center gap-2">
-                    <Settings className="h-4 w-4 text-[#344E41]" />
+                    <Settings
+                      className={cn(
+                        "h-4 w-4 text-[#344E41]",
+                        "animate-pulse-subtle",
+                        !isOptionsOpen && "animate-bounce-subtle"
+                      )}
+                    />
                     <span className="font-medium text-[#344E41]">Options</span>
                   </div>
                   <div className="text-[#344E41]">

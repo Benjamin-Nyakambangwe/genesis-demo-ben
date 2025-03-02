@@ -119,7 +119,7 @@ export default function CardWithForm({ property }: CardWithFormProps) {
                 {property.title}
               </h4>
               <h5 className="text-sm text-[#3A5A40] mt-1">
-                {`${property.address}, ${property.city}, ${property.state} ${property.zip_code}`}
+                {`${property.address}`}
               </h5>
             </div>
 

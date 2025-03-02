@@ -26,6 +26,8 @@ import LandlordProfileCompletion from "@/components/LandlordProfileCompletion";
 import RentPaymentsTable from "@/components/RentPaymentsTable";
 import MyPropertiesList from "@/components/MyPropertiesList";
 import ProfileCard from "@/components/ProfileCard";
+import { BalanceDialog } from "@/components/BalanceDialog";
+
 async function getCurrentLandlord() {
   const token = cookies().get("access")?.value;
   console.log(token);
@@ -201,6 +203,7 @@ const ProfilePage = async () => {
   let houseTypes;
   let houseLocations;
   let tenantCurrentProperty;
+  let balanceData;
 
   if (userType?.includes("landlord")) {
     data = await getCurrentLandlord();
@@ -303,6 +306,8 @@ const ProfilePage = async () => {
         houseLocations={houseLocations}
       />
       <PropertyTenantsDrawer />
+
+      {balanceData && <BalanceDialog accountData={balanceData} />}
     </div>
   );
 };

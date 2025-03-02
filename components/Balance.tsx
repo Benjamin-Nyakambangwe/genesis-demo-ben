@@ -1,23 +1,27 @@
 "use client";
 
 import { Button } from "./ui/button";
-import { DollarSignIcon, ArrowDownIcon } from "lucide-react";
+import { DollarSignIcon, ArrowDownIcon, SettingsIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { useEffect, useState } from "react";
 import { requestAccountBalance } from "@/lib/requestAccountBalance";
 import { useDialogsState } from "@/store/dialogs";
 import { RequestWithdrawalDialog } from "./RequestWithdrawalDialog";
 import { Card, CardContent } from "./ui/card";
+import { BalanceDialog } from "./BalanceDialog";
 
 const AccountBalance = () => {
-  const [balanceData, setBalanceData] = useState<{ balance: number } | null>(
-    null
-  );
+  const [balanceData, setBalanceData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const updateRequestWithdrawalDialogOpen = useDialogsState(
     (state) => state.updateRequestWithdrawalDialogOpen
+  );
+
+  // Add the balance dialog state from the store
+  const updateBalanceDialogOpen = useDialogsState(
+    (state) => state.updateBalanceDialogOpen
   );
 
   useEffect(() => {
@@ -42,12 +46,27 @@ const AccountBalance = () => {
     fetchBalance();
   }, []);
 
+  // Handler for the settings icon click
+  const handleOpenBalanceDetails = () => {
+    if (balanceData) {
+      updateBalanceDialogOpen();
+    }
+  };
+
   return (
     <>
       <Card className="border border-[#DAD7CD] shadow-sm">
         <CardContent className="p-4">
-          <h3 className="text-lg font-semibold text-[#344E41] mb-3">
+          <h3 className="text-lg font-semibold text-[#344E41] mb-3 flex items-center justify-between">
             Account Balance
+            <Button
+              variant="ghost"
+              size="sm"
+              className="p-1 h-auto"
+              onClick={handleOpenBalanceDetails}
+            >
+              <SettingsIcon className="w-4 h-4" />
+            </Button>
           </h3>
           <Separator className="my-3 bg-[#DAD7CD]" />
           <div className="flex flex-col gap-3">
@@ -89,6 +108,9 @@ const AccountBalance = () => {
       </Card>
 
       <RequestWithdrawalDialog />
+
+      {/* Render the BalanceDialog with the account data */}
+      {balanceData && <BalanceDialog accountData={balanceData} />}
     </>
   );
 };

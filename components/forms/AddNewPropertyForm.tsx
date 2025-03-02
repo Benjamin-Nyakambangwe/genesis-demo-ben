@@ -278,31 +278,6 @@ export default function AddNewPropertyForm({
         )}
       </div>
 
-      <div className="grid gap-2">
-        <Label htmlFor="description" className="flex items-center gap-2">
-          Description{" "}
-          {isGenerating ? (
-            <Loader2 className="h-6 w-6 animate-spin text-[#344E41]" />
-          ) : (
-            <BotIcon
-              onClick={generateDescription}
-              className="text-[#344E41] w-6 h-6 cursor-pointer"
-            />
-          )}
-        </Label>
-        <Textarea
-          id="description"
-          name="description"
-          placeholder="Add Description Or Generate One By Clicking The Bot Icon"
-          required
-          className="focus-visible:ring-[#344E41] focus:border-0 min-h-[400px]"
-          onChange={handleInputChange}
-        />
-        {errors.description && (
-          <span className="text-red-500 text-sm">{errors.description}</span>
-        )}
-      </div>
-
       <div className="flex justify-between">
         <div className="m-1">
           <Label htmlFor="address">Address</Label>
@@ -537,12 +512,71 @@ export default function AddNewPropertyForm({
           <span className="text-red-500 text-sm">{errors.deposit}</span>
         )}
       </div>
+      <div className="grid gap-2">
+        <Label htmlFor="description" className="flex items-center gap-2">
+          Description{"   "}
+          {isGenerating ? (
+            <Loader2 className="h-6 w-6 ml-8 animate-spin text-[#344E41]" />
+          ) : (
+            <div
+              className="relative group cursor-pointer"
+              onClick={generateDescription}
+            >
+              {/* Inner pulsing ring */}
+              <div
+                className="absolute -inset-2 rounded-full bg-[#A3B18A] opacity-60 group-hover:opacity-80 animate-pulse-ring"
+                style={{
+                  animationDelay: "0s",
+                  animationPlayState: "running",
+                  animationFillMode: "both",
+                }}
+              ></div>
+
+              {/* Outer pulsing ring */}
+              <div
+                className="absolute -inset-3 rounded-full bg-[#588157] opacity-40 group-hover:opacity-60 animate-pulse-ring"
+                style={{
+                  animationDelay: "0.5s",
+                  animationPlayState: "running",
+                  animationFillMode: "both",
+                }}
+              ></div>
+
+              {/* Bot icon */}
+              <BotIcon
+                className={cn(
+                  "relative z-10 text-[#344E41] w-6 h-6 transition-all duration-300 hover:text-[#588157]",
+                  "animate-pulse-subtle hover:scale-110"
+                )}
+                style={{
+                  animationPlayState: "running",
+                  animationFillMode: "both",
+                }}
+              />
+              <span className="sr-only">Generate description with AI</span>
+            </div>
+          )}
+        </Label>
+        <Textarea
+          id="description"
+          name="description"
+          placeholder="Add Description Or Generate One By Clicking The Bot Icon"
+          required
+          className="focus-visible:ring-[#344E41] focus:border-0 min-h-[400px]"
+          onChange={handleInputChange}
+        />
+        {errors.description && (
+          <span className="text-red-500 text-sm">{errors.description}</span>
+        )}
+      </div>
 
       <div className="grid gap-2">
         <Label htmlFor="image_files">Property Images</Label>
         <Link
           href="/image-upload-tips"
           className="text-sm text-[#344E41] hover:text-[#A3B18A]"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Learn more about capturing the best images
         </Link>

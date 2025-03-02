@@ -44,6 +44,8 @@ interface DialogsState {
   updateRentPaymentDialogOpen: () => void;
   isRequestWithdrawalDialogOpen: boolean;
   updateRequestWithdrawalDialogOpen: () => void;
+  isBalanceDialogOpen: boolean;
+  updateBalanceDialogOpen: () => void;
 }
 
 export const useDialogsState = create<DialogsState>((set) => ({
@@ -57,6 +59,7 @@ export const useDialogsState = create<DialogsState>((set) => ({
   isPropertyTenantsDrawerOpen: false,
   isRentPaymentDialogOpen: false,
   isRequestWithdrawalDialogOpen: false,
+  isBalanceDialogOpen: false,
   updateRentPaymentDialogOpen: () =>
     set((state) => ({
       isRentPaymentDialogOpen: !state.isRentPaymentDialogOpen,
@@ -98,5 +101,9 @@ export const useDialogsState = create<DialogsState>((set) => ({
   updateRequestWithdrawalDialogOpen: () =>
     set((state) => ({
       isRequestWithdrawalDialogOpen: !state.isRequestWithdrawalDialogOpen,
+    })),
+  updateBalanceDialogOpen: () =>
+    set((state) => ({
+      isBalanceDialogOpen: !state.isBalanceDialogOpen,
     })),
 }));
