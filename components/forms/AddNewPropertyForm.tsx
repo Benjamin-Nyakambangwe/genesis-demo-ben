@@ -54,6 +54,7 @@ export default function AddNewPropertyForm({
   const [isGenerating, setIsGenerating] = useState(false);
   const [isLegalOwner, setIsLegalOwner] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [paymentMethod, setPaymentMethod] = React.useState<string | null>(null);
 
   const validateField = (name: string, value: string | number) => {
     switch (name) {
@@ -257,6 +258,14 @@ export default function AddNewPropertyForm({
     }
   };
 
+  const handlePaymentMethodChange = (method: string) => {
+    if (paymentMethod === method) {
+      setPaymentMethod(null);
+    } else {
+      setPaymentMethod(method);
+    }
+  };
+
   return (
     <form
       ref={formRef}
@@ -362,9 +371,21 @@ export default function AddNewPropertyForm({
           <Checkbox
             id="accepts_in_app_payment"
             name="accepts_in_app_payment"
+            checked={paymentMethod === "app"}
+            onCheckedChange={() => handlePaymentMethodChange("app")}
             className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
           />
           <Label htmlFor="accepts_in_app_payment">Payment Via App</Label>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="accepts_cash_payment"
+            name="accepts_cash_payment"
+            checked={paymentMethod === "cash"}
+            onCheckedChange={() => handlePaymentMethodChange("cash")}
+            className="data-[state=checked]:bg-[#344E41] border-[#344E41] border-2"
+          />
+          <Label htmlFor="accepts_cash_payment">Payment With Cash</Label>
         </div>
 
         <div className="flex items-center space-x-2">

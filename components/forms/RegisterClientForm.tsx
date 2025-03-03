@@ -222,7 +222,7 @@ export default function RegisterClientForm() {
           <SelectContent>
             <SelectGroup>
               <SelectItem value="landlord">Landlord</SelectItem>
-              <SelectItem value="tenant">Tenant</SelectItem>
+              {/* <SelectItem value="tenant">Tenant</SelectItem> */}
             </SelectGroup>
           </SelectContent>
         </Select>
